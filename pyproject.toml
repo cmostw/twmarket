@@ -18,6 +18,8 @@ dependencies = [
 
 [project.optional-dependencies]
 stream = ["websockets>=15,<17"]
+pandas = ["pandas>=2.2,<4"]
+polars = ["polars>=1.0,<2"]
 
 [dependency-groups]
 dev = [
@@ -26,6 +28,7 @@ dev = [
     "respx>=0.22,<1",
     "ruff>=0.12,<1",
     "pyright>=1.1.400,<2",
+    "pandas-stubs>=2.2,<4",
     "lxml-stubs>=0.5,<1",
     "coverage>=7.6,<8",
 ]

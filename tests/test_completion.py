@@ -9,7 +9,8 @@ import httpx
 import pytest
 
 from twmarket import AsyncClient, Client, Contract
-from twmarket.errors import SchemaError
+from twmarket.errors import NoDataError, SchemaError
+from twmarket.integrations import to_pandas, to_polars
 from twmarket.parsing.dates import parse_date
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -173,6 +174,22 @@ async def test_derivative_specs_margin_units_and_report_code_mapping() -> None:
         "202610",
         "202611",
     ]
+
+
+def test_batch_frames_preserve_errors_and_request_identity() -> None:
+    from twmarket import BatchResult, Quote
+
+    with Client(transport=httpx.MockTransport(handler), interval=0) as client:
+        rows = client.twse.quote_many(["2330", "0000", "2330"])
+    pandas = to_pandas(rows)
+    polars = to_polars(rows)
+    assert pandas["requested_symbol"].tolist() == ["2330", "0000", "2330"]
+    assert polars["error_type"].to_list() == [None, "NoDataError", None]
+    assert polars["last"][1] is None
+    failed = [BatchResult[Quote]("0000", None, NoDataError("missing"))]
+    assert to_polars(failed, model=Quote).height == 1
+    with pytest.raises(TypeError, match="model"):
+        to_pandas(failed)
 
 
 def test_non_index_contract_specifications() -> None:
