@@ -1,0 +1,5 @@
+# Preserve captured responses exactly, including encoding and line endings.
+tests/fixtures/* -text -diff
+tests/fixtures/README.md text diff
+tests/fixtures/source-manifest.json text diff
+research/taifex-mis/*.json -text -diff

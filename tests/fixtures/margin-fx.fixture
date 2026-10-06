@@ -1,0 +1,6 @@
+[{"Contracts":"小型美元兌人民幣期貨","ClearingMargin":"2200","MaintenanceMargin":"2280","InitialMargin":"2970","Date":"20261005"},
+{"Contracts":"美元兌人民幣期貨","ClearingMargin":"10800","MaintenanceMargin":"11180","InitialMargin":"14580","Date":"20261005"},
+{"Contracts":"歐元兌美元期貨","ClearingMargin":"510","MaintenanceMargin":"530","InitialMargin":"690","Date":"20261005"},
+{"Contracts":"美元兌日圓期貨","ClearingMargin":"75000","MaintenanceMargin":"78000","InitialMargin":"102000","Date":"20261005"},
+{"Contracts":"英鎊兌美元期貨","ClearingMargin":"550","MaintenanceMargin":"570","InitialMargin":"750","Date":"20261005"},
+{"Contracts":"澳幣兌美元期貨","ClearingMargin":"430","MaintenanceMargin":"450","InitialMargin":"590","Date":"20261005"}]
