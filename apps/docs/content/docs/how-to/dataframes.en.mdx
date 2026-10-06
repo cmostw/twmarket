@@ -1,0 +1,32 @@
+---
+title: "Convert to DataFrames"
+description: "Convert to DataFrames"
+---
+
+First [install the pandas or polars extras](/en/docs/how-to/installation).
+
+
+```python
+from twmarket import Client
+from twmarket.integrations import to_pandas, to_polars
+
+with Client() as market:
+    statement = market.mops.income_statement("2330", year=2026, quarter=2)
+    revenue = market.mops.revenue("2330", year=2026, month=8)
+
+accounts = to_polars(statement)
+monthly_revenue = to_pandas(revenue)
+print(accounts.head())
+print(monthly_revenue.head())
+```
+
+Conversions preserve Decimal by default; `price_type="float"` explicitly converts
+numeric values. Financial statements expand into account/period/measure rows.
+Source units remain unchanged; absent units are None.
+
+Use context managers to release connections. Optional TTL caching is enabled with
+`Client(cache_ttl=60)`; snapshots and active contract checks bypass it.
+
+method list, units and latest-only endpoints.
+
+[DataFrame API](/en/docs/reference/api/integrations)

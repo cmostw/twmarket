@@ -1,0 +1,630 @@
+---
+title: "Models"
+---
+
+## `BatchResult`
+
+An original batch input with either its data or its exception.
+
+Batch query results retain input order and duplicate entries.
+
+### Fields
+
+```python
+instrument: str | Contract
+data: T | None
+error: Exception | None
+```
+
+### `ok`
+
+```python
+def ok() -> bool: ...
+```
+
+Whether this batch entry completed without an exception.
+
+## `SourceInfo`
+
+Response provenance.
+
+received_at is the timezone-aware UTC retrieval time, not a trading date.
+
+### Fields
+
+```python
+provider: str
+url: str
+received_at: datetime
+```
+
+## `EquityDaily`
+
+Daily security prices and turnover with explicit source units.
+
+TWSE uses shares/TWD; TPEx uses lots/thousand_TWD. Missing values are None.
+change_basis_reset marks a source reset of the price-change comparison basis.
+
+### Fields
+
+```python
+symbol: str
+date: date
+open: Decimal | None
+high: Decimal | None
+low: Decimal | None
+close: Decimal | None
+volume: int | None
+amount: Decimal | None
+volume_unit: Literal['shares', 'lots']
+amount_unit: Literal['TWD', 'thousand_TWD']
+source: SourceInfo
+change: Decimal | None = None
+transactions: int | None = None
+raw_change: str | None = None
+change_basis_reset: bool = False
+```
+
+## `DerivativeDaily`
+
+Daily contract prices and quantities for one trading date and session.
+
+last and settlement are separate. volume is session volume; combined_volume
+is the source total. Futures/options quantities use contracts.
+
+### Fields
+
+```python
+contract: Contract
+date: date
+session: Session
+open: Decimal | None
+high: Decimal | None
+low: Decimal | None
+last: Decimal | None
+settlement: Decimal | None
+volume: int | None
+open_interest: int | None
+source: SourceInfo
+combined_volume: int | None = None
+```
+
+## `MarginRequirement`
+
+Published initial, maintenance and clearing margin values.
+
+unit distinguishes source amounts from percentages. Option risk components
+are separate records; date is the source publication date.
+
+### Fields
+
+```python
+product: str
+name: str
+category: MarginCategory
+date: date
+clearing: Decimal | None
+maintenance: Decimal | None
+initial: Decimal | None
+unit: str
+source: SourceInfo
+underlying: str | None = None
+group: int | None = None
+component: str | None = None
+```
+
+## `DerivativeProduct`
+
+Product catalog entry with specification and multiplier provenance.
+
+### Fields
+
+```python
+product: str
+name: str
+kind: InstrumentKind
+specification_url: str
+source: SourceInfo
+underlying: str | None = None
+multiplier: Decimal | None = None
+multiplier_unit: str | None = None
+mis_commodity: str | None = None
+multiplier_source: SourceInfo | None = None
+```
+
+## `TickSize`
+
+Price tick for a band with inclusive lower and exclusive upper bounds.
+
+A None bound is unbounded.
+
+### Fields
+
+```python
+lower: Decimal | None
+upper: Decimal | None
+tick: Decimal
+```
+
+## `ContractSpecification`
+
+Product multiplier, currency, settlement method and tick bands.
+
+Missing source metadata is None; multiplier_source identifies the share table.
+
+### Fields
+
+```python
+product: str
+name: str
+kind: InstrumentKind
+underlying: str
+multiplier: Decimal | None
+multiplier_unit: str | None
+currency: str | None
+settlement: Literal['cash', 'physical'] | None
+source: SourceInfo
+ticks: tuple[TickSize, ...] = ()
+multiplier_source: SourceInfo | None = None
+```
+
+## `FinancialValue`
+
+One financial account, reporting period and measure.
+
+measure separates amounts from percentages; percentages retain percent units.
+A missing value or unspecified source unit is None.
+
+### Fields
+
+```python
+symbol: str
+kind: str
+report_year: int
+report_quarter: int
+report_type: str | None
+account: str
+depth: int
+is_empty: bool
+period_start: date | None
+period_end: date
+period_label: str
+measure: Literal['amount', 'percentage']
+value: Decimal | None
+unit: str | None
+source: SourceInfo
+```
+
+## `FinancialStatement`
+
+A reported financial table with account/period/measure rows.
+
+Year and quarter identify the report; individual rows retain their own periods.
+
+### Fields
+
+```python
+symbol: str
+kind: str
+year: int
+quarter: int
+report_type: str | None
+rows: tuple[FinancialValue, ...]
+source: SourceInfo
+```
+
+## `Revenue`
+
+Reported monthly and cumulative revenue with year-over-year changes.
+
+Amounts retain source units; percentage changes retain percent units.
+
+### Fields
+
+```python
+symbol: str
+year: int
+month: int
+current: Decimal | None
+previous_year: Decimal | None
+change: Decimal | None
+change_percent: Decimal | None
+cumulative: Decimal | None
+previous_year_cumulative: Decimal | None
+cumulative_change: Decimal | None
+cumulative_change_percent: Decimal | None
+unit: str
+source: SourceInfo
+```
+
+## `Dividend`
+
+One common/preferred-share dividend decision and profit period.
+
+Cash amounts, per-share dividends and stock quantities retain distinct units.
+Board and meeting dates are separate from the profit period.
+
+### Fields
+
+```python
+symbol: str
+share_class: Literal['common', 'preferred']
+share_name: str | None
+status: str
+year: int
+quarter: int | None
+period_start: date | None
+period_end: date | None
+installment: int | None
+board_date: date | None
+meeting_date: date | None
+opening_retained_earnings: Decimal | None
+net_income: Decimal | None
+distributable_earnings: Decimal | None
+closing_retained_earnings: Decimal | None
+cash_from_earnings: Decimal | None
+cash_from_legal_reserve: Decimal | None
+cash_from_capital_reserve: Decimal | None
+cash_total: Decimal | None
+stock_from_earnings: Decimal | None
+stock_from_legal_reserve: Decimal | None
+stock_from_capital_reserve: Decimal | None
+stock_total_shares: int | None
+par_value: Decimal | None
+par_currency: str | None
+source: SourceInfo
+amount_unit: str = '元'
+per_share_unit: str = '元/股'
+```
+
+## `EmergingDaily`
+
+Emerging-stock daily high, low, weighted average and turnover.
+
+Volume is shares and amount is TWD. block_* fields hold block-trade totals.
+
+### Fields
+
+```python
+symbol: str
+date: date
+high: Decimal | None
+low: Decimal | None
+weighted_average: Decimal | None
+volume: int | None
+amount: Decimal | None
+transactions: int | None
+source: SourceInfo
+block_volume: int | None = None
+block_amount: Decimal | None = None
+block_high: Decimal | None = None
+block_low: Decimal | None = None
+block_weighted_average: Decimal | None = None
+block_transactions: int | None = None
+```
+
+## `BrokerQuote`
+
+One recommending broker bid/ask quote and its source timestamp.
+
+### Fields
+
+```python
+broker: str
+bid: Decimal | None
+bid_size: int | None
+ask: Decimal | None
+ask_size: int | None
+quoted_at: datetime | None
+```
+
+## `EmergingQuote`
+
+Emerging-stock trade statistics and individual broker quotes.
+
+Volume is shares and amount is TWD; quoted_at uses Asia/Taipei when available.
+
+### Fields
+
+```python
+symbol: str
+last: Decimal | None
+high: Decimal | None
+low: Decimal | None
+weighted_average: Decimal | None
+volume: int | None
+amount: Decimal | None
+quoted_at: datetime | None
+broker_quotes: tuple[BrokerQuote, ...]
+source: SourceInfo
+status: str | None = None
+```
+
+## `ShareholdingBracket`
+
+A published holding level with people, shares and percentage.
+
+percentage retains percent units. Levels 16 and 17 are adjustment and total.
+
+### Fields
+
+```python
+symbol: str
+date: date
+level: int
+people: int | None
+shares: int | None
+percentage: Decimal | None
+source: SourceInfo
+```
+
+## `Contract`
+
+Exact futures or options identity.
+
+expiry retains month, weekly series or spread periods. Options include strike
+and right; mis_symbol and expires_on are populated from official metadata.
+
+### Fields
+
+```python
+product: str
+expiry: str
+kind: InstrumentKind = 'future'
+strike: Decimal | None = None
+right: Literal['call', 'put'] | None = None
+mis_symbol: str | None = None
+expires_on: date | None = None
+```
+
+### `expiry_month`
+
+```python
+def expiry_month() -> str: ...
+```
+
+Return the first delivery month; expiry retains week/spread information.
+
+### `legs`
+
+```python
+def legs() -> tuple['Contract', ...]: ...
+```
+
+Return source spread legs, or an empty tuple for an outright contract.
+
+## `EconomicObservation`
+
+One monthly series value or published signal label.
+
+period is the first day of the observation month; value and text are separate.
+
+### Fields
+
+```python
+period: Date
+series: str
+value: Decimal | None
+text: str | None
+source: SourceInfo
+```
+
+## `ExchangeRate`
+
+Published numerator/denominator exchange rate on a source date.
+
+rate retains the source pair direction; published_date is separate from date.
+
+### Fields
+
+```python
+date: Date
+numerator: str
+denominator: str
+rate: Decimal | None
+published_date: Date | None
+source: SourceInfo
+```
+
+## `Instrument`
+
+A security catalog entry with its original code, ISIN and category.
+
+Codes retain leading zeros; as_of is the source update date when available.
+
+### Fields
+
+```python
+symbol: str
+name: str
+market: Market
+category: str
+isin: str | None
+listed_on: date | None
+industry: str | None
+cfi: str | None
+source: SourceInfo
+as_of: date | None = None
+```
+
+## `IndexDaily`
+
+Daily index OHLC values in the source unit, normally points.
+
+### Fields
+
+```python
+index: str
+date: date
+open: Decimal | None
+high: Decimal | None
+low: Decimal | None
+close: Decimal | None
+source: SourceInfo
+change: Decimal | None = None
+unit: str = 'points'
+```
+
+## `IndexClose`
+
+Published closing level for a price or total-return index.
+
+Publisher, date and percentage change retain the source definitions.
+
+### Fields
+
+```python
+index: str
+date: date
+kind: Literal['price', 'total_return']
+publisher: str
+close: Decimal | None
+change: Decimal | None
+change_percent: Decimal | None
+source: SourceInfo
+has_special_note: bool = False
+unit: str = 'points'
+```
+
+## `ExRight`
+
+A historical ex-rights/dividend event with reference prices.
+
+Share allocations per thousand shares are distinct from schedule ratios.
+
+### Fields
+
+```python
+symbol: str
+date: date
+name: str
+kind: EventKind
+previous_close: Decimal | None
+reference_price: Decimal | None
+adjustment: Decimal | None
+limit_up: Decimal | None
+limit_down: Decimal | None
+opening_reference: Decimal | None
+dividend_reference: Decimal | None
+source: SourceInfo
+rights_value: Decimal | None = None
+dividend_value: Decimal | None = None
+cash_dividend: Decimal | None = None
+bonus_shares_per_thousand: Decimal | None = None
+subscription_shares: int | None = None
+subscription_price: Decimal | None = None
+public_shares: int | None = None
+employee_shares: int | None = None
+shareholder_shares: int | None = None
+subscription_shares_per_thousand: Decimal | None = None
+price_unit: str = 'TWD'
+```
+
+## `ExRightSchedule`
+
+An upcoming ex-rights/dividend event from the current source schedule.
+
+Share ratios and allocations per thousand shares retain separate fields.
+
+### Fields
+
+```python
+symbol: str
+date: date
+name: str
+kind: EventKind
+cash_dividend: Decimal | None
+bonus_share_ratio: Decimal | None
+subscription_share_ratio: Decimal | None
+subscription_price: Decimal | None
+public_shares: int | None
+employee_shares: int | None
+shareholder_shares: int | None
+shareholder_subscription_shares_per_thousand: Decimal | None
+source: SourceInfo
+price_unit: str = 'TWD'
+```
+
+## `TradingRestriction`
+
+Published attention, disposition or suspension fields.
+
+Announcement, effective dates and Taipei halt/resumption times are separate.
+
+### Fields
+
+```python
+symbol: str
+name: str
+market: Market
+kind: RestrictionKind
+announced_on: date | None
+starts_on: date | None
+ends_on: date | None
+source: SourceInfo
+halted_at: datetime | None = None
+resumed_at: datetime | None = None
+close: Decimal | None = None
+price_earnings_ratio: Decimal | None = None
+```
+
+## `TradingStatus`
+
+Current altered-trading, matching and suspension status.
+
+A source without a publication date has date=None.
+
+### Fields
+
+```python
+symbol: str
+name: str
+market: Literal['twse', 'tpex']
+date: date | None
+altered: bool
+segmented: bool | None
+managed: bool | None
+suspended: bool | None
+matching_interval_minutes: int | None
+source: SourceInfo
+```
+
+## `BookLevel`
+
+One numbered bid or ask level with a price and optional quantity.
+
+### Fields
+
+```python
+level: int
+price: Decimal
+size: int | None
+```
+
+## `Quote`
+
+A quote snapshot with separate last-trade and bid/ask fields.
+
+quoted_at uses Asia/Taipei when available. stale marks a snapshot awaiting
+resynchronization. source.received_at records retrieval time.
+
+### Fields
+
+```python
+symbol: str
+last: Decimal | None
+open: Decimal | None
+high: Decimal | None
+low: Decimal | None
+volume: int | None
+volume_unit: Literal['lots', 'contracts']
+bids: tuple[BookLevel, ...]
+asks: tuple[BookLevel, ...]
+quoted_at: datetime | None
+source: SourceInfo
+session: Session | None = None
+source_date: date | None = None
+status: str | None = None
+contract: Contract | None = None
+stale: bool = False
+```

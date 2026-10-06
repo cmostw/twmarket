@@ -1,0 +1,107 @@
+---
+title: "MOPS"
+---
+
+## `MOPS`
+
+依公司代號與西元年度查詢財報、營收及股利.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `income_statement`
+
+```python
+def income_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得損益表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `balance_sheet`
+
+```python
+def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得資產負債表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `cash_flow_statement`
+
+```python
+def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得現金流量表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `revenue`
+
+```python
+def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Revenue: ...
+```
+
+取得營收；year 為西元、month 為 1–12，兩者同時指定或省略查最新.
+
+### `dividends`
+
+```python
+def dividends(code: str, *, start_year: int, end_year: int) -> list[Dividend]: ...
+```
+
+依含起訖年度的西元決議年查股利；盈餘期間可能早於決議年.
+
+## `AsyncMOPS`
+
+以 await 依公司代號與西元年度查詢財報、營收及股利.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `income_statement`
+
+```python
+async def income_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得損益表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `balance_sheet`
+
+```python
+async def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得資產負債表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `cash_flow_statement`
+
+```python
+async def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
+```
+
+取得現金流量表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+
+### `revenue`
+
+```python
+async def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Revenue: ...
+```
+
+取得營收；year 為西元、month 為 1–12，兩者同時指定或省略查最新.
+
+### `dividends`
+
+```python
+async def dividends(code: str, *, start_year: int, end_year: int) -> list[Dividend]: ...
+```
+
+依含起訖年度的西元決議年查股利；盈餘期間可能早於決議年.

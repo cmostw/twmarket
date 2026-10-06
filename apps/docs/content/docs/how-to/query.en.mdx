@@ -1,0 +1,21 @@
+---
+title: "Batch equity quotes"
+description: "Batch equity quotes"
+---
+
+Batch results preserve input order, duplicates and individual errors. Check `result.ok` before reading `data`.
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    results = market.twse.quote_many(["2330", "0050", "2330"])
+
+for result in results:
+    if result.ok:
+        print(result.instrument, result.data)
+    else:
+        print(result.instrument, result.error)
+```
+
+[TWSE / TPEx](/en/docs/reference/api/twse-tpex)

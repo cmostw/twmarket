@@ -1,0 +1,187 @@
+---
+title: "TAIFEX"
+---
+
+## `Taifex`
+
+查詢期交所契約、規格、保證金及行情.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `daily`
+
+```python
+def daily(*, kind: InstrumentKind='future', product: str | None=None) -> list[DerivativeDaily]: ...
+```
+
+取得來源目前公布的日行情；kind 選期貨／選擇權，product 可篩選商品.
+
+### `contracts`
+
+```python
+def contracts(*, product: str, kind: InstrumentKind='future', expiry: str | None=None, session: Session='regular') -> list[Contract]: ...
+```
+
+依 product、kind、session 取得有效契約；expiry 可篩選完整到期期間.
+
+### `history`
+
+```python
+def history(contract: Contract, *, start: date, end: date, session: Session | None=None) -> list[DerivativeDaily]: ...
+```
+
+回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+
+### `quote`
+
+```python
+def quote(contract: Contract | str, *, session: Session | None=None) -> Quote: ...
+```
+
+取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+
+### `resolve`
+
+```python
+def resolve(contract: Contract, *, session: Session='regular') -> Contract: ...
+```
+
+依官方有效期間核對 MIS ID 及到期日；過期契約拋出 NoDataError.
+
+### `products`
+
+```python
+def products(*, kind: InstrumentKind='future') -> list[DerivativeProduct]: ...
+```
+
+取得最新期貨或選擇權商品目錄、規格入口與乘數來源.
+
+### `specification`
+
+```python
+def specification(product: str, *, kind: InstrumentKind='future') -> ContractSpecification: ...
+```
+
+取得商品乘數、幣別、交割方式與 tick 級距；缺值為 None.
+
+### `margins`
+
+```python
+def margins(*, category: MarginCategory='index', product: str | None=None) -> list[MarginRequirement]: ...
+```
+
+依 category 與選用 product 查最新保證金，保留金額或百分數單位.
+
+### `quote_many`
+
+```python
+def quote_many(contracts: Iterable[Contract | str], *, session: Session | None=None) -> list[BatchResult[Quote]]: ...
+```
+
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.
+
+## `AsyncTaifex`
+
+以 await 查詢期交所資料，並訂閱報價狀態更新.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `daily`
+
+```python
+async def daily(*, kind: InstrumentKind='future', product: str | None=None) -> list[DerivativeDaily]: ...
+```
+
+取得來源目前公布的日行情；kind 選期貨／選擇權，product 可篩選商品.
+
+### `contracts`
+
+```python
+async def contracts(*, product: str, kind: InstrumentKind='future', expiry: str | None=None, session: Session='regular') -> list[Contract]: ...
+```
+
+依 product、kind、session 取得有效契約；expiry 可篩選完整到期期間.
+
+### `history`
+
+```python
+async def history(contract: Contract, *, start: date, end: date, session: Session | None=None) -> list[DerivativeDaily]: ...
+```
+
+回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+
+### `quote`
+
+```python
+async def quote(contract: Contract | str, *, session: Session | None=None) -> Quote: ...
+```
+
+取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+
+### `resolve`
+
+```python
+async def resolve(contract: Contract, *, session: Session='regular') -> Contract: ...
+```
+
+依官方有效期間核對 MIS ID 及到期日；過期契約拋出 NoDataError.
+
+### `closed`
+
+```python
+def closed() -> bool: ...
+```
+
+回傳市場與其訂閱是否已關閉.
+
+### `stream`
+
+```python
+async def stream(contracts: list[Contract | str], *, reconnects: int=3, session: Session='regular') -> AsyncGenerator[Quote, None]: ...
+```
+
+產生完整報價狀態；重連時標示 stale，reconnects 限制重試，關閉後釋放訂閱.
+
+### `products`
+
+```python
+async def products(*, kind: InstrumentKind='future') -> list[DerivativeProduct]: ...
+```
+
+取得最新期貨或選擇權商品目錄、規格入口與乘數來源.
+
+### `specification`
+
+```python
+async def specification(product: str, *, kind: InstrumentKind='future') -> ContractSpecification: ...
+```
+
+取得商品乘數、幣別、交割方式與 tick 級距；缺值為 None.
+
+### `margins`
+
+```python
+async def margins(*, category: MarginCategory='index', product: str | None=None) -> list[MarginRequirement]: ...
+```
+
+依 category 與選用 product 查最新保證金，保留金額或百分數單位.
+
+### `quote_many`
+
+```python
+async def quote_many(contracts: Iterable[Contract | str], *, session: Session | None=None) -> list[BatchResult[Quote]]: ...
+```
+
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.

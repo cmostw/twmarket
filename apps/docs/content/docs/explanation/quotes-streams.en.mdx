@@ -1,0 +1,24 @@
+---
+title: "Quotes, snapshots and streams"
+description: "Quotes, snapshots and streams"
+---
+
+Equity, emerging-stock and derivative quotes differ in source and update behavior. A query retrieves a source snapshot, not a complete sequence of trade events.
+
+## Quote queries
+
+TWSE/TPEx security quotes use MIS, emerging quotes use recommending-broker data and derivatives use TAIFEX MIS. Sources expose different trade, bid/ask and size fields. Models preserve these differences instead of substituting prices with different purposes.
+
+Statements, shareholding brackets, economic indicators and exchange rates follow their sources' publication frequencies rather than real-time quote updates. Sharing a client does not imply identical freshness.
+
+## Streaming state
+
+The current streaming API provides TAIFEX quote-state updates. HTTP queries for other sources do not automatically become subscriptions.
+
+Full snapshots establish state. Missing keys in partial updates preserve values; explicit nulls clear fields. Reconnection and date or source changes mark old snapshots `stale` and rebuild state. These updates describe quote state and do not promise every trade.
+
+## Connections and caching
+
+Sync and async clients own connection lifecycles; async streams also own subscriptions. Cancellation and client closure close subscriptions. Caches can reuse general query data, but live quotes and active-contract checks bypass caches to avoid stale instrument-state decisions.
+
+See the [streaming guide](/en/docs/how-to/streaming) and [TAIFEX MIS protocol reference](/en/docs/reference/taifex-protocol).

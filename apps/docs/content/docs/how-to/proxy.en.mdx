@@ -1,0 +1,19 @@
+---
+title: "Configure a proxy"
+description: "Configure a proxy"
+---
+
+Client and AsyncClient share the proxy option for HTTP queries and TAIFEX streams.
+HTTP/HTTPS proxy URLs support credentials in the URL.
+
+```python
+from twmarket import Client
+
+with Client(proxy="http://127.0.0.1:8080", trust_env=False) as market:
+    quote = market.twse.quote("2330")
+```
+
+Without an explicit proxy, clients follow environment proxy settings and NO_PROXY.
+HTTP uses HTTP_PROXY/HTTPS_PROXY/ALL_PROXY; websockets selects stream proxies using
+WSS_PROXY/WS_PROXY and its environment rules. trust_env=False disables environment
+settings; an explicit proxy takes precedence. proxy and custom transport are mutually exclusive.

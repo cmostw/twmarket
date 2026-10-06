@@ -1,0 +1,233 @@
+---
+title: "TWSE / TPEx"
+---
+
+## `StockMarket`
+
+TWSE or TPEx queries through the owning client.
+
+Security codes are strings. Date ranges include both endpoints.
+
+### `__init__`
+
+```python
+def __init__(http: Http, market: Market) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `history`
+
+```python
+def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ...
+```
+
+Return date-sorted daily rows for code within inclusive start/end dates.
+
+code is a string. Volume/amount units are shares/TWD for TWSE and
+lots/thousand_TWD for TPEx. No matching rows returns an empty list.
+
+### `quote`
+
+```python
+def quote(code: str) -> Quote: ...
+```
+
+Return the latest MIS snapshot for a security code string.
+
+Quote volume uses lots. Missing prices are None; no snapshot raises NoDataError.
+
+### `instruments`
+
+```python
+def instruments(*, category: str | None=None) -> list[Instrument]: ...
+```
+
+Return the current ISIN catalog, optionally filtered by source category.
+
+Codes retain leading zeros. category must match a published category name.
+
+### `index_history`
+
+```python
+def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
+```
+
+Return daily index OHLC rows within the inclusive start/end dates.
+
+TWSE returns TAIEX and TPEx returns the OTC index; rows are date-sorted.
+
+### `indices`
+
+```python
+def indices(*, day: date | None=None) -> list[IndexClose]: ...
+```
+
+Return published price/total-return index closing levels.
+
+Omit day for the current source board; pass a date for its historical query.
+
+### `ex_rights`
+
+```python
+def ex_rights(*, start: date, end: date, code: str | None=None) -> list[ExRight]: ...
+```
+
+Return historical ex-rights/dividend events in the inclusive date range.
+
+code optionally filters one security; share-allocation units follow the source.
+
+### `ex_rights_schedule`
+
+```python
+def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]: ...
+```
+
+Return the current upcoming ex-rights/dividend schedule.
+
+code optionally filters one security; absent announced values are None.
+
+### `trading_restrictions`
+
+```python
+def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
+```
+
+Return published restrictions, optionally filtered by code.
+
+kind is attention, disposition or suspended. Suspensions are the current list.
+
+### `trading_status`
+
+```python
+def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
+```
+
+Return the current trading-method/status list, optionally filtered by code.
+
+Publication dates are None when the source does not supply them.
+
+### `quote_many`
+
+```python
+def quote_many(codes: Iterable[str]) -> list[BatchResult[Quote]]: ...
+```
+
+Return one BatchResult per input, preserving order and duplicates.
+
+Individual validation, source and request failures appear in result.error.
+
+## `AsyncStockMarket`
+
+Awaitable TWSE or TPEx queries through the owning client.
+
+Security codes are strings. Date ranges include both endpoints.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp, market: Market) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `history`
+
+```python
+async def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ...
+```
+
+Return date-sorted daily rows for code within inclusive start/end dates.
+
+code is a string. Volume/amount units are shares/TWD for TWSE and
+lots/thousand_TWD for TPEx. No matching rows returns an empty list.
+
+### `quote`
+
+```python
+async def quote(code: str) -> Quote: ...
+```
+
+Return the latest MIS snapshot for a security code string.
+
+Quote volume uses lots. Missing prices are None; no snapshot raises NoDataError.
+
+### `instruments`
+
+```python
+async def instruments(*, category: str | None=None) -> list[Instrument]: ...
+```
+
+Return the current ISIN catalog, optionally filtered by source category.
+
+Codes retain leading zeros. category must match a published category name.
+
+### `index_history`
+
+```python
+async def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
+```
+
+Return daily index OHLC rows within the inclusive start/end dates.
+
+TWSE returns TAIEX and TPEx returns the OTC index; rows are date-sorted.
+
+### `indices`
+
+```python
+async def indices(*, day: date | None=None) -> list[IndexClose]: ...
+```
+
+Return published price/total-return index closing levels.
+
+Omit day for the current source board; pass a date for its historical query.
+
+### `ex_rights`
+
+```python
+async def ex_rights(*, start: date, end: date, code: str | None=None) -> list[ExRight]: ...
+```
+
+Return historical ex-rights/dividend events in the inclusive date range.
+
+code optionally filters one security; share-allocation units follow the source.
+
+### `ex_rights_schedule`
+
+```python
+async def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]: ...
+```
+
+Return the current upcoming ex-rights/dividend schedule.
+
+code optionally filters one security; absent announced values are None.
+
+### `trading_restrictions`
+
+```python
+async def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
+```
+
+Return published restrictions, optionally filtered by code.
+
+kind is attention, disposition or suspended. Suspensions are the current list.
+
+### `trading_status`
+
+```python
+async def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
+```
+
+Return the current trading-method/status list, optionally filtered by code.
+
+Publication dates are None when the source does not supply them.
+
+### `quote_many`
+
+```python
+async def quote_many(codes: Iterable[str]) -> list[BatchResult[Quote]]: ...
+```
+
+Return one BatchResult per input, preserving order and duplicates.
+
+Individual validation, source and request failures appear in result.error.

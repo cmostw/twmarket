@@ -1,0 +1,17 @@
+{
+  "title": "How-to guides",
+  "pages": [
+    "installation",
+    "equities",
+    "query",
+    "company-data",
+    "economic-data",
+    "derivatives",
+    "streaming",
+    "dataframes",
+    "async",
+    "errors",
+    "proxy",
+    "development"
+  ]
+}

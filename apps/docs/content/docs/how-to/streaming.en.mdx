@@ -1,0 +1,33 @@
+---
+title: "Stream futures and options quotes"
+description: "Stream futures and options quotes"
+---
+
+First [install the stream extra](/en/docs/how-to/installation).
+
+
+```python
+import asyncio
+from contextlib import aclosing
+from twmarket import AsyncClient
+
+async def main():
+    async with AsyncClient() as market:
+        contracts = await market.taifex.contracts(product="TX")
+        if not contracts:
+            return
+        contract = contracts[0]
+        quote = await market.taifex.quote(contract)
+        print(quote.last)
+
+        async with aclosing(market.taifex.stream([contract])) as updates:
+            async for update in updates:
+                print(update.last, update.stale)
+                break
+
+asyncio.run(main())
+```
+
+Contract mapping preserves exact expiry, weekly series, option strike and right.
+Last trade and settlement are separate. Streaming publishes quote updates and marks
+old snapshots stale during reconnection or a source reset.

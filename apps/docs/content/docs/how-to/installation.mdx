@@ -1,0 +1,19 @@
+---
+title: "安裝選用功能"
+description: "安裝串流與 DataFrame 轉換功能。"
+---
+
+使用 Python 3.11 以上。依需要選擇延伸功能。
+
+```sh
+pip install twmarket
+# 可用延伸：stream、pandas、polars
+pip install 'twmarket[stream,pandas,polars]'
+```
+
+```sh
+uv add twmarket
+uv add 'twmarket[stream,pandas,polars]'
+```
+
+`stream` 安裝 websockets；`pandas` 與 `polars` 分別安裝對應的 DataFrame 整合。

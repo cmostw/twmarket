@@ -1,0 +1,28 @@
+---
+title: "查詢期貨與選擇權"
+description: "查詢期貨與選擇權"
+---
+
+執行以下完整程式取得資料模型。數值與資料可用性依來源而變。
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    contracts = market.taifex.contracts(product="TX")
+    if contracts:
+        quote = market.taifex.quote(contracts[0])
+        print(quote.contract, quote.last, quote.quoted_at)
+    else:
+        print("No active contracts")
+```
+
+[TAIFEX](/docs/reference/api/taifex)
+
+## 選擇商品、契約與時段
+
+`products(kind="future")` 取得期貨商品，`products(kind="option")` 取得選擇權商品。以目錄的商品代碼傳入 `contracts(product=..., kind=...)`；`kind` 預設 `"future"`。`session="regular"` 選一般盤，`"after_hours"` 選夜盤；`expiry` 可篩選完整到期期間。
+
+範例取目錄第一筆契約，不代表最近月策略。特定需求應按 `expiry`、`strike`、`right` 篩選，再將完整 `Contract` 傳入 `quote` 或 `history`，不要自行組合 MIS ID。
+
+`history(contract, start=..., end=..., session=...)` 回傳日行情；不指定 `session` 時包含兩種時段。結果以 `date`、`session` 辨識交易日與時段，`last` 與 `settlement` 分開讀取。契約欄位見 [商品識別](/docs/explanation/identifiers)。

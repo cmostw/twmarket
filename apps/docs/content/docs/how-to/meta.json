@@ -1,0 +1,17 @@
+{
+  "title": "操作指南",
+  "pages": [
+    "installation",
+    "equities",
+    "query",
+    "company-data",
+    "economic-data",
+    "derivatives",
+    "streaming",
+    "dataframes",
+    "async",
+    "errors",
+    "proxy",
+    "development"
+  ]
+}

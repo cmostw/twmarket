@@ -1,0 +1,35 @@
+---
+title: "Query company financials and shareholding"
+description: "Query company financials and shareholding"
+---
+
+Run this complete program to retrieve the models. Values and availability depend on the source.
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    statement = market.mops.income_statement("2330", year=2026, quarter=2)
+    revenue = market.mops.revenue("2330", year=2026, month=8)
+    distribution = market.tdcc.distribution("2330")
+
+for value in statement.rows:
+    print(value.account, value.period_end, value.measure, value.value, value.unit)
+print(revenue.year, revenue.month, revenue.current, revenue.unit)
+for bracket in distribution:
+    print(bracket.date, bracket.level, bracket.people, bracket.shares, bracket.percentage)
+```
+
+[MOPS](/en/docs/reference/api/mops) · [TDCC](/en/docs/reference/api/tdcc)
+
+## Select data and periods
+
+- `income_statement`, `balance_sheet` and `cash_flow_statement` query the three statements. `year` is Gregorian and `quarter` is 1–4; supply both or omit both for the latest report.
+- Supply both `year` and `month` to `revenue`, or omit both for the latest record. It returns one `Revenue`, not a list.
+- `dividends` returns dividend decisions; `distribution` returns the latest published TDCC brackets.
+
+## Read results
+
+Statement `rows` form an account/period/measure long table. An account can appear in multiple rows. Select values by `account`, `period_end` and `measure`; the measure distinguishes amounts from percentages. Do not sum every row. Revenue `current` is monthly, `cumulative` is cumulative and `change_percent` retains percent units.
+
+Shareholding `level` is the source bracket. Levels 16 and 17 are adjustment and total; do not add the total again when aggregating. See [models](/en/docs/reference/api/models) for units and missing values.

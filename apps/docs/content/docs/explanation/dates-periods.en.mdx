@@ -1,0 +1,24 @@
+---
+title: "Dates and reporting periods"
+description: "Dates and reporting periods"
+---
+
+Dates answer different questions: which trading day a quote belongs to, which interval a statement describes, which month an observation represents and when a source published it. Retrieval timestamps cannot replace these dates.
+
+## Equities and derivatives
+
+Equity history records trading dates. Dates without trading data are not filled with zero-valued rows. Quote timestamps serve a different purpose from daily-history dates.
+
+Derivatives also distinguish regular and after-hours sessions. An evening's calendar date can differ from its assigned trading date, so models preserve trading date and session separately. Delivery month, weekly series and actual expiration date are distinct; month-end cannot replace an official expiration date.
+
+## Company and shareholding data
+
+Report year and quarter identify a statement; each account row retains its own reporting period. A statement can contain current and comparative periods. Revenue queries use year and month. Shareholding distribution provides the currently published source records; retrieval date is not a historical snapshot date.
+
+## Economic data and exchange rates
+
+Economic `period` values use the first day to identify an observation month, not a measurement made on that day. Exchange-rate dates and published dates are separate.
+
+## Latest and historical data
+
+A current listing is not an arbitrary historical query. Security and active-contract directories and shareholding brackets follow current official publications. Only range-supporting methods provide historical ranges. TAIFEX daily OpenAPI reports and historical CSV downloads are different interfaces. See [data contracts](/en/docs/reference/data-contracts) for each method's range.

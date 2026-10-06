@@ -1,0 +1,59 @@
+---
+title: "NDC"
+---
+
+## `NDC`
+
+查詢按月公布的 PMI、NMI 與景氣觀測值.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `pmi`
+
+```python
+def pmi(*, start: date, end: date) -> list[EconomicObservation]: ...
+```
+
+取得期間內的 PMI 與 NMI；包含 start 所在月份，以 series 篩選系列.
+
+### `indicators`
+
+```python
+def indicators(*, start: date, end: date, table: str='signal') -> list[EconomicObservation]: ...
+```
+
+依 table 查月觀測值；包含 start 所在月份，燈號與數值分開.
+
+## `AsyncNDC`
+
+以 await 查詢按月公布的 PMI、NMI 與景氣觀測值.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `pmi`
+
+```python
+async def pmi(*, start: date, end: date) -> list[EconomicObservation]: ...
+```
+
+取得期間內的 PMI 與 NMI；包含 start 所在月份，以 series 篩選系列.
+
+### `indicators`
+
+```python
+async def indicators(*, start: date, end: date, table: str='signal') -> list[EconomicObservation]: ...
+```
+
+依 table 查月觀測值；包含 start 所在月份，燈號與數值分開.

@@ -1,0 +1,43 @@
+---
+title: "Client / AsyncClient"
+---
+
+## `Client`
+
+使用同步查詢與 context manager 管理市場資料連線.
+
+### `__init__`
+
+```python
+def __init__(*, timeout: float=15.0, retries: int=2, interval: float=0.5, cache_ttl: float=0.0, cache_size: int=128, proxy: str | None=None, trust_env: bool=True, transport: httpx.BaseTransport | None=None) -> None: ...
+```
+
+建立 client；參數為 keyword-only，建立時不連網.
+
+### `close`
+
+```python
+def close() -> None: ...
+```
+
+關閉連線、清除快取；非同步 client 同時關閉串流訂閱.
+
+## `AsyncClient`
+
+使用非同步查詢與 async context manager 管理資料連線及訂閱.
+
+### `__init__`
+
+```python
+def __init__(*, timeout: float=15.0, retries: int=2, interval: float=0.5, cache_ttl: float=0.0, cache_size: int=128, proxy: str | None=None, trust_env: bool=True, transport: httpx.AsyncBaseTransport | None=None) -> None: ...
+```
+
+建立 client；參數為 keyword-only，建立時不連網.
+
+### `close`
+
+```python
+async def close() -> None: ...
+```
+
+關閉連線、清除快取；非同步 client 同時關閉串流訂閱.

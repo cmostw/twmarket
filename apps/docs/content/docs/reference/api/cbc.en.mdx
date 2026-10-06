@@ -1,0 +1,49 @@
+---
+title: "CBC"
+---
+
+## `CBC`
+
+CBC exchange rates with the published currency-pair direction.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `exchange_rates`
+
+```python
+def exchange_rates(*, start: date, end: date, currency: str | None=None) -> list[ExchangeRate]: ...
+```
+
+Return exchange-rate rows within inclusive start/end dates.
+
+currency optionally matches either side of a published pair, using a
+three-letter source code such as NTD, USD or JPY. Pair direction is preserved.
+
+## `AsyncCBC`
+
+Awaitable CBC exchange rates with the published currency-pair direction.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `exchange_rates`
+
+```python
+async def exchange_rates(*, start: date, end: date, currency: str | None=None) -> list[ExchangeRate]: ...
+```
+
+Return exchange-rate rows within inclusive start/end dates.
+
+currency optionally matches either side of a published pair, using a
+three-letter source code such as NTD, USD or JPY. Pair direction is preserved.
