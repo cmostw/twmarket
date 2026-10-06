@@ -14,3 +14,20 @@ uv run --no-sync pyright
 uv run --no-sync pytest -q
 uv build
 ```
+
+## 發布至 PyPI
+
+發布流程使用 GitHub Actions OIDC（PyPI Trusted Publishing），不設定 API token。
+
+PyPI 的 Trusted Publisher 設定：
+
+| 欄位 | 值 |
+| --- | --- |
+| Owner | `cmostw` |
+| Repository | `twmarket` |
+| Workflow | `publish.yml` |
+| Environment | `pypi` |
+
+首次發布且專案尚未建立時，使用 Pending Publisher，專案名稱填 `twmarket`。GitHub repository environment 名稱同樣使用 `pypi`。
+
+更新 `pyproject.toml` 的版本與 `uv.lock` 後提交，建立對應的 `v<version>` tag 並發布 GitHub Release。`publish.yml` 會驗證 tag 與套件版本一致，通過檢查及測試後建置 wheel／sdist，使用 OIDC 發布。版本 `0.1.0` 對應 tag `v0.1.0`。同一 PyPI 版本不能重複上傳。
