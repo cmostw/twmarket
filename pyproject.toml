@@ -17,6 +17,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+stream = ["websockets>=15,<17"]
 
 [dependency-groups]
 dev = [

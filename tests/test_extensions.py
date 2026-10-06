@@ -14,6 +14,8 @@ from twmarket import AsyncClient, Client, Contract
 from twmarket.errors import SchemaError
 from twmarket.parsing.json import decode, mapping, sequence
 from twmarket.providers.mops.data import financial_number
+from twmarket.providers.taifex.stream import QuoteState
+from twmarket.transport.sockjs import messages
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -257,3 +259,53 @@ async def test_contract_mapping_uses_explicit_period_strike_and_right() -> None:
     assert put.mis_symbol == "TX142800V6-O" and call.mis_symbol == "TX142800J6-O"
     assert night.mis_symbol == "TXFJ6-M"
     assert catalog == [future] and quote.contract == future
+
+
+def test_stream_full_partial_null_and_reset() -> None:
+    frame = (FIXTURES / "stream-frame.txt").read_text()
+    assert messages("o") == messages(b"h") == []
+    from twmarket.errors import TransportError
+
+    for envelope, error in [
+        ('c[3000,"closed"]', TransportError),
+        ("invalid", SchemaError),
+        ("a[1]", SchemaError),
+    ]:
+        with pytest.raises(error):
+            messages(envelope)
+    state = QuoteState({"TXFJ6-F": None})
+    assert state.apply({"type": "heartbeat"}) is None
+    initial = state.apply(messages(frame)[0])
+    assert initial is not None and len(initial.bids) == 5
+    assert (
+        state.apply({"type": "quote", "quote": {"symbol": "UNKNOWN-F", "values": {}}})
+        is None
+    )
+    with pytest.raises(SchemaError, match="status"):
+        state.apply(
+            {
+                "type": "quote",
+                "mode": 0,
+                "quote": {"symbol": "TXFJ6-F", "values": {"145": "99"}},
+            }
+        )
+    updated = state.apply(
+        {
+            "type": "quote",
+            "mode": 0,
+            "quote": {"symbol": "TXFJ6-F", "values": {"125": None, "113": "0"}},
+        }
+    )
+    assert updated is not None and updated.last is None
+    assert updated.open == initial.open and updated.bids[0].size == 0
+    state.apply({"type": "changeDate", "date": "20261007"})
+    assert (
+        state.apply(
+            {
+                "type": "quote",
+                "mode": 0,
+                "quote": {"symbol": "TXFJ6-F", "values": {"125": "1"}},
+            }
+        )
+        is None
+    )

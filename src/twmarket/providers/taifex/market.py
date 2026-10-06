@@ -1,6 +1,8 @@
 """Sync and async TAIFEX access share all request builders and parsers."""
 
-from collections.abc import Iterable
+import asyncio
+from collections.abc import AsyncGenerator, Awaitable, Callable, Iterable
+from contextlib import aclosing
 from dataclasses import replace
 from datetime import date
 
@@ -295,11 +297,11 @@ class Taifex:
 
 
 class AsyncTaifex:
-    """以 await 查詢期交所資料，.
+    """以 await 查詢期交所資料，並訂閱報價狀態更新.
 
     English:
 
-    Awaitable TAIFEX queries.
+    Awaitable TAIFEX queries and async quote-update subscriptions.
 
     Products use official report codes; quotes also accept exact MIS SymbolIDs.
     """
@@ -308,6 +310,8 @@ class AsyncTaifex:
         """Initialize the source namespace with its owning HTTP transport."""
         self._http = http
         self._catalog = AsyncCatalog(http)
+        self._stream_closers: set[Callable[[], Awaitable[None]]] = set()
+        self._closed = False
 
     async def daily(
         self, *, kind: InstrumentKind = "future", product: str | None = None
@@ -413,6 +417,72 @@ class AsyncTaifex:
         NoDataError; ambiguous source mappings raise SchemaError.
         """
         return await self._catalog.resolve(contract, session)
+
+    @property
+    def closed(self) -> bool:
+        """回傳市場與其訂閱是否已關閉.
+
+        English:
+
+        Whether the owning client has closed this market and its subscriptions.
+        """
+        return self._closed
+
+    def register_stream(self, closer: Callable[[], Awaitable[None]]) -> None:
+        """登記串流關閉函式；已關閉 client 拒絕新登記.
+
+        English:
+
+        Register a subscription closer; reject registration after closure.
+        """
+        if self._closed:
+            raise RuntimeError("Client is closed")
+        self._stream_closers.add(closer)
+
+    def unregister_stream(self, closer: Callable[[], Awaitable[None]]) -> None:
+        """移除已登記的串流關閉函式.
+
+        English:
+
+        Remove a subscription closer from client-owned cleanup.
+        """
+        self._stream_closers.discard(closer)
+
+    async def close_streams(self) -> None:
+        """關閉所有已登記訂閱並拒絕新訂閱.
+
+        English:
+
+        Close all registered subscriptions and prevent new registrations.
+        """
+        self._closed = True
+        await asyncio.gather(*(close() for close in tuple(self._stream_closers)))
+        self._stream_closers.clear()
+
+    async def stream(
+        self,
+        contracts: list[Contract | str],
+        *,
+        reconnects: int = 3,
+        session: Session = "regular",
+    ) -> AsyncGenerator[Quote, None]:
+        """產生完整報價狀態；重連時標示 stale，reconnects 限制重試，關閉後釋放訂閱.
+
+        English:
+
+        Yield complete quote states for exact contracts or MIS SymbolID strings.
+
+        Requires twmarket[stream]. session selects regular or after_hours; reconnects
+        limits additional connection attempts. Old states are marked stale while
+        resynchronizing. Close the generator or client to release the subscription.
+        """
+        from .stream import stream
+
+        async with aclosing(
+            stream(self, self._http, contracts, reconnects=reconnects, session=session)
+        ) as quotes:
+            async for quote in quotes:
+                yield quote
 
     async def products(
         self, *, kind: InstrumentKind = "future"
