@@ -10,8 +10,10 @@ import httpx
 import orjson
 import pytest
 
-from twmarket import AsyncClient, Client, Contract
+from twmarket import AsyncClient, Client, Contract, EquityDaily
 from twmarket.errors import SchemaError
+from twmarket.integrations import to_pandas, to_pandas_book, to_polars, to_polars_book
+from twmarket.models.macro import ExchangeRate
 from twmarket.parsing.json import decode, mapping, sequence
 from twmarket.providers.mops.data import financial_number
 from twmarket.providers.taifex.stream import QuoteState
@@ -153,6 +155,23 @@ async def test_disclosures_preserve_periods_and_source_headings() -> None:
     assert dividends[0].board_date == date(2026, 8, 11)
     assert dividends[0].stock_total_shares == 0 and dividends[0].par_currency == "TWD"
     assert not hasattr(dividends[0], "note") and not hasattr(m.mops, "announcements")
+
+
+def test_financial_frames_keep_numeric_types() -> None:
+    pytest.importorskip("pandas")
+    pytest.importorskip("polars")
+    with Client(transport=httpx.MockTransport(handler), interval=0) as market:
+        statement = market.mops.income_statement("2330", year=2026, quarter=2)
+        revenue = market.mops.revenue("2330", year=2026, month=8)
+        dividends = market.mops.dividends("2330", start_year=2025, end_year=2026)
+    first = statement.rows[0]
+    assert to_pandas(statement).shape == to_polars(statement).shape
+    assert to_polars(statement)["value"][0] == first.value
+    empty = to_polars(replace(statement, rows=()))
+    assert empty.columns == to_polars(statement).columns
+    assert empty.schema["value"].is_decimal()
+    assert to_pandas(revenue)["current"][0] == revenue.current
+    assert to_polars(dividends)["cash_from_earnings"][1] == Decimal("7.00000137")
 
 
 def test_annual_financials_and_preferred_dividends() -> None:
@@ -309,3 +328,24 @@ def test_stream_full_partial_null_and_reset() -> None:
         )
         is None
     )
+
+
+def test_dataframe_decimal_nullable_and_empty_schemas() -> None:
+    pytest.importorskip("pandas")
+    pytest.importorskip("polars")
+    with Client(
+        transport=httpx.MockTransport(
+            lambda r: httpx.Response(200, content=(FIXTURES / "twse.json").read_bytes())
+        ),
+        interval=0,
+    ) as m:
+        rows = m.twse.history("2330", start=date(2026, 9, 1), end=date(2026, 9, 30))
+    pandas = to_pandas(rows)
+    polars = to_polars(rows)
+    assert pandas.iloc[0]["close"] == polars["close"][0] == Decimal("2440.00")
+    assert to_pandas([], model=EquityDaily).columns.tolist() == pandas.columns.tolist()
+    assert to_polars([], model=ExchangeRate).schema["rate"].is_decimal()
+    assert to_pandas(rows, price_type="float")["close"].dtype.name == "Float64"
+    with Client(transport=httpx.MockTransport(handler), interval=0) as m:
+        quote = m.taifex.quote("TXFJ6-F")
+    assert len(to_pandas_book(quote)) == to_polars_book(quote).height == 10
