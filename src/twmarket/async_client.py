@@ -17,7 +17,7 @@ from .transport.http import AsyncHttp
 
 
 class AsyncClient:
-    """使用非同步查詢與 async context manager 管理資料連線.
+    """使用非同步查詢與 async context manager 管理資料連線及訂閱.
 
     English:
 
@@ -34,7 +34,7 @@ class AsyncClient:
         transport: Custom async HTTP transport; mutually exclusive with proxy.
 
     Await queries through twse, tpex, esb, taifex, mops, tdcc, ndc and cbc.
-    Closing the client closes its HTTP pool .
+    Closing the client closes its HTTP pool and active TAIFEX subscriptions.
     """
 
     def __init__(
@@ -97,10 +97,13 @@ class AsyncClient:
         await self.close()
 
     async def close(self) -> None:
-        """關閉連線、清除快取.
+        """關閉連線、清除快取；非同步 client 同時關閉串流訂閱.
 
         English:
 
-        Close HTTP connections and caches.
+        Close TAIFEX subscriptions, HTTP connections and caches.
         """
-        await self._http.close()
+        try:
+            await self.taifex.close_streams()
+        finally:
+            await self._http.close()
