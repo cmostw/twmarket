@@ -1,0 +1,32 @@
+---
+title: "TAIFEX MIS 協議"
+---
+
+| 端點 | 用途 |
+| --- | --- |
+| POST `https://mis.taifex.com.tw/futures/api/getQuoteList` | 契約報價列表 |
+| POST `https://mis.taifex.com.tw/futures/api/getQuoteDetail` | 指定 SymbolID 的報價與五檔 |
+| GET `https://mis.taifex.com.tw/futures/rt/info` | SockJS 連線資訊 |
+| `/futures/rt` | SockJS 訂閱 |
+
+列表的一般盤參數為 `MarketType="0"`，夜盤為 `"1"`；
+`RowSize="全部"` 取得完整列表。詳情請求為 `{"SymbolID": ["TXFJ6-F"]}`，
+範例代碼僅代表測資中的契約；查詢使用當前官方契約 ID。
+回應先檢查 `RtCode`，資料位於 `RtData`，列表位於 `RtData.QuoteList`。
+
+訂閱訊息：
+
+```json
+{"type": "subscribe", "symbols": ["TXFJ6-F"]}
+```
+
+SockJS envelope 解碼後，應用層訊息包含 `quote`、`changeDate`、`changeSource`。
+`quote` 帶有 `mode`、`quote.symbol`、`quote.values`；數字欄位 ID 對應 QNameMap。
+HTTP 詳情中的 `CDate`／`CTime` 使用台北時區，`CBidPrice1..5`／`CBidSize1..5`
+及 `CAskPrice1..5`／`CAskSize1..5` 對應五檔。
+
+完整快照建立狀態；部分更新中缺少的鍵保留原值，明示 `null` 清除欄位。
+重連、換日或來源切換時標示舊快照 `stale` 並重新取得完整狀態。
+取消或關閉 client 會關閉訂閱。串流提供報價狀態更新，並非逐筆成交紀錄。
+
+來源封包與請求參數保存在 `research/taifex-mis/` 及 `tests/fixtures/`。

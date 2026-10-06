@@ -1,0 +1,30 @@
+---
+title: "Query economic indicators and exchange rates"
+description: "Query economic indicators and exchange rates"
+---
+
+Run this complete program to retrieve the models. Values and availability depend on the source.
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    pmi = market.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))
+    rates = market.cbc.exchange_rates(
+        start=date(2026, 9, 1), end=date(2026, 9, 30), currency="USD"
+    )
+
+for row in pmi:
+    print(row.period, row.series, row.value, row.text)
+for row in rates:
+    print(row.date, row.numerator, row.denominator, row.rate)
+```
+
+[NDC](/en/docs/reference/api/ndc) · [CBC](/en/docs/reference/api/cbc)
+
+## Select series and read results
+
+`pmi` returns both PMI and NMI. `series` identifies the series and `period` is the first day of the observation month. Use `indicators(start=..., end=..., table="signal")` for business-cycle data. Tables are `signal`, `signal_components`, `leading`, `coincident` and `lagging`. Numeric values are in `value`; signal labels are in `text`.
+
+`exchange_rates` includes both range endpoints. Omit `currency` for all pairs or specify it to match either side. Read `numerator`/`denominator` to establish direction; `currency="USD"` alone does not determine it.

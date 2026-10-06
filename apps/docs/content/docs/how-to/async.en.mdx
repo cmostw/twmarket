@@ -1,0 +1,23 @@
+---
+title: "Query asynchronously"
+description: "Query asynchronously"
+---
+
+`AsyncClient` exposes the same query method names as `Client`, with `await` and an `async with` lifecycle. Independent queries can run with `asyncio.gather`; use `quote_many` for per-item outcomes in batch quotes.
+
+```python
+import asyncio
+from twmarket import AsyncClient
+
+async def main():
+    async with AsyncClient() as market:
+        listed, otc = await asyncio.gather(
+            market.twse.quote("2330"),
+            market.tpex.quote("6488"),
+        )
+        print(listed.last, otc.last)
+
+asyncio.run(main())
+```
+
+Async HTTP queries do not require the `stream` extra. A failing query in `asyncio.gather` raises an exception. See [batch queries](/en/docs/how-to/query) for individual outcomes and [clients](/en/docs/reference/api/clients) for options.

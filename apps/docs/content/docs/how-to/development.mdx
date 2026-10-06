@@ -1,0 +1,16 @@
+---
+title: "開發"
+---
+
+安裝開發環境、執行檢查與建置：
+
+```sh
+git clone https://github.com/cmostw/twmarket.git
+cd twmarket
+uv sync --all-extras
+uv run --no-sync ruff check .
+uv run --no-sync ruff format --check .
+uv run --no-sync pyright
+uv run --no-sync pytest -q
+uv build
+```

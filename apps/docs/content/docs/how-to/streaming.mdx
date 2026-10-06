@@ -1,0 +1,32 @@
+---
+title: "串流期貨與選擇權報價"
+description: "串流期貨與選擇權報價"
+---
+
+先[安裝 stream 延伸](/docs/how-to/installation)。
+
+
+```python
+import asyncio
+from contextlib import aclosing
+from twmarket import AsyncClient
+
+async def main():
+    async with AsyncClient() as market:
+        contracts = await market.taifex.contracts(product="TX")
+        if not contracts:
+            return
+        contract = contracts[0]
+        quote = await market.taifex.quote(contract)
+        print(quote.last)
+
+        async with aclosing(market.taifex.stream([contract])) as updates:
+            async for update in updates:
+                print(update.last, update.stale)
+                break
+
+asyncio.run(main())
+```
+
+契約包含到期月份、週別、履約價與買賣權。最新成交與結算價分開保存。
+串流在重連或來源重設期間以 `stale` 標示舊快照。

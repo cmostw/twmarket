@@ -1,0 +1,72 @@
+---
+title: "第一次查詢"
+description: "安裝 twmarket，查詢股票、興櫃、衍生商品、公司資料與總體資料。"
+---
+
+本節包含安裝、第一筆股票查詢與各資料來源的查詢入口。需要 Python 3.11 以上與網路連線。
+
+## 安裝
+
+依套件管理工具選擇安裝指令：
+
+```sh
+pip install twmarket
+# 可用延伸：stream、pandas、polars
+```
+
+```sh
+uv add twmarket
+# 可用延伸：stream、pandas、polars
+```
+
+## 查詢股票
+
+將以下程式存成 `query.py`，執行 `python query.py`：
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    rows = market.twse.history(
+        "2330", start=date(2026, 9, 1), end=date(2026, 9, 30)
+    )
+
+for row in rows:
+    print(row)
+```
+
+回傳結果為每日行情模型的清單；沒有交易資料的日期不會產生一列。輸出數值依來源而變，價格使用 `Decimal`，缺值為 `None`。`with` 區塊結束時會關閉連線。
+
+## 選擇其他資料
+
+下列程式查詢各來源的資料。每項查詢都會連線至對應來源；來源無資料時可能回傳空清單或拋出例外，見 [API 參考](/docs/reference/api/errors)。
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    print("上櫃證券", len(market.tpex.instruments()))
+    print("興櫃證券", len(market.esb.instruments()))
+    print("期貨與選擇權商品", len(market.taifex.products()))
+    print("月營收", market.mops.revenue("2330", year=2026, month=8))
+    print("股權分布", len(market.tdcc.distribution("2330")))
+    print("製造業與服務業採購經理人指數", len(market.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))))
+    print("匯率", len(market.cbc.exchange_rates(start=date(2026, 9, 1), end=date(2026, 9, 30))))
+```
+
+繼續閱讀 [查詢操作](/docs/how-to/query)，或在 [資料契約](/docs/reference/data-contracts) 選擇需要的方法、單位與可查期間。
+
+## 依任務查詢
+
+| 任務 | 操作與可直接執行的程式 | 方法與欄位 |
+| --- | --- | --- |
+| 上市、上櫃與興櫃行情 | [證券查詢](/docs/how-to/equities) | [TWSE／TPEx](/docs/reference/api/twse-tpex)、[ESB](/docs/reference/api/esb) |
+| 多筆證券報價 | [批次查詢與逐筆錯誤](/docs/how-to/query) | [BatchResult](/docs/reference/api/models#batchresult) |
+| 期貨與選擇權 | [商品、契約與報價](/docs/how-to/derivatives) | [TAIFEX](/docs/reference/api/taifex) |
+| 財報、營收、股利與股權分布 | [公司資料](/docs/how-to/company-data) | [MOPS](/docs/reference/api/mops)、[TDCC](/docs/reference/api/tdcc) |
+| 景氣指標與匯率 | [經濟資料](/docs/how-to/economic-data) | [NDC](/docs/reference/api/ndc)、[CBC](/docs/reference/api/cbc) |
+| DataFrame 轉換 | [pandas／Polars](/docs/how-to/dataframes) | [轉換函式](/docs/reference/api/integrations) |
+| 非同步或串流 | [非同步查詢](/docs/how-to/async)、[報價串流](/docs/how-to/streaming) | [AsyncClient](/docs/reference/api/clients#asyncclient) |
+| 代理與錯誤處理 | [Proxy](/docs/how-to/proxy)、[查詢錯誤](/docs/how-to/errors) | [Client](/docs/reference/api/clients)、[例外](/docs/reference/api/errors) |

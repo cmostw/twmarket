@@ -1,0 +1,19 @@
+---
+title: "Architecture"
+---
+
+The package is a modular monolith with one release process and providers grouped
+by source. Clients own connections; providers build requests and parse responses;
+models define records; transport handles HTTP, caching and SockJS; integrations
+convert models into DataFrames.
+
+Dependencies flow from clients to providers, then to transport, parsing and models.
+Integrations depend on models. Records are immutable dataclasses; collections are lists.
+Sync and async APIs share request specifications and parsers, with separate HTTP pools.
+Imports and client construction perform no network requests.
+
+Requests have timeouts and per-host pacing. Safe queries have bounded retries that
+respect Retry-After. Source, schema and transport failures use distinct exceptions.
+Empty multi-record queries return lists; missing single records raise NoDataError.
+Batch results retain individual outcomes. Providers manage source data and parsing;
+transport manages requests and connections. See [quotes, snapshots and streams](/en/docs/explanation/quotes-streams) for update semantics.

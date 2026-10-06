@@ -1,0 +1,28 @@
+---
+title: "Query futures and options"
+description: "Query futures and options"
+---
+
+Run this complete program to retrieve the models. Values and availability depend on the source.
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    contracts = market.taifex.contracts(product="TX")
+    if contracts:
+        quote = market.taifex.quote(contracts[0])
+        print(quote.contract, quote.last, quote.quoted_at)
+    else:
+        print("No active contracts")
+```
+
+[TAIFEX](/en/docs/reference/api/taifex)
+
+## Select products, contracts and sessions
+
+`products(kind="future")` lists futures products; `products(kind="option")` lists options products. Pass an official product code to `contracts(product=..., kind=...)`; `kind` defaults to `"future"`. `session="regular"` selects the regular session and `"after_hours"` selects after-hours. `expiry` filters an exact delivery period.
+
+The example selects the first listed contract, not a front-month strategy. Filter `expiry`, `strike` and `right` as needed, then pass the complete `Contract` to `quote` or `history`; do not construct MIS IDs manually.
+
+`history(contract, start=..., end=..., session=...)` returns daily records. Omitting `session` includes both sessions. Read `date` and `session` together; `last` and `settlement` are separate. See [instrument identity](/en/docs/explanation/identifiers).

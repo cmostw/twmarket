@@ -1,0 +1,28 @@
+---
+title: "架構"
+---
+
+套件採 modular monolith：單一套件及發行流程，內部按資料來源分組。
+
+| 目錄 | 職責 |
+| --- | --- |
+| `client.py`、`async_client.py` | 來源入口與連線生命週期 |
+| `providers/` | 各來源的請求、解析及查詢流程 |
+| `models/` | 資料欄位、型別及來源資訊 |
+| `transport/` | HTTP、限速、重試、快取及 SockJS |
+| `parsing/` | 日期、數值、JSON 與表格解析 |
+| `integrations/` | pandas／Polars 轉換 |
+
+依賴方向為 `Client → providers → transport / parsing / models`，
+`integrations → models`。模型使用不可變 dataclass；回傳集合為 `list`。
+
+同步與非同步介面共用解析與請求規格，各自使用 httpx 連線池。
+查詢才發出網路請求，建構 client 與匯入套件不連網。
+所有請求有逾時；各 host 分別限速。重試限於可安全重送的查詢，並遵守 `Retry-After`。
+
+來源、schema 與網路錯誤使用不同例外。多筆查詢無資料回傳空清單，
+單筆查無資料拋出 `NoDataError`。批次查詢保留逐筆成功或錯誤。
+
+各來源 provider 管理資料取得與解析，transport 管理請求及連線。
+報價更新與快照的關係見 [報價、快照與串流](/docs/explanation/quotes-streams)。
+快取與資料轉換設定見 [API 功能](/docs/reference/data-contracts)。

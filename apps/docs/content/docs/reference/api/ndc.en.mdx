@@ -1,0 +1,71 @@
+---
+title: "NDC"
+---
+
+## `NDC`
+
+Monthly NDC observations, including PMI, NMI and cycle indicators.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `pmi`
+
+```python
+def pmi(*, start: date, end: date) -> list[EconomicObservation]: ...
+```
+
+Return monthly PMI and NMI observations within the supplied month range.
+
+The start month is included even when start is mid-month. Rows use the first
+day of each month; filter series to select PMI or NMI.
+
+### `indicators`
+
+```python
+def indicators(*, start: date, end: date, table: str='signal') -> list[EconomicObservation]: ...
+```
+
+Return monthly business-cycle observations for table within the month range.
+
+table is signal, signal_components, leading, coincident or lagging.
+The start month is included; numeric values and signal labels are separate.
+
+## `AsyncNDC`
+
+Awaitable monthly PMI, NMI and business-cycle observations.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `pmi`
+
+```python
+async def pmi(*, start: date, end: date) -> list[EconomicObservation]: ...
+```
+
+Return monthly PMI and NMI observations within the supplied month range.
+
+The start month is included even when start is mid-month. Rows use the first
+day of each month; filter series to select PMI or NMI.
+
+### `indicators`
+
+```python
+async def indicators(*, start: date, end: date, table: str='signal') -> list[EconomicObservation]: ...
+```
+
+Return monthly business-cycle observations for table within the month range.
+
+table is signal, signal_components, leading, coincident or lagging.
+The start month is included; numeric values and signal labels are separate.

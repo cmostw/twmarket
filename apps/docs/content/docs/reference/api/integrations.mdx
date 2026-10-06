@@ -1,0 +1,35 @@
+---
+title: "DataFrame"
+---
+
+## `to_pandas`
+
+```python
+def to_pandas(data: object, *, model: type[object] | None=None, price_type: PriceType='decimal') -> pd.DataFrame: ...
+```
+
+將同型紀錄、財報或批次結果轉為 pandas DataFrame；model 指定空表 schema.
+
+## `to_polars`
+
+```python
+def to_polars(data: object, *, model: type[object] | None=None, price_type: PriceType='decimal') -> pl.DataFrame: ...
+```
+
+將同型紀錄、財報或批次結果轉為 Polars DataFrame；model 指定空表 schema.
+
+## `to_pandas_book`
+
+```python
+def to_pandas_book(quote: Quote) -> pd.DataFrame: ...
+```
+
+將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別.
+
+## `to_polars_book`
+
+```python
+def to_polars_book(quote: Quote) -> pl.DataFrame: ...
+```
+
+將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別.

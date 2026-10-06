@@ -1,0 +1,19 @@
+---
+title: "Install optional features"
+description: "Install streaming and DataFrame integrations."
+---
+
+Use Python 3.11 or later. Optional extras are installed separately.
+
+```sh
+pip install twmarket
+# Available extras: stream, pandas, polars
+pip install 'twmarket[stream,pandas,polars]'
+```
+
+```sh
+uv add twmarket
+uv add 'twmarket[stream,pandas,polars]'
+```
+
+`stream` installs websockets; `pandas` and `polars` install their respective DataFrame integrations.

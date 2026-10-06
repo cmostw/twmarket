@@ -1,0 +1,133 @@
+---
+title: "ESB"
+---
+
+## `ESB`
+
+Emerging-stock history and individual recommending-broker quotes.
+
+Security codes are strings. Date ranges include both endpoints.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `history`
+
+```python
+def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: ...
+```
+
+Return date-sorted emerging-stock rows in the inclusive date range.
+
+code is a string. Prices include weighted_average; volume/amount use shares/TWD.
+No matching rows returns an empty list.
+
+### `quote`
+
+```python
+def quote(code: str) -> EmergingQuote: ...
+```
+
+Return the latest trade statistics and individual broker quotes for code.
+
+Volume uses shares; missing prices are None. No snapshot raises NoDataError.
+
+### `instruments`
+
+```python
+def instruments(*, category: str | None=None) -> list[Instrument]: ...
+```
+
+Return the current ISIN catalog, optionally filtered by source category.
+
+Codes retain leading zeros. category must match a published category name.
+
+### `trading_restrictions`
+
+```python
+def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
+```
+
+Return attention, disposition or current suspension records.
+
+code optionally filters one emerging security.
+
+### `quote_many`
+
+```python
+def quote_many(codes: Iterable[str]) -> list[BatchResult[EmergingQuote]]: ...
+```
+
+Return one BatchResult per input, preserving order and duplicates.
+
+Individual validation, source and request failures appear in result.error.
+
+## `AsyncESB`
+
+Awaitable emerging-stock history and recommending-broker quotes.
+
+Security codes are strings. Date ranges include both endpoints.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `history`
+
+```python
+async def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: ...
+```
+
+Return date-sorted emerging-stock rows in the inclusive date range.
+
+code is a string. Prices include weighted_average; volume/amount use shares/TWD.
+No matching rows returns an empty list.
+
+### `quote`
+
+```python
+async def quote(code: str) -> EmergingQuote: ...
+```
+
+Return the latest trade statistics and individual broker quotes for code.
+
+Volume uses shares; missing prices are None. No snapshot raises NoDataError.
+
+### `instruments`
+
+```python
+async def instruments(*, category: str | None=None) -> list[Instrument]: ...
+```
+
+Return the current ISIN catalog, optionally filtered by source category.
+
+Codes retain leading zeros. category must match a published category name.
+
+### `trading_restrictions`
+
+```python
+async def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
+```
+
+Return attention, disposition or current suspension records.
+
+code optionally filters one emerging security.
+
+### `quote_many`
+
+```python
+async def quote_many(codes: Iterable[str]) -> list[BatchResult[EmergingQuote]]: ...
+```
+
+Return one BatchResult per input, preserving order and duplicates.
+
+Individual validation, source and request failures appear in result.error.

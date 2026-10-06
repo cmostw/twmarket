@@ -1,0 +1,43 @@
+---
+title: "API reference"
+---
+
+Client and AsyncClient expose matching query names; stream is async only.
+
+| Namespace | Methods |
+| --- | --- |
+| twse / tpex | instruments, history, quote, quote_many, index_history, indices, ex_rights, ex_rights_schedule, trading_restrictions, trading_status |
+| esb | instruments, history, quote, quote_many, trading_restrictions |
+| taifex | products, specification, margins, contracts, resolve, daily, history, quote, quote_many, stream |
+| mops | income_statement, balance_sheet, cash_flow_statement, revenue, dividends |
+| tdcc | distribution |
+| ndc | pmi, indicators |
+| cbc | exchange_rates |
+| integrations | to_pandas, to_polars, to_pandas_book, to_polars_book |
+
+Security identifiers retain leading zeros. Dates use date objects and Gregorian years;
+ranges include both endpoints. Prices and amounts use Decimal; missing values are None.
+TWSE history uses shares/TWD; TPEx uses lots/thousand_TWD. Financial records retain
+account, period and measure fields; unspecified source units remain None.
+
+Historical ex-rights events and upcoming schedules use separate models. Trading-status
+lists, catalogs, margins and TDCC brackets reflect available source publications.
+TAIFEX margins support index, stock, etf, fx, commodity and interest_rate categories.
+Stock rates retain percentages; other amounts retain source_currency_units when
+currency is unspecified. Option A/B/C components remain separate. Tick ranges include
+the lower bound and exclude the upper bound. Adjusted multipliers may be None.
+Contract mappings retain official expiry periods, option identity, MIS IDs and spread legs.
+
+quote_many preserves order, duplicates and individual errors. Stock requests use chunks
+of 50; TAIFEX uses 100 IDs. Async batches and monthly history use up to eight workers.
+Cancellation closes pending work.
+
+cache_ttl defaults to 0 and cache_size to 128. Raw and parsed caches each have a 32 MiB
+limit. Cached records retain retrieval timestamps; snapshots and active-contract checks
+bypass caches. Returned lists are copied.
+
+DataFrame conversions retain Decimal by default; price_type="float" enables conversion.
+Financial records expand into long rows. Book levels and tick ranges have separate
+conversion functions. Batch frames include requested_* and error columns. Specify model
+for empty inputs or all-failed batches; the default is EquityDaily.
+pandas, Polars and websockets are optional and loaded when used.

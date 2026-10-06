@@ -1,0 +1,21 @@
+---
+title: "批次查詢證券報價"
+description: "批次查詢證券報價"
+---
+
+批次結果保留輸入順序、重複輸入及逐筆錯誤。先檢查 `result.ok`，再讀取 `data`。
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    results = market.twse.quote_many(["2330", "0050", "2330"])
+
+for result in results:
+    if result.ok:
+        print(result.instrument, result.data)
+    else:
+        print(result.instrument, result.error)
+```
+
+[TWSE / TPEx](/docs/reference/api/twse-tpex)

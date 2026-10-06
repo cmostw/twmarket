@@ -1,0 +1,72 @@
+---
+title: "First query"
+description: "Install twmarket and query equities, emerging stocks, derivatives, company data and economic data."
+---
+
+This section covers installation, a first equity query and the other data namespaces. Python 3.11 or later and an internet connection are required.
+
+## Install
+
+Installation commands by package manager:
+
+```sh
+pip install twmarket
+# Available extras: stream, pandas, polars
+```
+
+```sh
+uv add twmarket
+# Available extras: stream, pandas, polars
+```
+
+## Query equities
+
+Save this program as `query.py` and run `python query.py`:
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    rows = market.twse.history(
+        "2330", start=date(2026, 9, 1), end=date(2026, 9, 30)
+    )
+
+for row in rows:
+    print(row)
+```
+
+The result is a list of daily market models. Dates without trading data do not produce a row. Values depend on the source; prices use `Decimal` and missing values use `None`. Leaving the `with` block closes connections.
+
+## Choose other data
+
+This program queries data from each source. Each query contacts its source. Missing data can produce an empty list or an exception; see the [API reference](/en/docs/reference/api/errors).
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    print("OTC securities", len(market.tpex.instruments()))
+    print("Emerging stocks", len(market.esb.instruments()))
+    print("Futures and options products", len(market.taifex.products()))
+    print("Monthly revenue", market.mops.revenue("2330", year=2026, month=8))
+    print("Shareholding distribution", len(market.tdcc.distribution("2330")))
+    print("Manufacturing and service PMI", len(market.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))))
+    print("Exchange rates", len(market.cbc.exchange_rates(start=date(2026, 9, 1), end=date(2026, 9, 30))))
+```
+
+Continue with [query tasks](/en/docs/how-to/query), or use the [data contracts](/en/docs/reference/data-contracts) to choose methods, units and query periods.
+
+## Find a task
+
+| Task | Runnable examples | Methods and fields |
+| --- | --- | --- |
+| Listed, OTC and emerging quotes | [Equity queries](/en/docs/how-to/equities) | [TWSE/TPEx](/en/docs/reference/api/twse-tpex), [ESB](/en/docs/reference/api/esb) |
+| Multiple equity quotes | [Batch results and errors](/en/docs/how-to/query) | [BatchResult](/en/docs/reference/api/models#batchresult) |
+| Futures and options | [Products, contracts and quotes](/en/docs/how-to/derivatives) | [TAIFEX](/en/docs/reference/api/taifex) |
+| Statements, revenue, dividends and shareholding | [Company data](/en/docs/how-to/company-data) | [MOPS](/en/docs/reference/api/mops), [TDCC](/en/docs/reference/api/tdcc) |
+| Economic indicators and exchange rates | [Economic data](/en/docs/how-to/economic-data) | [NDC](/en/docs/reference/api/ndc), [CBC](/en/docs/reference/api/cbc) |
+| DataFrame conversion | [pandas/Polars](/en/docs/how-to/dataframes) | [Converters](/en/docs/reference/api/integrations) |
+| Async and streaming | [Async queries](/en/docs/how-to/async), [quote streams](/en/docs/how-to/streaming) | [AsyncClient](/en/docs/reference/api/clients#asyncclient) |
+| Proxies and errors | [Proxy](/en/docs/how-to/proxy), [query errors](/en/docs/how-to/errors) | [Client](/en/docs/reference/api/clients), [exceptions](/en/docs/reference/api/errors) |

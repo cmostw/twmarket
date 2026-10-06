@@ -1,0 +1,47 @@
+---
+title: "Query equities and emerging stocks"
+description: "Query equities and emerging stocks"
+---
+
+## Listed and OTC securities
+
+`market.twse` queries listed securities; `market.tpex` queries OTC securities. `history(code, start=..., end=...)` returns daily records and `quote(code)` returns one snapshot. String codes preserve leading zeros.
+
+```python
+from datetime import date
+from twmarket import Client
+
+with Client() as market:
+    rows = market.twse.history(
+        "2330", start=date(2026, 9, 1), end=date(2026, 9, 30)
+    )
+    quote = market.tpex.quote("6488")
+
+for row in rows:
+    print(row.date, row.close, row.volume, row.volume_unit)
+print(quote.last, quote.quoted_at)
+for bid in quote.bids:
+    print(bid.level, bid.price, bid.size)
+```
+
+Daily `close` is the closing price; quote `last` is the last trade. `bids`/`asks` contain book levels. Missing values are `None`. TWSE history uses shares/TWD; TPEx uses lots/thousand TWD. Check `volume_unit` and `amount_unit`.
+
+## Emerging stocks
+
+Use `market.esb`. This example selects an identifier from the official directory and retrieves trade statistics and broker quotes:
+
+```python
+from twmarket import Client
+
+with Client() as market:
+    instruments = market.esb.instruments()
+    if instruments:
+        quote = market.esb.quote(instruments[0].symbol)
+        print(quote.symbol, quote.last, quote.weighted_average)
+        for broker in quote.broker_quotes:
+            print(broker.broker, broker.bid, broker.ask)
+```
+
+`weighted_average` is the weighted average price. `broker_quotes` contains individual recommending-broker quotes, not a centralized five-level book. `esb.history` returns `EmergingDaily` without ordinary equity open/close fields.
+
+[TWSE/TPEx methods](/en/docs/reference/api/twse-tpex) · [Emerging methods](/en/docs/reference/api/esb) · [Models](/en/docs/reference/api/models)

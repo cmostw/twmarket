@@ -1,0 +1,245 @@
+---
+title: "TAIFEX"
+---
+
+## `Taifex`
+
+TAIFEX contracts, specifications, margins and market data.
+
+Products use official report codes; quotes also accept exact MIS SymbolIDs.
+
+### `__init__`
+
+```python
+def __init__(http: Http) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `daily`
+
+```python
+def daily(*, kind: InstrumentKind='future', product: str | None=None) -> list[DerivativeDaily]: ...
+```
+
+Return the source's current daily futures or options report.
+
+kind is future or option; product optionally filters an official report code.
+Rows retain trading date, session and separate last/settlement prices.
+
+### `contracts`
+
+```python
+def contracts(*, product: str, kind: InstrumentKind='future', expiry: str | None=None, session: Session='regular') -> list[Contract]: ...
+```
+
+Return official active contracts for product, kind and session.
+
+expiry optionally selects an exact delivery period, including weekly series.
+Contracts retain MIS SymbolID and the published expiration date.
+
+### `history`
+
+```python
+def history(contract: Contract, *, start: date, end: date, session: Session | None=None) -> list[DerivativeDaily]: ...
+```
+
+Return daily rows for an exact contract in the inclusive date range.
+
+session optionally selects regular or after_hours; None includes both.
+Night-session dates are the source volume-attribution dates.
+
+### `quote`
+
+```python
+def quote(contract: Contract | str, *, session: Session | None=None) -> Quote: ...
+```
+
+Return a MIS snapshot for an exact Contract or MIS SymbolID string.
+
+Contract objects are resolved against active metadata. session optionally
+validates the ID's session; absent snapshots raise NoDataError.
+
+### `resolve`
+
+```python
+def resolve(contract: Contract, *, session: Session='regular') -> Contract: ...
+```
+
+Return contract with its verified active MIS ID and expiration date.
+
+session is regular or after_hours. An unavailable delivery period raises
+NoDataError; ambiguous source mappings raise SchemaError.
+
+### `products`
+
+```python
+def products(*, kind: InstrumentKind='future') -> list[DerivativeProduct]: ...
+```
+
+Return the current futures or options product catalog.
+
+Entries retain specification URLs and source-provided multipliers.
+
+### `specification`
+
+```python
+def specification(product: str, *, kind: InstrumentKind='future') -> ContractSpecification: ...
+```
+
+Return multiplier, currency, settlement and tick bands for product.
+
+kind is future or option. Missing source metadata remains None.
+
+### `margins`
+
+```python
+def margins(*, category: MarginCategory='index', product: str | None=None) -> list[MarginRequirement]: ...
+```
+
+Return the latest published margin records for category and optional product.
+
+Categories are index, stock, etf, fx, commodity and interest_rate.
+Stock rates retain percentages; other records retain their published units.
+
+### `quote_many`
+
+```python
+def quote_many(contracts: Iterable[Contract | str], *, session: Session | None=None) -> list[BatchResult[Quote]]: ...
+```
+
+Return one quote BatchResult per contract or MIS SymbolID input.
+
+Input order, duplicates and individual errors are retained. session validates
+regular/after_hours identity; Contract inputs retain their resolved metadata.
+
+## `AsyncTaifex`
+
+Awaitable TAIFEX queries and async quote-update subscriptions.
+
+Products use official report codes; quotes also accept exact MIS SymbolIDs.
+
+### `__init__`
+
+```python
+def __init__(http: AsyncHttp) -> None: ...
+```
+
+Initialize the source namespace with its owning HTTP transport.
+
+### `daily`
+
+```python
+async def daily(*, kind: InstrumentKind='future', product: str | None=None) -> list[DerivativeDaily]: ...
+```
+
+Return the source's current daily futures or options report.
+
+kind is future or option; product optionally filters an official report code.
+Rows retain trading date, session and separate last/settlement prices.
+
+### `contracts`
+
+```python
+async def contracts(*, product: str, kind: InstrumentKind='future', expiry: str | None=None, session: Session='regular') -> list[Contract]: ...
+```
+
+Return official active contracts for product, kind and session.
+
+expiry optionally selects an exact delivery period, including weekly series.
+Contracts retain MIS SymbolID and the published expiration date.
+
+### `history`
+
+```python
+async def history(contract: Contract, *, start: date, end: date, session: Session | None=None) -> list[DerivativeDaily]: ...
+```
+
+Return daily rows for an exact contract in the inclusive date range.
+
+session optionally selects regular or after_hours; None includes both.
+Night-session dates are the source volume-attribution dates.
+
+### `quote`
+
+```python
+async def quote(contract: Contract | str, *, session: Session | None=None) -> Quote: ...
+```
+
+Return a MIS snapshot for an exact Contract or MIS SymbolID string.
+
+Contract objects are resolved against active metadata. session optionally
+validates the ID's session; absent snapshots raise NoDataError.
+
+### `resolve`
+
+```python
+async def resolve(contract: Contract, *, session: Session='regular') -> Contract: ...
+```
+
+Return contract with its verified active MIS ID and expiration date.
+
+session is regular or after_hours. An unavailable delivery period raises
+NoDataError; ambiguous source mappings raise SchemaError.
+
+### `closed`
+
+```python
+def closed() -> bool: ...
+```
+
+Whether the owning client has closed this market and its subscriptions.
+
+### `stream`
+
+```python
+async def stream(contracts: list[Contract | str], *, reconnects: int=3, session: Session='regular') -> AsyncGenerator[Quote, None]: ...
+```
+
+Yield complete quote states for exact contracts or MIS SymbolID strings.
+
+Requires twmarket[stream]. session selects regular or after_hours; reconnects
+limits additional connection attempts. Old states are marked stale while
+resynchronizing. Close the generator or client to release the subscription.
+
+### `products`
+
+```python
+async def products(*, kind: InstrumentKind='future') -> list[DerivativeProduct]: ...
+```
+
+Return the current futures or options product catalog.
+
+Entries retain specification URLs and source-provided multipliers.
+
+### `specification`
+
+```python
+async def specification(product: str, *, kind: InstrumentKind='future') -> ContractSpecification: ...
+```
+
+Return multiplier, currency, settlement and tick bands for product.
+
+kind is future or option. Missing source metadata remains None.
+
+### `margins`
+
+```python
+async def margins(*, category: MarginCategory='index', product: str | None=None) -> list[MarginRequirement]: ...
+```
+
+Return the latest published margin records for category and optional product.
+
+Categories are index, stock, etf, fx, commodity and interest_rate.
+Stock rates retain percentages; other records retain their published units.
+
+### `quote_many`
+
+```python
+async def quote_many(contracts: Iterable[Contract | str], *, session: Session | None=None) -> list[BatchResult[Quote]]: ...
+```
+
+Return one quote BatchResult per contract or MIS SymbolID input.
+
+Input order, duplicates and individual errors are retained. session validates
+regular/after_hours identity; Contract inputs retain their resolved metadata.
