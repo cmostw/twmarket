@@ -1,0 +1,272 @@
+[
+  {
+    "fixture": "catalog-twse.fixture",
+    "original_bytes": 8972454,
+    "original_sha256": "425f5693d6cbe3a83ada581e941961bd97eaebe495a78aa3efefd17220215cbc",
+    "selection": "Original headings and first two rows per category, plus 0050/2330/6223/6898 when present"
+  },
+  {
+    "fixture": "catalog-tpex.fixture",
+    "original_bytes": 2983574,
+    "original_sha256": "1089bec313d375175f0147d24601663450d30010724662019edc89e9c6de1ee2",
+    "selection": "Original headings and first two rows per category, plus 0050/2330/6223/6898 when present"
+  },
+  {
+    "fixture": "catalog-esb.fixture",
+    "original_bytes": 86663,
+    "original_sha256": "3dec3373d2e5462fea985abd0868b8c2ccbaa0181fcc478f7032afdb6294d87a",
+    "selection": "Original headings and first two rows per category, plus 0050/2330/6223/6898 when present"
+  },
+  {
+    "fixture": "twse-index-history.fixture",
+    "original_bytes": 1433,
+    "original_sha256": "b6f8cf1552ff55338934e646ca846b54d1b18c0b82919ca78f440174bb605404",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-index-history.fixture",
+    "original_bytes": 1384,
+    "original_sha256": "832c6acf0421dba84c12ff5e8ebe9642d428ba70ab1cad240ffe3dc1f3ba5d39",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-indices.fixture",
+    "original_bytes": 28387,
+    "original_sha256": "908a27b81bcb26e93fc9b524bc514ff1b6b6823eed60d06b98f5b38fa9a6adad",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-closes.fixture",
+    "original_bytes": 7424,
+    "original_sha256": "28fb4cd9dffaa755f3821bb8e2ef8649570f22dc48697ca2189761a61e637603",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-ex-rights.fixture",
+    "original_bytes": 22646,
+    "original_sha256": "df9f74a5ec848a2a35b2465b50823a8050a3b8ac07e40ccceefbd67046d0e13b",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-ex-rights.fixture",
+    "original_bytes": 20843,
+    "original_sha256": "a2b38b19ae3ceeb089f3ffd0c80b42eb63613c850b49bbbe2216c1e33c73301e",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-schedule.fixture",
+    "original_bytes": 16876,
+    "original_sha256": "660bf15d488b36223c36c63cc7ec1bc7fc5339da36fed409e48eaa7748e31b3b",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-schedule.fixture",
+    "original_bytes": 33413,
+    "original_sha256": "91286134a17e28cf311b2ac54031589ca7fdcf913df9b6520ff03d4c6b3ad016",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-warning.fixture",
+    "original_bytes": 132,
+    "original_sha256": "4bd0ac94f01d8731e1e4407c90af24f3d16d4ff24e13e09b9247e92e5160e216",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-warning.fixture",
+    "original_bytes": 20514,
+    "original_sha256": "e84e261ba2b048fb8b899b235915cf36961d687fb0ac3085e8954444a7170151",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "esb-warning.fixture",
+    "original_bytes": 1647,
+    "original_sha256": "b7d405cfabe01d5b8308ca1e67f509e3f8d6b7b34f8ae95b9bfcc3a52d3bdf12",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-disposal.fixture",
+    "original_bytes": 14869,
+    "original_sha256": "ef2ab2e1d18b6ac4f39ac998f343ab4825958534371dea2a96c6d2ece2afdbcc",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-disposal.fixture",
+    "original_bytes": 25231,
+    "original_sha256": "387fc06c42a3fabcd4dc81308c690d438044bb21e9434d67efa135a39e105864",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "esb-disposal.fixture",
+    "original_bytes": 126,
+    "original_sha256": "cd23098f58987fe7f0e7138721406ba0d4b6a3b7f51e76902e77ae852b414e64",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-suspended.fixture",
+    "original_bytes": 170,
+    "original_sha256": "fd2c9a8037aa459cb8aade5df20bb9e2e0dea1b0c50adee024a12b0617a60eb1",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-halt.fixture",
+    "original_bytes": 355,
+    "original_sha256": "199ab4c082b6cd196c91b31c372ace0cedbeb7de7fb286d531676a2d75cf8917",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "tpex-status.fixture",
+    "original_bytes": 4676,
+    "original_sha256": "e6ad9f05b8086dde5b603fa7f4ba80eaae392faf3a580f8b6f5451f3f9cb9735",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "twse-trading-status.fixture",
+    "original_bytes": 681,
+    "original_sha256": "d62b86d448365d2c3c29ae9faf87a0cb55c7cab9b377fb058dc7994eeb8f0b5d",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "mis-products-F.fixture",
+    "original_bytes": 28778,
+    "original_sha256": "7f250cf10e4dd8d990d2d68fc7c1446532be357d111bf7c9fd27cb0b1c59304f",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "mis-products-O.fixture",
+    "original_bytes": 3010,
+    "original_sha256": "9f9b3bb49bec379339857eca2cc4dd56fa9f34e36c1e61de6b2189eb3c23467b",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "taifex-tx.fixture",
+    "original_bytes": 151936,
+    "original_sha256": "bb5be7c9af2002970b4af9d7138f4dfe5245a9afa401d80a7560ef1dcb513ff7",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "taifex-stock-list.fixture",
+    "original_bytes": 314098,
+    "original_sha256": "d77530a2902523220f51daeb6b258b49e1748decf166a5bfc8c500fe5bcefba6",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "taifex-options-spec.fixture",
+    "original_bytes": 154324,
+    "original_sha256": "e776c1625e0e934ac73b3f2cfc666dc4828971c19f82349ce41dca86162cb9ad",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "taifex-stock-spec.fixture",
+    "original_bytes": 157140,
+    "original_sha256": "d7f439cfcaa25752c6d8e5c576484f0650787f14f7ea70354c251ea07104a005",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "taifex-option-stock-spec.fixture",
+    "original_bytes": 160589,
+    "original_sha256": "000578f1f05211e5c177f886c980079deb2ed7d728af46329762bc0c53794b2a",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-index.fixture",
+    "original_bytes": 4178,
+    "original_sha256": "ead7e1c4f80593d5e33139a13e91ff2b352b351ee3d8cc19f5653cd59f153ce3",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-stock.fixture",
+    "original_bytes": 84224,
+    "original_sha256": "ca60b552df1a1569741fa72464bb1653f4aae69effbefeef8bf155da463c4bb2",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-etf.fixture",
+    "original_bytes": 6830,
+    "original_sha256": "bb5d40132db79a8302695849495bbea24241e964e12024e8ec980e8d36777262",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-fx.fixture",
+    "original_bytes": 796,
+    "original_sha256": "38b7321fca883692b4478fe00ba51ea34c7db7be200f7892818898773ef1d7b0",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-commodity.fixture",
+    "original_bytes": 810,
+    "original_sha256": "83b52657f73771da7d49d18e5b85df3ee6d97c1b3b69c6fc5addaf3c7a6ce54f",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "margin-interest_rate.fixture",
+    "original_bytes": 115,
+    "original_sha256": "faffdad2e107ab8d00a2e2bda19784ae78f67f93803e6077dc368d4af67d7247",
+    "selection": "Full original response"
+  },
+  {
+    "fixture": "caf-list.fixture",
+    "original_bytes": 711,
+    "original_sha256": "4c15a5a52811e42a8349e2e43ac49feed5ead91c6af85e739fb0fee5442a30ba",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "caf-months.fixture",
+    "original_bytes": 328,
+    "original_sha256": "4af64a31b999077653ebcfc81800740192ab230848ece1ddbaec7d3174323d2d",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-BRF.fixture",
+    "original_bytes": 153045,
+    "original_sha256": "a27a36c285935f1d0fddb3073d89b6a394c913d94bab469ca8d582effcc3ccf3",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-GDF.fixture",
+    "original_bytes": 152104,
+    "original_sha256": "6f2a8187240dad1f2b7348f6b9a93f4987045f4581c49e35d33848e30cf9c1c6",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-RHF.fixture",
+    "original_bytes": 154775,
+    "original_sha256": "50f49448939cc8136dc52e1ccc128b65cfefd6b4e45ce758b59020a69a9eb1e6",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-RTF.fixture",
+    "original_bytes": 152416,
+    "original_sha256": "6c805977cd80bc4a3dad8a77e798a78f52b9860a16ae798716538a9383a7ba21",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-TGF.fixture",
+    "original_bytes": 153519,
+    "original_sha256": "131be7318afb93e56082f0accd50027d942fe1ca2a60b103441e3adeab29f5bc",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-XAF.fixture",
+    "original_bytes": 152732,
+    "original_sha256": "5b69c44e32548d06b47f542de891c4b8ec443dc69aee5c4913052620e608fd82",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-XBF.fixture",
+    "original_bytes": 152702,
+    "original_sha256": "735e5f7579c7bb767812959c3233c24acea8c50835311b39d8ee1e67e8b7f33d",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-XEF.fixture",
+    "original_bytes": 152757,
+    "original_sha256": "770ec7001fa249419090a4ebc9249a5974623e6ba4111b05229346d6dba26753",
+    "selection": "Complete official response captured 2026-10-06"
+  },
+  {
+    "fixture": "spec-XJF.fixture",
+    "original_bytes": 152909,
+    "original_sha256": "60b3d0387c26672bcc6d1cd81863fabad75a29420aaa4007785070727914ee0b",
+    "selection": "Complete official response captured 2026-10-06"
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "observed_at_utc": "2026-10-06T09:32:25.567950+00:00",
+  "probes": [
+    {
+      "source": "mops",
+      "method": "POST",
+      "url": "https://mops.twse.com.tw/mops/api/t164sb04",
+      "request_json": {
+        "companyId": "2330",
+        "dataType": "1",
+        "year": "",
+        "season": "",
+        "subsidiaryCompanyId": ""
+      },
+      "status": 200,
+      "content_type": "application/json;charset=UTF-8",
+      "bytes": 5817,
+      "sha256": "78c4aae91a8873b36b70c8fff18d8c380884f61ca8421b60b4a5a4a28574750e",
+      "keys": [
+        "code",
+        "message",
+        "result",
+        "datetime"
+      ],
+      "source_code": 200,
+      "has_report": true
+    },
+    {
+      "source": "tdcc",
+      "method": "GET",
+      "url": "https://opendata.tdcc.com.tw/getOD.ashx?id=1-5",
+      "status": 200,
+      "content_type": "text/csv; charset=UTF-8",
+      "bytes": 2375465,
+      "sha256": "9370ff9c282b951f0edc9288d9cd0787daaa6ee2a125d470c9dcd8b75031e5aa",
+      "first_line": "資料日期,證券代號,持股分級,人數,股數,占集保庫存數比例%",
+      "looks_html": false
+    },
+    {
+      "source": "cbc",
+      "method": "GET",
+      "url": "https://cpx.cbc.gov.tw/API/DataAPI/Get?FileName=BP01D01",
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "bytes": 1350282,
+      "sha256": "f571e80f67912e39ecb927ecde6556256b0aa90ba8f92c8f809e52640f4c8dc4",
+      "keys": [
+        "meta",
+        "data"
+      ],
+      "source_code": null
+    },
+    {
+      "source": "ndc",
+      "method": "GET",
+      "url": "https://ws.ndc.gov.tw/Download.ashx?u=LzAwMS9hZG1pbmlzdHJhdG9yLzEwL3JlbGZpbGUvNTc4MS82MzkxL2JmOGE0ZWI3LTEwZmUtNGZhMC1iNjQ2LTMwZTg5MGQwMjE4YS5jc3Y%3d&n=6Ie654Gj5o6h6LO857aT55CG5Lq65oyH5pW4KHBtaeWPim5taSkuY3N2&icon=.csv",
+      "status": 200,
+      "content_type": "application/vnd.ms-excel",
+      "bytes": 2935,
+      "sha256": "6edc4a335bbd462962af281db2d803364c03091618ea6e2356907e8931d74e2d",
+      "first_line": "Date,PMI,NMI",
+      "looks_html": false
+    }
+  ]
+}

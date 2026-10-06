@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-06",
+  "offline_tests": {
+    "passed": 46,
+    "integration_deselected": 9
+  },
+  "ruff": "passed",
+  "pyright": "0 errors",
+  "uv_lock": "passed offline",
+  "build": "wheel and sdist passed offline",
+  "core_only_wheel": "imports, lifecycle, optional dependency isolation passed",
+  "official_suite": {
+    "passed": 8,
+    "failed": 1,
+    "failure": "Full run: TPEx exDailyQ HTTP 520. Isolated retry passed (1 passed, 8 deselected); all nine official checks passed across the run and retry."
+  },
+  "official_retry": {
+    "passed": 1,
+    "deselected": 8
+  }
+}

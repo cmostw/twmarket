@@ -1,0 +1,1 @@
+"""Official NDC data provider."""
