@@ -1,0 +1,1 @@
+"""Taipei Exchange data adapters."""

@@ -1,0 +1,58 @@
+{
+  "observed_at_utc": "2026-10-06T09:03:49.867953+00:00",
+  "site": "https://mis.taifex.com.tw/futures/",
+  "requests": [
+    {
+      "url": "https://mis.taifex.com.tw/futures/api/getQuoteList",
+      "method": "POST",
+      "payload": {
+        "MarketType": "0",
+        "SymbolType": "F",
+        "KindID": "1",
+        "CID": "",
+        "ExpireMonth": "",
+        "RowSize": "全部",
+        "PageNo": "",
+        "SortColumn": "",
+        "AscDesc": "A"
+      },
+      "http_status": 200,
+      "rtcode": "0",
+      "file": "regular-futures.json",
+      "sha256": "8b148adb1e1631dc124a0488b01d02d0bae307c0040ffd8c7a555ba6979aa041"
+    },
+    {
+      "url": "https://mis.taifex.com.tw/futures/api/getQuoteDetail",
+      "method": "POST",
+      "payload": {
+        "SymbolID": [
+          "TXFJ6-F"
+        ]
+      },
+      "http_status": 200,
+      "rtcode": "0",
+      "file": "futures-detail.json",
+      "sha256": "cf1d0284b89831e51418add4bff15e055e4bbf0b7f39d9420279bebaf212d601"
+    },
+    {
+      "url": "https://mis.taifex.com.tw/futures/api/getQuoteList",
+      "method": "POST",
+      "payload": {
+        "MarketType": "1",
+        "SymbolType": "F",
+        "KindID": "1",
+        "CID": "",
+        "ExpireMonth": "",
+        "RowSize": "全部",
+        "PageNo": "",
+        "SortColumn": "",
+        "AscDesc": "A"
+      },
+      "http_status": 200,
+      "rtcode": "0",
+      "file": "after-hours-futures.json",
+      "sha256": "11f298445da2594abf811dc93163e07b97e099ecca2d709ace8fc7cce727777e"
+    }
+  ],
+  "push_probe": "SockJS /futures/rt/info returned websocket=true; quote subscription not exercised"
+}

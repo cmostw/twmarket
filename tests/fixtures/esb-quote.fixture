@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Q20 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://otcq.daiphy.com/">
+  <SymbolID>6898</SymbolID>
+  <SymbolName>程曦資訊</SymbolName>
+  <SymbolEName>ChainSea</SymbolEName>
+  <TradeDay>2026/10/06</TradeDay>
+  <TradeStatisticTime>16:55</TradeStatisticTime>
+  <IndustryCategoryName>資訊服務業</IndustryCategoryName>
+  <Circulation>29016113</Circulation>
+  <TradeStatusName>開始交易</TradeStatusName>
+  <TradeStatusDay>2022/09/30</TradeStatusDay>
+  <IndexSampling>是</IndexSampling>
+  <Settlemet>88.9000</Settlemet>
+  <TradeStatisticHigh>88.0000</TradeStatisticHigh>
+  <TradeStatisticLow>83.1000</TradeStatisticLow>
+  <TradeStatisticAverage>85.7200</TradeStatisticAverage>
+  <TradePrice>85.5000</TradePrice>
+  <TradeVol>50</TradeVol>
+  <PriceChange>▽1.5600</PriceChange>
+  <PriceChangePercent>↓1.79%</PriceChangePercent>
+  <TradePriceChange />
+  <TradePriceChangePercent />
+  <TradeStatisticTtlAmt>8457311</TradeStatisticTtlAmt>
+  <TradeStatisticTtlTranscation>90</TradeStatisticTtlTranscation>
+  <TradeStatisticTtlVol>98661</TradeStatisticTtlVol>
+  <PreVol>84209</PreVol>
+  <NoticeType />
+  <PreAverage>87.0600</PreAverage>
+  <TradeType>B</TradeType>
+  <SuspendTime>000000</SuspendTime>
+  <ResumeTime>000000</ResumeTime>
+  <SuspendResumeNote>
+
+</SuspendResumeNote>
+  <list>
+    <Q20List>
+      <BuyPrice>0</BuyPrice>
+      <BuyVol>0</BuyVol>
+      <SellPrice>85.5000</SellPrice>
+      <SellVol>2950</SellVol>
+      <Time>14:58:38</Time>
+      <BrokerName>玉山自營</BrokerName>
+      <ContactPerson>賴先生</ContactPerson>
+      <ContactPhone>02 87706613</ContactPhone>
+    </Q20List>
+    <Q20List>
+      <BuyPrice>83.4000</BuyPrice>
+      <BuyVol>3000</BuyVol>
+      <SellPrice>0</SellPrice>
+      <SellVol>0</SellVol>
+      <Time>14:47:04</Time>
+      <BrokerName>兆豐自營</BrokerName>
+      <ContactPerson>吳小姐</ContactPerson>
+      <ContactPhone>02 23278988  7998</ContactPhone>
+    </Q20List>
+    <Q20List>
+      <BuyPrice>83.4000</BuyPrice>
+      <BuyVol>3000</BuyVol>
+      <SellPrice>0</SellPrice>
+      <SellVol>0</SellVol>
+      <Time>14:47:04</Time>
+      <BrokerName>元大自營</BrokerName>
+      <ContactPerson>盧小姐</ContactPerson>
+      <ContactPhone>02 02271812346783
+
+</ContactPhone>
+    </Q20List>
+  </list>
+  <quotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>0</BuyPrice>
+      <BuyVol>0</BuyVol>
+      <SellPrice>86.5</SellPrice>
+      <SellVol>3000</SellVol>
+      <Time>14:58:13</Time>
+      <BrokerId>700T</BrokerId>
+      <BrokerName>兆豐自營</BrokerName>
+      <ContactPerson>吳小姐</ContactPerson>
+      <ContactPhone>02 23278988  7998</ContactPhone>
+    </Q20QuotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>83.4000015258789</BuyPrice>
+      <BuyVol>3000</BuyVol>
+      <SellPrice>0</SellPrice>
+      <SellVol>0</SellVol>
+      <Time>14:47:04</Time>
+      <BrokerId>700T</BrokerId>
+      <BrokerName>兆豐自營</BrokerName>
+      <ContactPerson>吳小姐</ContactPerson>
+      <ContactPhone>02 23278988  7998</ContactPhone>
+    </Q20QuotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>0</BuyPrice>
+      <BuyVol>0</BuyVol>
+      <SellPrice>85.5</SellPrice>
+      <SellVol>2950</SellVol>
+      <Time>14:58:38</Time>
+      <BrokerId>884T</BrokerId>
+      <BrokerName>玉山自營</BrokerName>
+      <ContactPerson>賴先生</ContactPerson>
+      <ContactPhone>02 87706613</ContactPhone>
+    </Q20QuotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>81.30000305175781</BuyPrice>
+      <BuyVol>3000</BuyVol>
+      <SellPrice>0</SellPrice>
+      <SellVol>0</SellVol>
+      <Time>14:43:57</Time>
+      <BrokerId>884T</BrokerId>
+      <BrokerName>玉山自營</BrokerName>
+      <ContactPerson>賴先生</ContactPerson>
+      <ContactPhone>02 87706613</ContactPhone>
+    </Q20QuotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>0</BuyPrice>
+      <BuyVol>0</BuyVol>
+      <SellPrice>87.5</SellPrice>
+      <SellVol>3000</SellVol>
+      <Time>14:58:13</Time>
+      <BrokerId>980T</BrokerId>
+      <BrokerName>元大自營</BrokerName>
+      <ContactPerson>盧小姐</ContactPerson>
+      <ContactPhone>02 02271812346783</ContactPhone>
+    </Q20QuotesDetail>
+    <Q20QuotesDetail>
+      <BuyPrice>83.4000015258789</BuyPrice>
+      <BuyVol>3000</BuyVol>
+      <SellPrice>0</SellPrice>
+      <SellVol>0</SellVol>
+      <Time>13:59:56</Time>
+      <BrokerId>980T</BrokerId>
+      <BrokerName>元大自營</BrokerName>
+      <ContactPerson>盧小姐</ContactPerson>
+      <ContactPhone>02 02271812346783
+
+</ContactPhone>
+    </Q20QuotesDetail>
+  </quotesDetail>
+</Q20>
