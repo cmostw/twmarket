@@ -7,8 +7,12 @@ import httpx
 
 from .client import validate_options
 from .providers._equities import AsyncStockMarket
+from .providers.cbc.market import AsyncCBC
 from .providers.esb.market import AsyncESB
+from .providers.mops.market import AsyncMOPS
+from .providers.ndc.market import AsyncNDC
 from .providers.taifex.market import AsyncTaifex
+from .providers.tdcc.market import AsyncTDCC
 from .transport.http import AsyncHttp
 
 
@@ -29,7 +33,7 @@ class AsyncClient:
         trust_env: Honor environment proxy and TLS settings when true.
         transport: Custom async HTTP transport; mutually exclusive with proxy.
 
-    Await queries through twse, tpex, esb and taifex.
+    Await queries through twse, tpex, esb, taifex, mops, tdcc, ndc and cbc.
     Closing the client closes its HTTP pool .
     """
 
@@ -75,6 +79,10 @@ class AsyncClient:
         self.twse = AsyncStockMarket(self._http, "twse")
         self.tpex = AsyncStockMarket(self._http, "tpex")
         self.taifex = AsyncTaifex(self._http)
+        self.mops = AsyncMOPS(self._http)
+        self.tdcc = AsyncTDCC(self._http)
+        self.cbc = AsyncCBC(self._http)
+        self.ndc = AsyncNDC(self._http)
         self.esb = AsyncESB(self._http)
 
     async def __aenter__(self) -> Self:

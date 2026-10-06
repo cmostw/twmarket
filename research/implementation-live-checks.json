@@ -1,0 +1,77 @@
+[
+  {
+    "name": "esb-history",
+    "ok": true,
+    "records": 20
+  },
+  {
+    "name": "esb-quote",
+    "ok": true,
+    "records": 1
+  },
+  {
+    "name": "mops-income",
+    "ok": true,
+    "records": 44
+  },
+  {
+    "name": "mops-balance",
+    "ok": true,
+    "records": 66
+  },
+  {
+    "name": "mops-cashflow",
+    "ok": true,
+    "records": 81
+  },
+  {
+    "name": "mops-revenue",
+    "ok": true,
+    "records": 9
+  },
+  {
+    "name": "mops-dividend",
+    "ok": true,
+    "records": 1
+  },
+  {
+    "name": "mops-news",
+    "ok": true,
+    "records": 151
+  },
+  {
+    "name": "tdcc",
+    "ok": true,
+    "records": 0
+  },
+  {
+    "name": "ndc-pmi",
+    "ok": true,
+    "records": 18
+  },
+  {
+    "name": "ndc-cycle",
+    "ok": false,
+    "error": "Invalid number: '紅'"
+  },
+  {
+    "name": "cbc",
+    "ok": true,
+    "records": 20
+  },
+  {
+    "name": "resolve-future",
+    "ok": true,
+    "records": 1
+  },
+  {
+    "name": "resolve-option",
+    "ok": true,
+    "records": 1
+  },
+  {
+    "name": "resolve-night",
+    "ok": true,
+    "records": 1
+  }
+]

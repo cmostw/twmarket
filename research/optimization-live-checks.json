@@ -1,0 +1,64 @@
+{
+  "twse": [
+    {
+      "instrument": "2330",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "0050",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "0000",
+      "ok": false,
+      "error": "NoDataError"
+    },
+    {
+      "instrument": "2330",
+      "ok": true,
+      "error": null
+    }
+  ],
+  "tpex": [
+    {
+      "instrument": "6223",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "6488",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "0000",
+      "ok": false,
+      "error": "NoDataError"
+    }
+  ],
+  "taifex": [
+    {
+      "instrument": "TXFJ6-F",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "MXFJ6-F",
+      "ok": true,
+      "error": null
+    },
+    {
+      "instrument": "BAD-F",
+      "ok": false,
+      "error": "NoDataError"
+    },
+    {
+      "instrument": "TXFJ6-F",
+      "ok": true,
+      "error": null
+    }
+  ],
+  "async": "passed"
+}

@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-06",
+  "scope": "Entire twmarket package, including sync/async providers, optional DataFrames and local WebSocket streams. No module omissions or additional coverage exclusions.",
+  "before": {
+    "offline_tests": 52,
+    "line_percent": 89.00939985538685,
+    "branch_percent": 69.97635933806147,
+    "combined_percent": 84.5514950166113
+  },
+  "after": {
+    "offline_tests": 29,
+    "line_percent": 91.64859002169197,
+    "branch_percent": 75.76832151300236,
+    "combined_percent": 87.92912513842747
+  },
+  "defect_found_and_fixed": "AsyncCatalog.contracts omitted official expires_on while sync Catalog.contracts populated it; parity checks now cover futures and weekly options.",
+  "policy": "Prefer exact values, source units/periods/identity, failure classification and resource cleanup; no coverage threshold; recorded HTTP sources and loopback WebSocket only."
+}

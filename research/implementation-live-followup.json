@@ -1,0 +1,39 @@
+{
+  "at_utc": "2026-10-06T10:17:37.659234+00:00",
+  "checks": [
+    {
+      "name": "tdcc",
+      "ok": true,
+      "records": 17
+    },
+    {
+      "name": "cycle",
+      "ok": true,
+      "records": 64
+    },
+    {
+      "name": "night-future",
+      "ok": true,
+      "records": 1
+    },
+    {
+      "name": "night-option",
+      "ok": true,
+      "records": 1
+    },
+    {
+      "name": "stream-regular",
+      "ok": true,
+      "symbol": "TXFJ6-F",
+      "levels": 5,
+      "quoted_at": "2026-10-06 13:44:59+08:00"
+    },
+    {
+      "name": "stream-after_hours",
+      "ok": true,
+      "symbol": "TXFJ6-M",
+      "levels": 5,
+      "quoted_at": "2026-10-06 18:17:31+08:00"
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "twse.index_history": 20,
+  "twse.indices": 265,
+  "twse.ex_rights": 109,
+  "twse.ex_rights_schedule": 62,
+  "twse.trading_status": 10,
+  "twse.trading_restrictions": 11,
+  "tpex.index_history": 20,
+  "tpex.indices": 73,
+  "tpex.ex_rights": 100,
+  "tpex.ex_rights_schedule": 76,
+  "tpex.trading_status": 22,
+  "tpex.trading_restrictions": 26,
+  "esb.instruments": 362,
+  "taifex.products.future": 369,
+  "spec.TX": {
+    "multiplier": "200",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.MTX": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.TMF": {
+    "multiplier": "10",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.TF": {
+    "multiplier": "1000",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.ZFF": {
+    "multiplier": "250",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.TE": {
+    "multiplier": "4000",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.ZEF": {
+    "multiplier": "500",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.XIF": {
+    "multiplier": "10",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.GTF": {
+    "multiplier": "4000",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.TJF": {
+    "multiplier": "200",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.UDF": {
+    "multiplier": "20",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.SPF": {
+    "multiplier": "200",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.UNF": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.SXF": {
+    "multiplier": "80",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.F1F": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.GDF": {
+    "multiplier": "1",
+    "unit": "troy_ounces",
+    "currency": "USD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.1')),)"
+  },
+  "spec.TGF": {
+    "multiplier": "1",
+    "unit": "taiwan_taels",
+    "currency": "TWD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.5')),)"
+  },
+  "spec.RTF": {
+    "multiplier": "20000",
+    "unit": "USD",
+    "currency": "CNY",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.0001')),)"
+  },
+  "spec.RHF": {
+    "multiplier": "100000",
+    "unit": "USD",
+    "currency": "CNY",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.0001')),)"
+  },
+  "spec.XEF": {
+    "multiplier": "20000",
+    "unit": "EUR",
+    "currency": "USD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.0001')),)"
+  },
+  "spec.XJF": {
+    "multiplier": "20000",
+    "unit": "USD",
+    "currency": "JPY",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.01')),)"
+  },
+  "spec.XBF": {
+    "multiplier": "20000",
+    "unit": "GBP",
+    "currency": "USD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.0001')),)"
+  },
+  "spec.XAF": {
+    "multiplier": "25000",
+    "unit": "AUD",
+    "currency": "USD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.0001')),)"
+  },
+  "spec.G2F": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.E4F": {
+    "multiplier": "100",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.BTF": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.SOF": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.SHF": {
+    "multiplier": "1000",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.M1F": {
+    "multiplier": "10",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 1
+  },
+  "spec.BRF": {
+    "multiplier": "200",
+    "unit": "barrels",
+    "currency": "TWD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.5')),)"
+  },
+  "taifex.products.option": 37,
+  "spec.TXO": {
+    "multiplier": "50",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 5
+  },
+  "spec.TFO": {
+    "multiplier": "250",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 5
+  },
+  "spec.TEO": {
+    "multiplier": "250",
+    "unit": "TWD_per_point",
+    "currency": "TWD",
+    "ticks": 5
+  },
+  "spec.TGO": {
+    "multiplier": "1",
+    "unit": "taiwan_taels",
+    "currency": "TWD",
+    "ticks": "(TickSize(lower=None, upper=None, tick=Decimal('0.5')),)"
+  },
+  "margin.index": 31,
+  "margin.stock": 296,
+  "margin.etf": 24,
+  "margin.fx": 6,
+  "margin.commodity": 6,
+  "margin.interest_rate": 1
+}

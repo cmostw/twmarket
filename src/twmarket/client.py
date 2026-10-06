@@ -7,8 +7,12 @@ from typing import Self
 import httpx
 
 from .providers._equities import StockMarket
+from .providers.cbc.market import CBC
 from .providers.esb.market import ESB
+from .providers.mops.market import MOPS
+from .providers.ndc.market import NDC
 from .providers.taifex.market import Taifex
+from .providers.tdcc.market import TDCC
 from .transport.http import Http
 
 
@@ -38,7 +42,7 @@ class Client:
         trust_env: Honor environment proxy and TLS settings when true.
         transport: Custom HTTP transport; mutually exclusive with proxy.
 
-    Source namespaces are twse, tpex, esb and taifex.
+    Source namespaces are twse, tpex, esb, taifex, mops, tdcc, ndc and cbc.
     Prices use Decimal and missing values use None. Construction makes no requests.
     """
 
@@ -84,6 +88,10 @@ class Client:
         self.twse = StockMarket(self._http, "twse")
         self.tpex = StockMarket(self._http, "tpex")
         self.taifex = Taifex(self._http)
+        self.mops = MOPS(self._http)
+        self.tdcc = TDCC(self._http)
+        self.cbc = CBC(self._http)
+        self.ndc = NDC(self._http)
         self.esb = ESB(self._http)
 
     def __enter__(self) -> Self:

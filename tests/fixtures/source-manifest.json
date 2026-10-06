@@ -1,0 +1,28 @@
+{
+  "sources": {
+    "twse": {
+      "url": "https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=20260901&stockNo=2330",
+      "sha256": "c556fb917676d81615b5c8e133c5f36dae52fba2efcfc8b9ab196c86ef1506ec",
+      "bytes": 3048,
+      "saved_at_utc": "2026-10-06T08:45:32.147199+00:00"
+    },
+    "tpex": {
+      "url": "https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock?date=2026%2F09%2F01&code=6223&response=json",
+      "sha256": "b92097ee73f2e746a281466055eae2e1d359bf7348b10a316a4aa1d6dc9d72a4",
+      "bytes": 2489,
+      "saved_at_utc": "2026-10-06T08:45:33.477974+00:00"
+    },
+    "taifex-futures": {
+      "url": "https://openapi.taifex.com.tw/v1/DailyMarketReportFut",
+      "sha256": "556a33f9a90d8f967345b7c3d7bb094da817fc8d85b25229fc711a3ae13254a4",
+      "bytes": 838967,
+      "saved_at_utc": "2026-10-06T08:45:30.903406+00:00"
+    },
+    "taifex-options": {
+      "url": "https://openapi.taifex.com.tw/v1/DailyMarketReportOpt",
+      "sha256": "6a75bac8624de9dc6e246524dc82e2cc4c308c6f06415f9cb916b4d53a5e7d35",
+      "bytes": 3837798,
+      "saved_at_utc": "2026-10-06T08:45:31.151943+00:00"
+    }
+  }
+}

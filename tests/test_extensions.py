@@ -1,5 +1,6 @@
 """Source semantics, exact mappings and optional DataFrame integration."""
 
+from dataclasses import replace
 from datetime import date
 from decimal import Decimal
 from pathlib import Path
@@ -7,9 +8,12 @@ from typing import cast
 
 import httpx
 import orjson
+import pytest
 
 from twmarket import AsyncClient, Client, Contract
+from twmarket.errors import SchemaError
 from twmarket.parsing.json import decode, mapping, sequence
+from twmarket.providers.mops.data import financial_number
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -95,6 +99,132 @@ async def test_emerging_market_is_not_synthetic_ohlc_or_book() -> None:
     assert quote.volume == 98661 and quote.broker_quotes
     assert not hasattr(quote, "bids")
     assert quote.quoted_at is not None and quote.quoted_at.hour == 16
+
+
+async def test_disclosures_preserve_periods_and_source_headings() -> None:
+    transport = httpx.MockTransport(handler)
+    with Client(transport=transport, interval=0) as m:
+        statement = m.mops.income_statement("2330", year=2026, quarter=2)
+        balance = m.mops.balance_sheet("2330", year=2026, quarter=2)
+        cashflow = m.mops.cash_flow_statement("2330", year=2026, quarter=2)
+        revenue = m.mops.revenue("2330", year=2026, month=8)
+        dividends = m.mops.dividends("2330", start_year=2025, end_year=2026)
+    async with AsyncClient(transport=transport, interval=0) as m:
+        other = await m.mops.revenue("2330", year=2026, month=8)
+        async_statement = await m.mops.income_statement("2330", year=2026, quarter=2)
+        assert (await m.mops.balance_sheet("2330", year=2026, quarter=2)).rows[
+            6
+        ].value == balance.rows[6].value
+        assert (await m.mops.cash_flow_statement("2330", year=2026, quarter=2)).rows[
+            2
+        ].value == cashflow.rows[2].value
+        async_dividends = await m.mops.dividends("2330", start_year=2025, end_year=2026)
+    assert (statement.year, statement.quarter, statement.report_type) == (
+        2026,
+        2,
+        "合併",
+    )
+    assert statement.rows == tuple(
+        replace(row, source=statement.source) for row in async_statement.rows
+    )
+    first = statement.rows[0]
+    assert first.account == "營業收入合計" and first.value == Decimal("1270380250")
+    assert (first.period_start, first.period_end) == (
+        date(2026, 4, 1),
+        date(2026, 6, 30),
+    )
+    assert statement.rows[1].measure == "percentage"
+    assert statement.rows[1].value == Decimal("100.00")
+    assert statement.rows[4].period_start == date(2026, 1, 1)
+    assert balance.rows[0].period_start is None and balance.rows[0].is_empty
+    assert balance.rows[6].value == Decimal("3134218213")
+    assert cashflow.rows[2].value == Decimal("1550229773")
+    assert revenue == replace(other, source=revenue.source) and revenue.month == 8
+    assert revenue.current == Decimal("514805337") and revenue.unit == "thousand_TWD"
+    assert revenue.change_percent == Decimal("53.32")
+    assert dividends == [
+        replace(other, source=row.source)
+        for row, other in zip(dividends, async_dividends, strict=True)
+    ]
+    assert dividends[0].cash_from_earnings == Decimal("7.0")
+    assert dividends[1].cash_from_earnings == Decimal("7.00000137")
+    assert dividends[0].board_date == date(2026, 8, 11)
+    assert dividends[0].stock_total_shares == 0 and dividends[0].par_currency == "TWD"
+    assert not hasattr(dividends[0], "note") and not hasattr(m.mops, "announcements")
+
+
+def test_annual_financials_and_preferred_dividends() -> None:
+    def transport(request: httpx.Request) -> httpx.Response:
+        name = (
+            "mops-income-annual.fixture"
+            if request.url.path.endswith("t164sb04")
+            else "mops-dividend-preferred.fixture"
+        )
+        return httpx.Response(200, content=(FIXTURES / name).read_bytes())
+
+    with Client(transport=httpx.MockTransport(transport), interval=0) as market:
+        annual = market.mops.income_statement("2330", year=2025, quarter=4)
+        dividends = market.mops.dividends("2881", start_year=2025, end_year=2026)
+    assert (annual.rows[0].period_start, annual.rows[0].period_end) == (
+        date(2025, 1, 1),
+        date(2025, 12, 31),
+    )
+    preferred = next(row for row in dividends if row.share_class == "preferred")
+    assert preferred.share_name == "2881A 富邦特" and preferred.quarter is None
+    assert preferred.cash_from_earnings == Decimal("2.74875")
+    assert preferred.period_start == date(2025, 1, 1)
+
+
+def test_financial_missing_sentinel_and_schema_errors() -> None:
+    response = mapping(decode((FIXTURES / "mops-revenue.fixture").read_bytes()))
+    rows = sequence(mapping(response["result"])["data"])
+    sequence(rows[3])[1] = "999999.99"
+
+    def transport(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, content=orjson.dumps(response))
+
+    with Client(transport=httpx.MockTransport(transport), interval=0) as market:
+        revenue = market.mops.revenue("2330", year=2026, month=8)
+        assert revenue.change_percent is None and revenue.current == Decimal(
+            "514805337"
+        )
+        sequence(rows[0])[1] = "invalid-number"
+        with pytest.raises(SchemaError):
+            market.mops.revenue("2330", year=2026, month=8)
+    assert financial_number("(1,234.50)") == Decimal("-1234.50")
+    assert financial_number("--") is None and financial_number("0") == Decimal(0)
+    with pytest.raises(SchemaError):
+        financial_number(0.1)
+
+
+async def test_official_brackets_and_currency_direction() -> None:
+    transport = httpx.MockTransport(handler)
+    with Client(transport=transport, interval=0) as m:
+        brackets = m.tdcc.distribution("000218")
+        assert len(m.tdcc.distribution("2330")) == 17
+        rates = m.cbc.exchange_rates(
+            currency="GBP", start=date(2026, 9, 1), end=date(2026, 9, 30)
+        )
+        pmi = m.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))
+        cycle = m.ndc.indicators(start=date(2026, 1, 1), end=date(2026, 9, 30))
+    async with AsyncClient(transport=transport, interval=0) as m:
+        async_brackets = await m.tdcc.distribution("000218")
+        async_rates = await m.cbc.exchange_rates(
+            currency="GBP", start=date(2026, 9, 1), end=date(2026, 9, 30)
+        )
+        async_pmi = await m.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))
+        assert [
+            r.value
+            for r in await m.ndc.indicators(
+                start=date(2026, 1, 1), end=date(2026, 9, 30)
+            )
+        ] == [r.value for r in cycle]
+    assert len(brackets) == len(async_brackets) == 17
+    assert brackets[0].symbol == "000218" and brackets[-1].level == 17
+    assert rates[0].numerator == async_rates[0].numerator == "USD"
+    assert rates[0].denominator == "GBP"
+    assert [r.value for r in pmi] == [r.value for r in async_pmi]
+    assert cycle and {r.series for r in pmi} == {"PMI", "NMI"}
 
 
 async def test_contract_mapping_uses_explicit_period_strike_and_right() -> None:

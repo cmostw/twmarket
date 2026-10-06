@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-06",
+  "offline_tests": {
+    "passed": 52,
+    "integration_deselected": 9
+  },
+  "ruff": "passed",
+  "pyright": "0 errors",
+  "official_checks": "TWSE/TPEx/TAIFEX multi-symbol snapshots, missing symbols, duplicates and async equivalents passed; repeated cached TX specification passed",
+  "build": "wheel and sdist passed",
+  "core_only_install": "passed"
+}
