@@ -24,7 +24,11 @@ for bid in quote.bids:
     print(bid.level, bid.price, bid.size)
 ```
 
-每日資料的 `close` 是收盤價；報價的 `last` 是最新成交價，`bids`／`asks` 為買賣檔。缺值為 `None`。TWSE 歷史量／額為股／元，TPEx 為張／千元；以 `volume_unit`、`amount_unit` 判讀。
+每日資料的 `close` 是收盤價。
+
+報價的 `last` 是最新成交價，`bids`／`asks` 為買賣檔。缺值為 `None`。TWSE 歷史量／額為股／元，TPEx 為張／千元。
+
+以 `volume_unit`、`amount_unit` 判讀。
 
 ## 興櫃
 
@@ -42,6 +46,10 @@ with Client() as market:
             print(broker.broker, broker.bid, broker.ask)
 ```
 
-`weighted_average` 是加權均價；`broker_quotes` 為個別推薦券商報價，不是集中市場五檔。`esb.history` 回傳 `EmergingDaily`，沒有一般股票的開收盤欄位。
+`weighted_average` 是加權均價。
+
+`broker_quotes` 為個別推薦券商的買賣報價。
+
+`esb.history` 回傳 `EmergingDaily`，提供成交統計與加權均價。
 
 [TWSE／TPEx 方法](/docs/reference/api/twse-tpex) · [興櫃方法](/docs/reference/api/esb) · [資料模型](/docs/reference/api/models)

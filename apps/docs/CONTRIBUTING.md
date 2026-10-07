@@ -4,7 +4,7 @@
 
 ## 1. 分頁與導覽
 
-文件入口是第一次查詢教學；其他頁面分為操作指南、參考、解釋。股票、興櫃、衍生商品、公司資料與總體資料依實際查詢入口索引。中英文使用相同路徑結構，繁體中文為 `.mdx`，英文為 `.en.mdx`；各資料夾的 `meta.json` 與 `meta.en.json` 維護排序。
+文件入口是第一次查詢教學；其他頁面分為操作指南與參考。股票、興櫃、衍生商品、公司資料與總體資料依實際查詢入口索引。中英文使用相同路徑結構，繁體中文為 `.mdx`，英文為 `.en.mdx`；各資料夾的 `meta.json` 與 `meta.en.json` 維護排序。
 
 ## 2. 四類文件的責任
 
@@ -68,3 +68,96 @@ npm run build
 ## 12. 維護
 
 改動公開 API 時更新 docstring，改動操作時更新相應指南，改動來源語意時更新參考或解釋。中文與英文在同一變更中同步，產生 API 頁面後一併提交。註解專注程式邏輯，不描述版本差異或編寫歷史。
+
+
+## 開發環境與發布
+
+安裝開發環境、執行檢查與建置：
+
+```sh
+git clone https://github.com/cmostw/twmarket.git
+cd twmarket
+uv sync --all-extras
+uv run --no-sync ruff check .
+uv run --no-sync ruff format --check .
+uv run --no-sync pyright
+uv run --no-sync pytest -q
+uv build
+```
+
+## 發布至 PyPI
+
+發布流程使用 GitHub Actions OIDC（PyPI Trusted Publishing），不設定 API token。
+
+PyPI 的 Trusted Publisher 設定：
+
+| 欄位 | 值 |
+| --- | --- |
+| Owner | `cmostw` |
+| Repository | `twmarket` |
+| Workflow | `publish.yml` |
+| Environment | `pypi` |
+
+首次發布且專案尚未建立時，使用 Pending Publisher，專案名稱填 `twmarket`。GitHub repository environment 名稱同樣使用 `pypi`。
+
+更新 `pyproject.toml` 的版本與 `uv.lock` 後提交，建立對應的 `v<version>` tag 並發布 GitHub Release。`publish.yml` 會驗證 tag 與套件版本一致，通過檢查及測試後建置 wheel／sdist，使用 OIDC 發布。版本 `0.1.0` 對應 tag `v0.1.0`。同一 PyPI 版本不能重複上傳。
+
+
+## 架構
+
+套件採 modular monolith：單一套件及發行流程，內部按資料來源分組。
+
+| 目錄 | 職責 |
+| --- | --- |
+| `client.py`、`async_client.py` | 來源入口與連線生命週期 |
+| `providers/` | 各來源的請求、解析及查詢流程 |
+| `models/` | 資料欄位、型別及來源資訊 |
+| `transport/` | HTTP、限速、重試、快取及 SockJS |
+| `parsing/` | 日期、數值、JSON 與表格解析 |
+| `integrations/` | pandas／Polars 轉換 |
+
+依賴方向為 `Client → providers → transport / parsing / models`，
+`integrations → models`。模型使用不可變 dataclass；回傳集合為 `list`。
+
+同步與非同步介面共用解析與請求規格，各自使用 httpx 連線池。
+查詢才發出網路請求，建構 client 與匯入套件不連網。
+所有請求有逾時；各 host 分別限速。重試限於可安全重送的查詢，並遵守 `Retry-After`。
+
+來源、schema 與網路錯誤使用不同例外。多筆查詢無資料回傳空清單，
+單筆查無資料拋出 `NoDataError`。批次查詢保留逐筆成功或錯誤。
+
+各來源 provider 管理資料取得與解析，transport 管理請求及連線。
+報價更新與快照的關係見 [報價、快照與串流](/docs/how-to/streaming)。
+快取與資料轉換設定見 [API 功能](/docs/reference/data-contracts)。
+
+
+## TAIFEX MIS 協議
+
+| 端點 | 用途 |
+| --- | --- |
+| POST `https://mis.taifex.com.tw/futures/api/getQuoteList` | 契約報價列表 |
+| POST `https://mis.taifex.com.tw/futures/api/getQuoteDetail` | 指定 SymbolID 的報價與五檔 |
+| GET `https://mis.taifex.com.tw/futures/rt/info` | SockJS 連線資訊 |
+| `/futures/rt` | SockJS 訂閱 |
+
+列表的一般盤參數為 `MarketType="0"`，夜盤為 `"1"`；
+`RowSize="全部"` 取得完整列表。詳情請求為 `{"SymbolID": ["TXFJ6-F"]}`，
+範例代碼僅代表測資中的契約；查詢使用當前官方契約 ID。
+回應先檢查 `RtCode`，資料位於 `RtData`，列表位於 `RtData.QuoteList`。
+
+訂閱訊息：
+
+```json
+{"type": "subscribe", "symbols": ["TXFJ6-F"]}
+```
+
+SockJS envelope 解碼後，應用層訊息包含 `quote`、`changeDate`、`changeSource`。
+`quote` 帶有 `mode`、`quote.symbol`、`quote.values`；數字欄位 ID 對應 QNameMap。
+HTTP 詳情中的 `CDate`／`CTime` 使用台北時區，`CBidPrice1..5`／`CBidSize1..5`
+及 `CAskPrice1..5`／`CAskSize1..5` 對應五檔。
+
+完整快照建立狀態；部分更新中缺少的鍵保留原值，明示 `null` 清除欄位。
+重連、換日或來源切換時標示舊快照 `stale` 並重新取得完整狀態。
+取消或關閉 client 會關閉訂閱。串流提供報價狀態更新，並非逐筆成交紀錄。
+
+來源封包與請求參數保存在 `research/taifex-mis/` 及 `tests/fixtures/`。

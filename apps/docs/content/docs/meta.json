@@ -3,7 +3,6 @@
   "pages": [
     "index",
     "how-to",
-    "reference",
-    "explanation"
+    "reference"
   ]
 }

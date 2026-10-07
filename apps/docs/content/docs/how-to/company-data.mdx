@@ -3,8 +3,6 @@ title: "查詢公司財務與股權分布"
 description: "查詢公司財務與股權分布"
 ---
 
-執行以下完整程式取得資料模型。數值與資料可用性依來源而變。
-
 ```python
 from twmarket import Client
 
@@ -24,12 +22,25 @@ for bracket in distribution:
 
 ## 選擇資料與期間
 
-- `income_statement`、`balance_sheet`、`cash_flow_statement` 查三大財報；`year` 使用西元，`quarter` 為 1–4，兩者同時指定或同時省略查最新。
-- `revenue` 的 `year`、`month` 同時指定，或同時省略查最新；回傳單筆 `Revenue`，不是清單。
-- `dividends` 回傳股利決議清單；`distribution` 回傳 TDCC 最新公布的持股分級清單。
+| 查詢 | 參數 | 結果 |
+| --- | --- | --- |
+| `income_statement`、`balance_sheet`、`cash_flow_statement` | 西元 `year` 與 `quarter`（1–4） | 包含科目列的財報 |
+| `revenue` | `year` 與 `month` | 單筆 `Revenue` |
+| `dividends` | 證券代號 | 股利決議清單 |
+| `distribution` | 證券代號 | 最新公布的持股分級清單 |
+
+財報與營收的兩個期間參數同時指定。查最新資料時，同時省略。
 
 ## 讀取結果
 
-財報的 `rows` 是科目／期間／衡量類型的長表，同一科目可能有多列。依 `account`、`period_end` 與 `measure` 選取所需數值；`measure` 區分金額與百分數。不要將所有列相加。營收 `current` 為當月值，`cumulative` 為累計值，`change_percent` 保留百分數。
+以 `account`、`period_end` 與 `measure` 選取財報數值。同一科目可能包含多個期間或衡量項目，`measure` 區分金額與百分數。
 
-持股分級 `level` 為來源級距；16、17 分別為調整與總計，彙總時不可再將總計重複加總。單位與缺值見 [資料模型](/docs/reference/api/models)。
+| 營收欄位 | 意義 |
+| --- | --- |
+| `current` | 當月營收 |
+| `cumulative` | 累計營收 |
+| `change_percent` | 增減百分數 |
+
+持股分級的 `level` 表示來源級距。第 16 級為調整，第 17 級為總計。彙總時選取所需級距，或直接讀取第 17 級的總計。
+
+單位與缺值見 [資料模型](/docs/reference/api/models)。

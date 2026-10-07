@@ -1,40 +1,26 @@
 ---
-title: "API 功能"
+title: "查詢方法"
+description: "查詢方法與日期參數。"
 ---
 
-所有查詢均提供 Client 與 AsyncClient 的同名介面；stream 僅為非同步。
+`Client` 與 `AsyncClient` 提供同名查詢方法。非同步方法使用 `await`。
 
-| 入口 | 已實作方法 | 官方來源 |
+| 資料 | 入口 | 方法 |
 | --- | --- | --- |
-| twse / tpex | instruments、history、quote、quote_many、index_history、indices、ex_rights、ex_rights_schedule、trading_restrictions、trading_status | ISIN、TWSE / TPEx JSON 與 OpenAPI、TWSE MIS |
-| esb | instruments、history、quote、quote_many、trading_restrictions | ISIN、TPEx 興櫃日資料、推薦券商 XML 與公開交易限制 |
-| taifex | products、specification、margins、contracts、resolve、daily、history、quote、quote_many、stream | TAIFEX 規格／標準契約股數表、六類 OpenAPI 保證金、每日／歷史報表、MIS metadata / SockJS |
-| mops | income_statement、balance_sheet、cash_flow_statement、revenue、dividends | 公開資訊觀測站數值表格 |
-| tdcc | distribution | 官方最新持股分級 CSV |
-| ndc | pmi、indicators | 官方 CSV 與景氣資料 ZIP |
-| cbc | exchange_rates | 中央銀行官方 JSON |
-| integrations | to_pandas、to_polars、to_pandas_book、to_polars_book | 模型定義的固定欄位與型別 |
+| [上市、上櫃](/docs/reference/api/twse-tpex) | `twse / tpex` | `instruments`, `history`, `quote`, `quote_many`, `index_history`, `indices`, `ex_rights`, `ex_rights_schedule`, `trading_restrictions`, `trading_status` |
+| [興櫃](/docs/reference/api/esb) | `esb` | `instruments`, `history`, `quote`, `quote_many`, `trading_restrictions` |
+| [期貨、選擇權](/docs/reference/api/taifex) | `taifex` | `products`, `specification`, `margins`, `contracts`, `resolve`, `daily`, `history`, `quote`, `quote_many`, `stream` |
+| [公司財務](/docs/reference/api/mops) | `mops` | `income_statement`, `balance_sheet`, `cash_flow_statement`, `revenue`, `dividends` |
+| [股權分布](/docs/reference/api/tdcc) | `tdcc` | `distribution` |
+| [景氣指標](/docs/reference/api/ndc) | `ndc` | `pmi`, `indicators` |
+| [匯率](/docs/reference/api/cbc) | `cbc` | `exchange_rates` |
 
-## 日期、單位與資料契約
+## 歷史與最新資料
 
-- instruments 是完整官方目錄，保留前導零、ISIN、分類、上市日期及來源更新日期；分類使用來源名稱。
-- index_history 為 TAIEX／櫃買指數每日 OHLC；indices 是來源公布的價格／報酬指數收盤板，保留發布單位與來源日期。
-- ex_rights 是實際歷史事件；ex_rights_schedule 是最新預告。預告配股率與歷史每千股配股數分別建模，不混用。未公告值回傳 None。
-- 交易注意、處置、暫停及交易方式變更僅提供結構化欄位。suspended 和 trading_status 為來源最新清單，提供最新資料。TWSE 交易方式表未提供資料日期時 date=None。
-- 保證金提供 index、stock、etf、fx、commodity、interest_rate。股票保證金是來源百分數，20.25 表示 20.25%；其他表的金額 unit=source_currency_units，因 OpenAPI 未附幣別，不把所有商品假定成 TWD。選擇權 A/B/C 風險組件分列，來源日期原樣保存，包括久未更新的利率商品表。
-- specification 保留標的、乘數、計價幣別、交割方式及 tick 級距；級距 lower 含下界、upper 不含上界。股票／ETF 股數另附 multiplier_source。調整契約若官方目錄未提供個別股數，multiplier=None，不套用標準型股數。
-- contracts / resolve 保留官方有效月份、週別、履約價、買賣權、MIS 識別與明示到期日；報表股票代碼 CA 經官方 CID 清單驗證後映射 CAF。價差 legs 保留來源兩腿期間，不自行合成 MIS ID 或到期日。
-- 財報長表使用 Decimal，期間與衡量類型獨立欄位；來源未公布單位時 None。月營收與股利使用固定數值欄位。
-- 所有價格／金額保持 Decimal，缺值 None；TPEx 成交量與金額保留 lots / thousand_TWD，與 TWSE shares / TWD 區分。
-- 目錄／保證金／持股級距提供來源最新公布資料。stream 提供報價狀態更新，包含重連與 stale 語意，不承諾每筆成交。
+`history`、`index_history`、`exchange_rates` 接受起訖日期。財報與營收使用年度、季度或月份選取期間。
 
-## 批次、快取與外部模組
+證券目錄、有效契約、保證金及股權分布提供來源目前公布的資料。各方法的參數與回傳型別見上表的 API 連結。
 
-quote_many 保留輸入順序、重複輸入及每筆錯誤。TWSE／TPEx 每組最多 50 檔、TAIFEX 每組最多 100 個 MIS ID，同組去除重複請求後還原輸入。非同步最多八個工作，完成後立即補位，取消時回收請求。歷史跨月份請求使用相同有限並行。
-DataFrame 可以直接接收所有平面資料模型與批次結果；財報展開 FinancialValue，
-報價簿與 tick 級距另行轉換。批次含 requested_*、error_type、error_message；
-全失敗時指定資料 model。空清單用 model 指定型別；預設 EquityDaily。
+## 轉換結果
 
-cache_ttl 預設 0（關閉），cache_size 預設 128，原始回應與解析模型快取各自有 32 MiB 容量上限；模型大小以 Python 物件估計。
-快取保留來源實際取得時間；即時報價與有效契約查驗不快取。證券目錄、衍生商品目錄及規格可重用解析模型，來源回應更新時使原模型失效。回傳清單每次建立副本，修改清單不會污染快取。
-pandas、Polars、websockets 為 optional extras，只在使用時匯入。
+[DataFrame 轉換](/docs/how-to/dataframes) 支援 pandas 與 Polars。平面模型轉成資料列，財報轉成科目長表。

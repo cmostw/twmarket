@@ -2,9 +2,19 @@
 title: "資料模型"
 ---
 
+## 數值與日期
+
+價格與金額使用 `Decimal`，缺值為 `None`。依模型的 `volume_unit`、`amount_unit` 或 `unit` 判讀單位。
+
+百分數欄位保留百分數，例如 `20.25` 表示 20.25%。
+
+`SourceInfo` 記錄來源、URL 與 UTC 取得時間。交易日與報導期間由各模型的日期欄位表示。
+
 ## `BatchResult`
 
-保存原始批次輸入、資料或例外；批次保留順序與重複輸入.
+保存原始批次輸入、資料或例外。
+
+批次保留順序與重複輸入。
 
 ### 欄位
 
@@ -20,11 +30,13 @@ error: Exception | None
 def ok() -> bool: ...
 ```
 
-回傳批次是否沒有例外.
+回傳批次是否沒有例外。
 
 ## `SourceInfo`
 
-記錄來源、端點及 UTC 取得時間；取得時間與交易日分開.
+記錄來源、端點及 UTC 取得時間。
+
+取得時間與交易日分開。
 
 ### 欄位
 
@@ -36,7 +48,9 @@ received_at: datetime
 
 ## `EquityDaily`
 
-保存證券日行情與來源單位；TWSE 為股／元，TPEx 為張／千元.
+保存證券日行情與來源單位。
+
+TWSE 為股／元，TPEx 為張／千元。
 
 ### 欄位
 
@@ -60,7 +74,9 @@ change_basis_reset: bool = False
 
 ## `DerivativeDaily`
 
-保存契約交易日、時段及價格；最新成交、結算與合計量分開.
+保存契約交易日、時段及價格。
+
+最新成交、結算與合計量分開。
 
 ### 欄位
 
@@ -81,7 +97,9 @@ combined_volume: int | None = None
 
 ## `MarginRequirement`
 
-保存保證金金額或百分數；unit 與選擇權風險組件分開.
+保存保證金金額或百分數。
+
+unit 與選擇權風險組件分開。
 
 ### 欄位
 
@@ -102,7 +120,7 @@ component: str | None = None
 
 ## `DerivativeProduct`
 
-保存商品目錄、規格 URL 及乘數來源.
+保存商品目錄、規格 URL 及乘數來源。
 
 ### 欄位
 
@@ -121,7 +139,9 @@ multiplier_source: SourceInfo | None = None
 
 ## `TickSize`
 
-保存 tick 價格級距；lower 含下界、upper 不含上界，None 表示無界.
+保存 tick 價格級距。
+
+lower 含下界、upper 不含上界，None 表示無界。
 
 ### 欄位
 
@@ -133,7 +153,9 @@ tick: Decimal
 
 ## `ContractSpecification`
 
-保存乘數、幣別、交割方式及 tick 級距；來源缺值為 None.
+保存乘數、幣別、交割方式及 tick 級距。
+
+來源缺值為 None.
 
 ### 欄位
 
@@ -153,7 +175,9 @@ multiplier_source: SourceInfo | None = None
 
 ## `FinancialValue`
 
-保存一個科目、期間與金額或百分數；來源未標示單位時為 None.
+保存一個科目、期間與金額或百分數。
+
+來源未標示單位時為 None.
 
 ### 欄位
 
@@ -177,7 +201,7 @@ source: SourceInfo
 
 ## `FinancialStatement`
 
-保存報表年度、季度及各科目自身的報導期間.
+保存報表年度、季度及各科目自身的報導期間。
 
 ### 欄位
 
@@ -193,7 +217,9 @@ source: SourceInfo
 
 ## `Revenue`
 
-保存當月與累計營收及增減；金額與百分數維持來源單位.
+保存當月與累計營收及增減。
+
+金額與百分數維持來源單位。
 
 ### 欄位
 
@@ -215,7 +241,9 @@ source: SourceInfo
 
 ## `Dividend`
 
-保存普通／特別股決議；盈餘期間、決議日期及各類股利分開.
+保存普通／特別股決議。
+
+盈餘期間、決議日期及各類股利分開。
 
 ### 欄位
 
@@ -252,7 +280,9 @@ per_share_unit: str = '元/股'
 
 ## `EmergingDaily`
 
-保存興櫃高低價、加權均價與成交資料；量／額為股／元.
+保存興櫃高低價、加權均價與成交資料。
+
+量／額為股／元。
 
 ### 欄位
 
@@ -276,7 +306,7 @@ block_transactions: int | None = None
 
 ## `BrokerQuote`
 
-保存個別推薦券商的買賣價量及來源時間.
+保存個別推薦券商的買賣價量及來源時間。
 
 ### 欄位
 
@@ -291,7 +321,9 @@ quoted_at: datetime | None
 
 ## `EmergingQuote`
 
-保存興櫃成交統計與券商個別報價；量／額為股／元.
+保存興櫃成交統計與券商個別報價。
+
+量／額為股／元。
 
 ### 欄位
 
@@ -311,7 +343,9 @@ status: str | None = None
 
 ## `ShareholdingBracket`
 
-保存官方持股級距、人數、股數及百分數；16、17 為調整與總計.
+保存官方持股級距、人數、股數及百分數。
+
+16、17 為調整與總計。
 
 ### 欄位
 
@@ -327,7 +361,7 @@ source: SourceInfo
 
 ## `Contract`
 
-標識期貨或選擇權的商品、到期月份／週別、價差、履約價與買賣權.
+標識期貨或選擇權的商品、到期月份／週別、價差、履約價與買賣權。
 
 ### 欄位
 
@@ -347,7 +381,9 @@ expires_on: date | None = None
 def expiry_month() -> str: ...
 ```
 
-回傳第一個交割月份；expiry 保留週別與價差期間.
+回傳第一個交割月份。
+
+expiry 保留週別與價差期間。
 
 ### `legs`
 
@@ -355,11 +391,15 @@ def expiry_month() -> str: ...
 def legs() -> tuple['Contract', ...]: ...
 ```
 
-回傳來源價差兩腿期間；單一契約回傳空 tuple.
+回傳來源價差兩腿期間。
+
+單一契約回傳空 tuple.
 
 ## `EconomicObservation`
 
-保存按月系列數值或景氣燈號；period 為觀測月份首日.
+保存按月系列數值或景氣燈號。
+
+period 為觀測月份首日。
 
 ### 欄位
 
@@ -373,7 +413,7 @@ source: SourceInfo
 
 ## `ExchangeRate`
 
-保存來源日期與 numerator／denominator 匯率方向.
+保存來源日期與 numerator／denominator 匯率方向。
 
 ### 欄位
 
@@ -388,7 +428,9 @@ source: SourceInfo
 
 ## `Instrument`
 
-保存證券代號、ISIN、分類及來源日期；代號保留前導零.
+保存證券代號、ISIN、分類及來源日期。
+
+代號保留前導零。
 
 ### 欄位
 
@@ -407,7 +449,7 @@ as_of: date | None = None
 
 ## `IndexDaily`
 
-保存每日指數 OHLC 與來源單位.
+保存每日指數 OHLC 與來源單位。
 
 ### 欄位
 
@@ -425,7 +467,7 @@ unit: str = 'points'
 
 ## `IndexClose`
 
-保存價格／報酬指數收盤、發布單位及來源日期.
+保存價格／報酬指數收盤、發布單位及來源日期。
 
 ### 欄位
 
@@ -444,7 +486,9 @@ unit: str = 'points'
 
 ## `ExRight`
 
-保存歷史除權息事件及參考價格；每千股配股數獨立保存.
+保存歷史除權息事件及參考價格。
+
+每千股配股數獨立保存。
 
 ### 欄位
 
@@ -476,7 +520,9 @@ price_unit: str = 'TWD'
 
 ## `ExRightSchedule`
 
-保存最新除權息預告；配股率與每千股配股數分開.
+保存最新除權息預告。
+
+配股率與每千股配股數分開。
 
 ### 欄位
 
@@ -499,7 +545,7 @@ price_unit: str = 'TWD'
 
 ## `TradingRestriction`
 
-保存注意、處置或暫停交易的公告日期、有效期間與時間.
+保存注意、處置或暫停交易的公告日期、有效期間與時間。
 
 ### 欄位
 
@@ -520,7 +566,9 @@ price_earnings_ratio: Decimal | None = None
 
 ## `TradingStatus`
 
-保存最新交易方式及暫停狀態；來源無日期時 date 為 None.
+保存最新交易方式及暫停狀態。
+
+來源無日期時 date 為 None.
 
 ### 欄位
 
@@ -539,7 +587,7 @@ source: SourceInfo
 
 ## `BookLevel`
 
-保存一個買檔或賣檔的檔位、價格及數量.
+保存一個買檔或賣檔的檔位、價格及數量。
 
 ### 欄位
 
@@ -551,7 +599,9 @@ size: int | None
 
 ## `Quote`
 
-保存成交與買賣檔快照；報價時間為台北時區，stale 表示待重新同步.
+保存成交與買賣檔快照。
+
+報價時間為台北時區，stale 表示待重新同步。
 
 ### 欄位
 

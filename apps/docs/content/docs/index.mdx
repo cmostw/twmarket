@@ -3,7 +3,7 @@ title: "第一次查詢"
 description: "安裝 twmarket，查詢股票、興櫃、衍生商品、公司資料與總體資料。"
 ---
 
-本節包含安裝、第一筆股票查詢與各資料來源的查詢入口。需要 Python 3.11 以上與網路連線。
+需要 Python 3.11 以上與網路連線。以下範例查詢台積電的每日行情。
 
 ## 安裝
 
@@ -33,30 +33,12 @@ with Client() as market:
     )
 
 for row in rows:
-    print(row)
+    print(row.date, row.close, row.volume)
 ```
 
-回傳結果為每日行情模型的清單；沒有交易資料的日期不會產生一列。輸出數值依來源而變，價格使用 `Decimal`，缺值為 `None`。`with` 區塊結束時會關閉連線。
+執行後，每列顯示交易日、收盤價與成交股數。
 
-## 選擇其他資料
-
-下列程式查詢各來源的資料。每項查詢都會連線至對應來源；來源無資料時可能回傳空清單或拋出例外，見 [API 參考](/docs/reference/api/errors)。
-
-```python
-from datetime import date
-from twmarket import Client
-
-with Client() as market:
-    print("上櫃證券", len(market.tpex.instruments()))
-    print("興櫃證券", len(market.esb.instruments()))
-    print("期貨與選擇權商品", len(market.taifex.products()))
-    print("月營收", market.mops.revenue("2330", year=2026, month=8))
-    print("股權分布", len(market.tdcc.distribution("2330")))
-    print("製造業與服務業採購經理人指數", len(market.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))))
-    print("匯率", len(market.cbc.exchange_rates(start=date(2026, 9, 1), end=date(2026, 9, 30))))
-```
-
-繼續閱讀 [查詢操作](/docs/how-to/query)，或在 [資料契約](/docs/reference/data-contracts) 選擇需要的方法、單位與可查期間。
+`history` 回傳每日行情清單。價格型別為 `Decimal`，缺值為 `None`。`with` 區塊結束時關閉連線。
 
 ## 依任務查詢
 

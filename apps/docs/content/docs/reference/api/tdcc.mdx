@@ -4,15 +4,7 @@ title: "TDCC"
 
 ## `TDCC`
 
-依證券代號查詢最新公布的持股級距.
-
-### `__init__`
-
-```python
-def __init__(http: Http) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+依證券代號查詢最新公布的持股級距。
 
 ### `distribution`
 
@@ -20,19 +12,13 @@ Initialize the source namespace with its owning HTTP transport.
 def distribution(code: str) -> list[ShareholdingBracket]: ...
 ```
 
-取得最新持股級距，包含調整與總計；查無證券時回傳空清單.
+取得最新持股級距，包含調整與總計。
+
+查無證券時回傳空清單。
 
 ## `AsyncTDCC`
 
-以 await 查詢最新公布的持股級距.
-
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+以 await 查詢最新公布的持股級距。
 
 ### `distribution`
 
@@ -40,4 +26,6 @@ Initialize the source namespace with its owning HTTP transport.
 async def distribution(code: str) -> list[ShareholdingBracket]: ...
 ```
 
-取得最新持股級距，包含調整與總計；查無證券時回傳空清單.
+取得最新持股級距，包含調整與總計。
+
+查無證券時回傳空清單。

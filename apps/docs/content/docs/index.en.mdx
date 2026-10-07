@@ -3,7 +3,7 @@ title: "First query"
 description: "Install twmarket and query equities, emerging stocks, derivatives, company data and economic data."
 ---
 
-This section covers installation, a first equity query and the other data namespaces. Python 3.11 or later and an internet connection are required.
+Python 3.11 or later and an internet connection are required. This example queries daily TSMC prices.
 
 ## Install
 
@@ -33,30 +33,12 @@ with Client() as market:
     )
 
 for row in rows:
-    print(row)
+    print(row.date, row.close, row.volume)
 ```
 
-The result is a list of daily market models. Dates without trading data do not produce a row. Values depend on the source; prices use `Decimal` and missing values use `None`. Leaving the `with` block closes connections.
+Each output row shows the trading date, closing price and traded shares.
 
-## Choose other data
-
-This program queries data from each source. Each query contacts its source. Missing data can produce an empty list or an exception; see the [API reference](/en/docs/reference/api/errors).
-
-```python
-from datetime import date
-from twmarket import Client
-
-with Client() as market:
-    print("OTC securities", len(market.tpex.instruments()))
-    print("Emerging stocks", len(market.esb.instruments()))
-    print("Futures and options products", len(market.taifex.products()))
-    print("Monthly revenue", market.mops.revenue("2330", year=2026, month=8))
-    print("Shareholding distribution", len(market.tdcc.distribution("2330")))
-    print("Manufacturing and service PMI", len(market.ndc.pmi(start=date(2026, 1, 1), end=date(2026, 9, 30))))
-    print("Exchange rates", len(market.cbc.exchange_rates(start=date(2026, 9, 1), end=date(2026, 9, 30))))
-```
-
-Continue with [query tasks](/en/docs/how-to/query), or use the [data contracts](/en/docs/reference/data-contracts) to choose methods, units and query periods.
+`history` returns a list of daily records. Prices use `Decimal` and missing values use `None`. Leaving the `with` block closes connections.
 
 ## Find a task
 

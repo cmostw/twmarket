@@ -4,15 +4,7 @@ title: "興櫃"
 
 ## `ESB`
 
-查詢興櫃歷史資料及推薦券商個別報價.
-
-### `__init__`
-
-```python
-def __init__(http: Http) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+查詢興櫃歷史資料及推薦券商個別報價。
 
 ### `history`
 
@@ -20,7 +12,9 @@ Initialize the source namespace with its owning HTTP transport.
 def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: ...
 ```
 
-回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+回傳含起訖兩日的歷史資料。
+
+無符合資料時回傳空清單。
 
 ### `quote`
 
@@ -28,7 +22,9 @@ def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: ...
 def quote(code: str) -> EmergingQuote: ...
 ```
 
-取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+取得最新報價。
+
+價格缺值為 None，查無快照時拋出 NoDataError.
 
 ### `instruments`
 
@@ -36,7 +32,9 @@ def quote(code: str) -> EmergingQuote: ...
 def instruments(*, category: str | None=None) -> list[Instrument]: ...
 ```
 
-取得最新 ISIN 目錄；category 使用來源分類名稱.
+取得最新 ISIN 目錄。
+
+category 使用來源分類名稱。
 
 ### `trading_restrictions`
 
@@ -44,7 +42,9 @@ def instruments(*, category: str | None=None) -> list[Instrument]: ...
 def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
 ```
 
-依 kind 查詢注意、處置或最新暫停資料；code 可篩選證券.
+依 kind 查詢注意、處置或最新暫停資料。
+
+code 可篩選證券。
 
 ### `quote_many`
 
@@ -52,19 +52,11 @@ def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=
 def quote_many(codes: Iterable[str]) -> list[BatchResult[EmergingQuote]]: ...
 ```
 
-逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤。
 
 ## `AsyncESB`
 
-以 await 查詢興櫃歷史資料及推薦券商個別報價.
-
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+以 await 查詢興櫃歷史資料及推薦券商個別報價。
 
 ### `history`
 
@@ -72,7 +64,9 @@ Initialize the source namespace with its owning HTTP transport.
 async def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: ...
 ```
 
-回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+回傳含起訖兩日的歷史資料。
+
+無符合資料時回傳空清單。
 
 ### `quote`
 
@@ -80,7 +74,9 @@ async def history(code: str, *, start: date, end: date) -> list[EmergingDaily]: 
 async def quote(code: str) -> EmergingQuote: ...
 ```
 
-取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+取得最新報價。
+
+價格缺值為 None，查無快照時拋出 NoDataError.
 
 ### `instruments`
 
@@ -88,7 +84,9 @@ async def quote(code: str) -> EmergingQuote: ...
 async def instruments(*, category: str | None=None) -> list[Instrument]: ...
 ```
 
-取得最新 ISIN 目錄；category 使用來源分類名稱.
+取得最新 ISIN 目錄。
+
+category 使用來源分類名稱。
 
 ### `trading_restrictions`
 
@@ -96,7 +94,9 @@ async def instruments(*, category: str | None=None) -> list[Instrument]: ...
 async def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
 ```
 
-依 kind 查詢注意、處置或最新暫停資料；code 可篩選證券.
+依 kind 查詢注意、處置或最新暫停資料。
+
+code 可篩選證券。
 
 ### `quote_many`
 
@@ -104,4 +104,4 @@ async def trading_restrictions(*, kind: RestrictionKind='attention', code: str |
 async def quote_many(codes: Iterable[str]) -> list[BatchResult[EmergingQuote]]: ...
 ```
 
-逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤。

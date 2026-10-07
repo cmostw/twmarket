@@ -3,7 +3,9 @@ title: "非同步查詢"
 description: "非同步查詢"
 ---
 
-`AsyncClient` 的查詢方法與 `Client` 同名，呼叫時使用 `await`，連線以 `async with` 管理。獨立查詢可用 `asyncio.gather` 並行；多筆同類報價使用 `quote_many` 保留逐筆錯誤。
+`AsyncClient` 的查詢方法與 `Client` 同名，呼叫時使用 `await`，連線以 `async with` 管理。獨立查詢可用 `asyncio.gather` 並行。
+
+多筆同類報價使用 `quote_many` 保留逐筆錯誤。
 
 ```python
 import asyncio
@@ -20,4 +22,6 @@ async def main():
 asyncio.run(main())
 ```
 
-一般非同步 HTTP 查詢不需要 `stream` 延伸。`asyncio.gather` 中任一查詢失敗時會拋出例外；逐筆成功／失敗結果見 [批次查詢](/docs/how-to/query)。[Client 參考](/docs/reference/api/clients)
+一般非同步 HTTP 查詢不需要 `stream` 延伸。`asyncio.gather` 中任一查詢失敗時會拋出例外。
+
+逐筆成功／失敗結果見 [批次查詢](/docs/how-to/query)。[Client 參考](/docs/reference/api/clients)

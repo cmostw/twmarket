@@ -3,7 +3,9 @@ title: "設定 Proxy"
 description: "設定 Proxy"
 ---
 
-`Client` 與 `AsyncClient` 使用相同設定；HTTP 查詢與 TAIFEX 串流均套用代理。
+`Client` 與 `AsyncClient` 使用相同設定。
+
+HTTP 查詢與 TAIFEX 串流均套用代理。
 支援 HTTP／HTTPS 代理 URL，帳密可放在 URL 中。
 
 ```python
@@ -14,7 +16,13 @@ with Client(proxy="http://127.0.0.1:8080", trust_env=False) as market:
 ```
 
 未指定 `proxy` 時，預設遵循環境代理設定與 `NO_PROXY`。
-HTTP 使用 `HTTP_PROXY`／`HTTPS_PROXY`／`ALL_PROXY`；串流由 websockets
+HTTP 使用 `HTTP_PROXY`／`HTTPS_PROXY`／`ALL_PROXY`。
+
+串流由 websockets
 依 `WSS_PROXY`／`WS_PROXY` 等環境設定選擇代理。
-`trust_env=False` 停用環境設定；明確指定的 `proxy` 優先套用。
-`proxy` 與自訂 `transport` 不可同時指定。
+`trust_env=False` 停用環境設定。
+
+明確指定的 `proxy` 優先套用。
+使用 `proxy` 設定代理，或以自訂 `transport` 管理連線。
+
+兩者擇一。

@@ -4,15 +4,7 @@ title: "MOPS"
 
 ## `MOPS`
 
-依公司代號與西元年度查詢財報、營收及股利.
-
-### `__init__`
-
-```python
-def __init__(http: Http) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+依公司代號與西元年度查詢財報、營收及股利。
 
 ### `income_statement`
 
@@ -20,7 +12,9 @@ Initialize the source namespace with its owning HTTP transport.
 def income_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得損益表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得損益表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `balance_sheet`
 
@@ -28,7 +22,9 @@ def income_statement(code: str, *, year: int | None=None, quarter: int | None=No
 def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得資產負債表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得資產負債表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `cash_flow_statement`
 
@@ -36,7 +32,9 @@ def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None)
 def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得現金流量表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得現金流量表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `revenue`
 
@@ -44,7 +42,9 @@ def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None
 def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Revenue: ...
 ```
 
-取得營收；year 為西元、month 為 1–12，兩者同時指定或省略查最新.
+取得營收。
+
+year 為西元、month 為 1–12，兩者同時指定或省略查最新。
 
 ### `dividends`
 
@@ -52,19 +52,13 @@ def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Reve
 def dividends(code: str, *, start_year: int, end_year: int) -> list[Dividend]: ...
 ```
 
-依含起訖年度的西元決議年查股利；盈餘期間可能早於決議年.
+依含起訖年度的西元決議年查股利。
+
+盈餘期間可能早於決議年。
 
 ## `AsyncMOPS`
 
-以 await 依公司代號與西元年度查詢財報、營收及股利.
-
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+以 await 依公司代號與西元年度查詢財報、營收及股利。
 
 ### `income_statement`
 
@@ -72,7 +66,9 @@ Initialize the source namespace with its owning HTTP transport.
 async def income_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得損益表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得損益表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `balance_sheet`
 
@@ -80,7 +76,9 @@ async def income_statement(code: str, *, year: int | None=None, quarter: int | N
 async def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得資產負債表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得資產負債表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `cash_flow_statement`
 
@@ -88,7 +86,9 @@ async def balance_sheet(code: str, *, year: int | None=None, quarter: int | None
 async def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None=None) -> FinancialStatement: ...
 ```
 
-取得現金流量表；year 為西元、quarter 為 1–4，兩者同時指定或省略查最新.
+取得現金流量表。
+
+year 為西元、quarter 為 1–4，兩者同時指定或省略查最新。
 
 ### `revenue`
 
@@ -96,7 +96,9 @@ async def cash_flow_statement(code: str, *, year: int | None=None, quarter: int 
 async def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Revenue: ...
 ```
 
-取得營收；year 為西元、month 為 1–12，兩者同時指定或省略查最新.
+取得營收。
+
+year 為西元、month 為 1–12，兩者同時指定或省略查最新。
 
 ### `dividends`
 
@@ -104,4 +106,6 @@ async def revenue(code: str, *, year: int | None=None, month: int | None=None) -
 async def dividends(code: str, *, start_year: int, end_year: int) -> list[Dividend]: ...
 ```
 
-依含起訖年度的西元決議年查股利；盈餘期間可能早於決議年.
+依含起訖年度的西元決議年查股利。
+
+盈餘期間可能早於決議年。

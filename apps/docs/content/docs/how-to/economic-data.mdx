@@ -3,8 +3,6 @@ title: "查詢景氣與匯率"
 description: "查詢景氣與匯率"
 ---
 
-執行以下完整程式取得資料模型。數值與資料可用性依來源而變。
-
 ```python
 from datetime import date
 from twmarket import Client
@@ -25,6 +23,10 @@ for row in rates:
 
 ## 選擇系列與讀取結果
 
-`pmi` 同時回傳 PMI 與 NMI，以 `series` 辨認系列，`period` 為觀測月份首日。景氣資料使用 `indicators(start=..., end=..., table="signal")`；`table` 可選 `signal`、`signal_components`、`leading`、`coincident`、`lagging`。數值在 `value`，燈號文字在 `text`。
+`pmi` 同時回傳 PMI 與 NMI，以 `series` 辨認系列，`period` 為觀測月份首日。景氣資料使用 `indicators(start=..., end=..., table="signal")`。
 
-`exchange_rates` 的日期範圍包含起訖兩日，`currency` 可省略，指定時匹配來源配對的任一側。讀取 `numerator`／`denominator` 判斷方向，不能只憑 `currency="USD"` 假設報價方向。
+`table` 可選 `signal`、`signal_components`、`leading`、`coincident`、`lagging`。數值在 `value`，燈號文字在 `text`。
+
+`exchange_rates` 的日期範圍包含起訖兩日。省略 `currency` 可取得所有貨幣配對。
+
+指定時會匹配配對任一側。報價方向由 `numerator` 與 `denominator` 欄位表示。

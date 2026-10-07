@@ -5,7 +5,6 @@ description: "串流期貨與選擇權報價"
 
 先[安裝 stream 延伸](/docs/how-to/installation)。
 
-
 ```python
 import asyncio
 from contextlib import aclosing
@@ -28,5 +27,10 @@ async def main():
 asyncio.run(main())
 ```
 
-契約包含到期月份、週別、履約價與買賣權。最新成交與結算價分開保存。
-串流在重連或來源重設期間以 `stale` 標示舊快照。
+## 讀取更新
+
+每次結果是契約更新後的報價快照，`last` 表示最新成交價。
+
+`stale=True` 表示重連或來源重設期間保留的舊快照。取得新的完整快照後恢復為 `False`。
+
+範例在收到第一筆更新後結束。`aclosing` 在迴圈結束時關閉訂閱。

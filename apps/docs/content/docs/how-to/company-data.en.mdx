@@ -3,8 +3,6 @@ title: "Query company financials and shareholding"
 description: "Query company financials and shareholding"
 ---
 
-Run this complete program to retrieve the models. Values and availability depend on the source.
-
 ```python
 from twmarket import Client
 
@@ -24,12 +22,25 @@ for bracket in distribution:
 
 ## Select data and periods
 
-- `income_statement`, `balance_sheet` and `cash_flow_statement` query the three statements. `year` is Gregorian and `quarter` is 1–4; supply both or omit both for the latest report.
-- Supply both `year` and `month` to `revenue`, or omit both for the latest record. It returns one `Revenue`, not a list.
-- `dividends` returns dividend decisions; `distribution` returns the latest published TDCC brackets.
+| Query | Parameters | Result |
+| --- | --- | --- |
+| `income_statement`, `balance_sheet`, `cash_flow_statement` | Gregorian `year` and `quarter` (1–4) | Statement with account rows |
+| `revenue` | `year` and `month` | One `Revenue` |
+| `dividends` | Security symbol | Dividend decisions |
+| `distribution` | Security symbol | Latest published shareholding brackets |
+
+Supply both period parameters or omit both for the latest statement or revenue record.
 
 ## Read results
 
-Statement `rows` form an account/period/measure long table. An account can appear in multiple rows. Select values by `account`, `period_end` and `measure`; the measure distinguishes amounts from percentages. Do not sum every row. Revenue `current` is monthly, `cumulative` is cumulative and `change_percent` retains percent units.
+Select statement values by `account`, `period_end` and `measure`. Each account can have multiple periods or measures. `measure` distinguishes monetary amounts and percentages.
 
-Shareholding `level` is the source bracket. Levels 16 and 17 are adjustment and total; do not add the total again when aggregating. See [models](/en/docs/reference/api/models) for units and missing values.
+| Revenue field | Meaning |
+| --- | --- |
+| `current` | Current month's revenue |
+| `cumulative` | Cumulative revenue |
+| `change_percent` | Percentage change |
+
+Shareholding `level` identifies the source bracket. Level 16 is an adjustment and level 17 is the total. Aggregate the required brackets or read level 17 for the total.
+
+See [models](/en/docs/reference/api/models) for units and missing values.

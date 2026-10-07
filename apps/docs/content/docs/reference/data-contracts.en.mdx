@@ -1,43 +1,26 @@
 ---
-title: "API reference"
+title: "Query methods"
+description: "Query methods and date parameters."
 ---
 
-Client and AsyncClient expose matching query names; stream is async only.
+`Client` and `AsyncClient` provide matching query methods. Use `await` with asynchronous methods.
 
-| Namespace | Methods |
-| --- | --- |
-| twse / tpex | instruments, history, quote, quote_many, index_history, indices, ex_rights, ex_rights_schedule, trading_restrictions, trading_status |
-| esb | instruments, history, quote, quote_many, trading_restrictions |
-| taifex | products, specification, margins, contracts, resolve, daily, history, quote, quote_many, stream |
-| mops | income_statement, balance_sheet, cash_flow_statement, revenue, dividends |
-| tdcc | distribution |
-| ndc | pmi, indicators |
-| cbc | exchange_rates |
-| integrations | to_pandas, to_polars, to_pandas_book, to_polars_book |
+| Data | Namespace | Methods |
+| --- | --- | --- |
+| [Listed and OTC equities](/en/docs/reference/api/twse-tpex) | `twse / tpex` | `instruments`, `history`, `quote`, `quote_many`, `index_history`, `indices`, `ex_rights`, `ex_rights_schedule`, `trading_restrictions`, `trading_status` |
+| [Emerging stocks](/en/docs/reference/api/esb) | `esb` | `instruments`, `history`, `quote`, `quote_many`, `trading_restrictions` |
+| [Futures and options](/en/docs/reference/api/taifex) | `taifex` | `products`, `specification`, `margins`, `contracts`, `resolve`, `daily`, `history`, `quote`, `quote_many`, `stream` |
+| [Company financials](/en/docs/reference/api/mops) | `mops` | `income_statement`, `balance_sheet`, `cash_flow_statement`, `revenue`, `dividends` |
+| [Shareholding](/en/docs/reference/api/tdcc) | `tdcc` | `distribution` |
+| [Economic indicators](/en/docs/reference/api/ndc) | `ndc` | `pmi`, `indicators` |
+| [Exchange rates](/en/docs/reference/api/cbc) | `cbc` | `exchange_rates` |
 
-Security identifiers retain leading zeros. Dates use date objects and Gregorian years;
-ranges include both endpoints. Prices and amounts use Decimal; missing values are None.
-TWSE history uses shares/TWD; TPEx uses lots/thousand_TWD. Financial records retain
-account, period and measure fields; unspecified source units remain None.
+## Historical and current data
 
-Historical ex-rights events and upcoming schedules use separate models. Trading-status
-lists, catalogs, margins and TDCC brackets reflect available source publications.
-TAIFEX margins support index, stock, etf, fx, commodity and interest_rate categories.
-Stock rates retain percentages; other amounts retain source_currency_units when
-currency is unspecified. Option A/B/C components remain separate. Tick ranges include
-the lower bound and exclude the upper bound. Adjusted multipliers may be None.
-Contract mappings retain official expiry periods, option identity, MIS IDs and spread legs.
+`history`, `index_history` and `exchange_rates` accept date ranges. Statements and revenue use year, quarter or month to select a period.
 
-quote_many preserves order, duplicates and individual errors. Stock requests use chunks
-of 50; TAIFEX uses 100 IDs. Async batches and monthly history use up to eight workers.
-Cancellation closes pending work.
+Security directories, active contracts, margins and shareholding distribution provide the currently published records. Follow the API links above for parameters and return types.
 
-cache_ttl defaults to 0 and cache_size to 128. Raw and parsed caches each have a 32 MiB
-limit. Cached records retain retrieval timestamps; snapshots and active-contract checks
-bypass caches. Returned lists are copied.
+## Convert results
 
-DataFrame conversions retain Decimal by default; price_type="float" enables conversion.
-Financial records expand into long rows. Book levels and tick ranges have separate
-conversion functions. Batch frames include requested_* and error columns. Specify model
-for empty inputs or all-failed batches; the default is EquityDaily.
-pandas, Polars and websockets are optional and loaded when used.
+[DataFrame conversion](/en/docs/how-to/dataframes) supports pandas and Polars. Flat models become rows and statements become account long tables.

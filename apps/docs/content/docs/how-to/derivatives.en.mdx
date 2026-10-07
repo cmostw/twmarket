@@ -3,8 +3,6 @@ title: "Query futures and options"
 description: "Query futures and options"
 ---
 
-Run this complete program to retrieve the models. Values and availability depend on the source.
-
 ```python
 from twmarket import Client
 
@@ -19,10 +17,34 @@ with Client() as market:
 
 [TAIFEX](/en/docs/reference/api/taifex)
 
-## Select products, contracts and sessions
+## Select a contract
 
-`products(kind="future")` lists futures products; `products(kind="option")` lists options products. Pass an official product code to `contracts(product=..., kind=...)`; `kind` defaults to `"future"`. `session="regular"` selects the regular session and `"after_hours"` selects after-hours. `expiry` filters an exact delivery period.
+| Parameter | Selection |
+| --- | --- |
+| `product` | Official product code, such as `"TX"` |
+| `kind` | `"future"` (default) or `"option"` |
+| `expiry` | Exact delivery period |
 
-The example selects the first listed contract, not a front-month strategy. Filter `expiry`, `strike` and `right` as needed, then pass the complete `Contract` to `quote` or `history`; do not construct MIS IDs manually.
+Use `products(kind="future")` or `products(kind="option")` to list products.
 
-`history(contract, start=..., end=..., session=...)` returns daily records. Omitting `session` includes both sessions. Read `date` and `session` together; `last` and `settlement` are separate. See [instrument identity](/en/docs/explanation/identifiers).
+Product codes identify a product family. Contracts specify a delivery period. Options also specify strike and right.
+
+`resolve(contract, session=...)` verifies the contract's active quote identifier and expiration date.
+
+Filter options by the returned contracts' `strike` and `right` fields.
+
+The example selects the first listed contract. Filter the required contract and pass its complete `Contract` to `quote` or `history`.
+
+## Query daily history
+
+Call `history(contract, start=..., end=..., session=...)` with the selected contract and date range.
+
+| `session` | Records |
+| --- | --- |
+| `"regular"` | Regular session |
+| `"after_hours"` | After-hours session |
+| Omitted | Both sessions |
+
+Read `date` and `session` together. `last` is the last trade and `settlement` is the settlement price.
+
+An after-hours trading date can differ from the calendar date of the trade timestamp.

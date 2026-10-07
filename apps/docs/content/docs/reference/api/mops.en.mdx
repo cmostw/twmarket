@@ -6,15 +6,9 @@ title: "MOPS"
 
 Company financial statements, monthly revenue and dividend decisions.
 
-Company codes are strings; query years use the Gregorian calendar.
+Company codes are strings.
 
-### `__init__`
-
-```python
-def __init__(http: Http) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+query years use the Gregorian calendar.
 
 ### `income_statement`
 
@@ -24,8 +18,12 @@ def income_statement(code: str, *, year: int | None=None, quarter: int | None=No
 
 Return the company's reported income statement as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `balance_sheet`
 
@@ -35,8 +33,12 @@ def balance_sheet(code: str, *, year: int | None=None, quarter: int | None=None)
 
 Return the company's reported balance sheet as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `cash_flow_statement`
 
@@ -46,8 +48,12 @@ def cash_flow_statement(code: str, *, year: int | None=None, quarter: int | None
 
 Return the company's reported cash-flow statement as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `revenue`
 
@@ -57,8 +63,12 @@ def revenue(code: str, *, year: int | None=None, month: int | None=None) -> Reve
 
 Return the company's reported monthly revenue and cumulative values.
 
-code is a string; year is Gregorian and month is 1-12. Supply both or
-neither; omitting both requests the latest month. Amounts retain source units.
+code is a string.
+
+year is Gregorian and month is 1-12. Supply both or
+neither.
+
+omitting both requests the latest month. Amounts retain source units.
 
 ### `dividends`
 
@@ -68,22 +78,18 @@ def dividends(code: str, *, start_year: int, end_year: int) -> list[Dividend]: .
 
 Return dividend decisions within inclusive Gregorian decision years.
 
-start_year/end_year select decision years; profit periods may be earlier.
+start_year/end_year select decision years.
+
+profit periods may be earlier.
 Common and preferred-share decisions remain separate records.
 
 ## `AsyncMOPS`
 
 Awaitable financial statements, revenue and dividend decisions.
 
-Company codes are strings; query years use the Gregorian calendar.
+Company codes are strings.
 
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+query years use the Gregorian calendar.
 
 ### `income_statement`
 
@@ -93,8 +99,12 @@ async def income_statement(code: str, *, year: int | None=None, quarter: int | N
 
 Return the company's reported income statement as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `balance_sheet`
 
@@ -104,8 +114,12 @@ async def balance_sheet(code: str, *, year: int | None=None, quarter: int | None
 
 Return the company's reported balance sheet as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `cash_flow_statement`
 
@@ -115,8 +129,12 @@ async def cash_flow_statement(code: str, *, year: int | None=None, quarter: int 
 
 Return the company's reported cash-flow statement as account/period rows.
 
-code is a string; year is Gregorian and quarter is 1-4. Supply both or
-neither; omitting both requests the latest report. No report raises NoDataError.
+code is a string.
+
+year is Gregorian and quarter is 1-4. Supply both or
+neither.
+
+omitting both requests the latest report. No report raises NoDataError.
 
 ### `revenue`
 
@@ -126,8 +144,12 @@ async def revenue(code: str, *, year: int | None=None, month: int | None=None) -
 
 Return the company's reported monthly revenue and cumulative values.
 
-code is a string; year is Gregorian and month is 1-12. Supply both or
-neither; omitting both requests the latest month. Amounts retain source units.
+code is a string.
+
+year is Gregorian and month is 1-12. Supply both or
+neither.
+
+omitting both requests the latest month. Amounts retain source units.
 
 ### `dividends`
 
@@ -137,5 +159,7 @@ async def dividends(code: str, *, start_year: int, end_year: int) -> list[Divide
 
 Return dividend decisions within inclusive Gregorian decision years.
 
-start_year/end_year select decision years; profit periods may be earlier.
+start_year/end_year select decision years.
+
+profit periods may be earlier.
 Common and preferred-share decisions remain separate records.

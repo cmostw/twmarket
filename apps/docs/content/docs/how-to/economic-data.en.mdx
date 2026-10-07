@@ -3,8 +3,6 @@ title: "Query economic indicators and exchange rates"
 description: "Query economic indicators and exchange rates"
 ---
 
-Run this complete program to retrieve the models. Values and availability depend on the source.
-
 ```python
 from datetime import date
 from twmarket import Client
@@ -25,6 +23,8 @@ for row in rates:
 
 ## Select series and read results
 
-`pmi` returns both PMI and NMI. `series` identifies the series and `period` is the first day of the observation month. Use `indicators(start=..., end=..., table="signal")` for business-cycle data. Tables are `signal`, `signal_components`, `leading`, `coincident` and `lagging`. Numeric values are in `value`; signal labels are in `text`.
+`pmi` returns both PMI and NMI. `series` identifies the series and `period` is the first day of the observation month. Use `indicators(start=..., end=..., table="signal")` for business-cycle data. Tables are `signal`, `signal_components`, `leading`, `coincident` and `lagging`. Numeric values are in `value`.
 
-`exchange_rates` includes both range endpoints. Omit `currency` for all pairs or specify it to match either side. Read `numerator`/`denominator` to establish direction; `currency="USD"` alone does not determine it.
+Signal labels are in `text`.
+
+`exchange_rates` includes both range endpoints. Omit `currency` for all pairs or specify it to match either side. The `numerator` and `denominator` fields identify the direction of each rate.

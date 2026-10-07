@@ -3,7 +3,6 @@
   "pages": [
     "data-contracts",
     "api",
-    "sources",
-    "taifex-protocol"
+    "sources"
   ]
 }

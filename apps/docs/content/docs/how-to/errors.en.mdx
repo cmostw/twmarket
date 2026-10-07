@@ -3,7 +3,9 @@ title: "Handle missing data and query errors"
 description: "Handle missing data and query errors"
 ---
 
-A missing single record raises `NoDataError`; a multi-record query without matching data returns an empty list. Handle connection, source-reported and schema failures separately without parsing message text.
+A missing single record raises `NoDataError`.
+
+A multi-record query without matching data returns an empty list. Handle connection, source-reported and schema failures separately without parsing message text.
 
 ```python
 from twmarket import Client
@@ -24,4 +26,8 @@ with Client() as market:
         print(quote.last)
 ```
 
-`TransportError` indicates a request failed after bounded retries. `SourceError` indicates a source-reported failure; `SchemaError` indicates unexpected response structure. `quote_many` retains per-item failures in `BatchResult.error`; see [batch queries](/en/docs/how-to/query) and [exceptions](/en/docs/reference/api/errors).
+`TransportError` indicates a request failed after bounded retries. `SourceError` indicates a source-reported failure.
+
+`SchemaError` indicates unexpected response structure. `quote_many` retains per-item failures in `BatchResult.error`.
+
+See [batch queries](/en/docs/how-to/query) and [exceptions](/en/docs/reference/api/errors).

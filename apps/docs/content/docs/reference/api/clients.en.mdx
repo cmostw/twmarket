@@ -4,17 +4,27 @@ title: "Client / AsyncClient"
 
 ## `Client`
 
-Synchronous market-data client; use as a context manager.
+Synchronous market-data client.
+
+use as a context manager.
 
 Args:
-    timeout: HTTP timeout in seconds; must be finite and positive.
+    timeout: HTTP timeout in seconds.
+
+must be finite and positive.
     retries: Number of additional attempts for retryable queries.
     interval: Minimum interval between requests to each host, in seconds.
-    cache_ttl: Cache lifetime in seconds; zero disables caching.
-    cache_size: Maximum entries in each cache; each also has a 32 MiB limit.
+    cache_ttl: Cache lifetime in seconds.
+
+zero disables caching.
+    cache_size: Maximum entries in each cache.
+
+each also has a 32 MiB limit.
     proxy: HTTP/HTTPS proxy URL, optionally with credentials.
     trust_env: Honor environment proxy and TLS settings when true.
-    transport: Custom HTTP transport; mutually exclusive with proxy.
+    transport: Custom HTTP transport.
+
+mutually exclusive with proxy.
 
 Source namespaces are twse, tpex, esb, taifex, mops, tdcc, ndc and cbc.
 Prices use Decimal and missing values use None. Construction makes no requests.
@@ -28,14 +38,22 @@ def __init__(*, timeout: float=15.0, retries: int=2, interval: float=0.5, cache_
 Initialize a client without making network requests.
 
 Args:
-    timeout: HTTP timeout in seconds; must be finite and positive.
+    timeout: HTTP timeout in seconds.
+
+must be finite and positive.
     retries: Number of additional attempts for retryable queries.
     interval: Minimum interval between requests to each host, in seconds.
-    cache_ttl: Cache lifetime in seconds; zero disables caching.
-    cache_size: Maximum entries in each cache; each also has a 32 MiB limit.
+    cache_ttl: Cache lifetime in seconds.
+
+zero disables caching.
+    cache_size: Maximum entries in each cache.
+
+each also has a 32 MiB limit.
     proxy: HTTP/HTTPS proxy URL, optionally with credentials.
     trust_env: Honor environment proxy and TLS settings when true.
-    transport: Custom HTTP transport; mutually exclusive with proxy.
+    transport: Custom HTTP transport.
+
+mutually exclusive with proxy.
 
 ### `close`
 
@@ -47,17 +65,27 @@ Release the HTTP connection pool and clear this client's caches.
 
 ## `AsyncClient`
 
-Asynchronous market-data client; use with async with.
+Asynchronous market-data client.
+
+use with async with.
 
 Args:
-    timeout: HTTP timeout in seconds; must be finite and positive.
+    timeout: HTTP timeout in seconds.
+
+must be finite and positive.
     retries: Number of additional attempts for retryable queries.
     interval: Minimum interval between requests to each host, in seconds.
-    cache_ttl: Cache lifetime in seconds; zero disables caching.
-    cache_size: Maximum entries in each cache; each also has a 32 MiB limit.
+    cache_ttl: Cache lifetime in seconds.
+
+zero disables caching.
+    cache_size: Maximum entries in each cache.
+
+each also has a 32 MiB limit.
     proxy: HTTP/HTTPS proxy URL for HTTP queries and TAIFEX streams.
     trust_env: Honor environment proxy and TLS settings when true.
-    transport: Custom async HTTP transport; mutually exclusive with proxy.
+    transport: Custom async HTTP transport.
+
+mutually exclusive with proxy.
 
 Await queries through twse, tpex, esb, taifex, mops, tdcc, ndc and cbc.
 Closing the client closes its HTTP pool and active TAIFEX subscriptions.
@@ -71,14 +99,22 @@ def __init__(*, timeout: float=15.0, retries: int=2, interval: float=0.5, cache_
 Initialize a client without making network requests.
 
 Args:
-    timeout: HTTP timeout in seconds; must be finite and positive.
+    timeout: HTTP timeout in seconds.
+
+must be finite and positive.
     retries: Number of additional attempts for retryable queries.
     interval: Minimum interval between requests to each host, in seconds.
-    cache_ttl: Cache lifetime in seconds; zero disables caching.
-    cache_size: Maximum entries in each cache; each also has a 32 MiB limit.
+    cache_ttl: Cache lifetime in seconds.
+
+zero disables caching.
+    cache_size: Maximum entries in each cache.
+
+each also has a 32 MiB limit.
     proxy: HTTP/HTTPS proxy URL for HTTP queries and TAIFEX streams.
     trust_env: Honor environment proxy and TLS settings when true.
-    transport: Custom async HTTP transport; mutually exclusive with proxy.
+    transport: Custom async HTTP transport.
+
+mutually exclusive with proxy.
 
 ### `close`
 

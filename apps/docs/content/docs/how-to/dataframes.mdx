@@ -5,7 +5,6 @@ description: "轉換 DataFrame"
 
 先[安裝 pandas 或 polars 延伸](/docs/how-to/installation)。
 
-
 ```python
 from twmarket import Client
 from twmarket.integrations import to_pandas, to_polars
@@ -20,10 +19,11 @@ print(accounts.head())
 print(monthly_revenue.head())
 ```
 
-轉換預設保留 `Decimal`；`price_type="float"` 可轉為浮點數。
-財報展開為科目／期間／衡量項目的長表。單位沿用來源；來源未標示時為 `None`。
+轉換預設保留 `Decimal`。
 
-使用 `with`／`async with` 管理連線。`Client(cache_ttl=60)` 啟用快取；
-即時報價與有效契約查驗略過快取。
+`price_type="float"` 可轉為浮點數。
+財報展開為科目／期間／衡量項目的長表。單位沿用來源。
+
+來源未標示時為 `None`。
 
 [DataFrame API](/docs/reference/api/integrations)

@@ -12,12 +12,18 @@ Convert records, a financial statement or batch results to a pandas DataFrame.
 
 Args:
     data: One record or an iterable of records of the same model.
-    model: Schema for empty/all-failed inputs; empty inputs default to EquityDaily.
-    price_type: decimal preserves Decimal objects; float converts Decimal values.
+    model: Schema for empty/all-failed inputs.
+
+empty inputs default to EquityDaily.
+    price_type: decimal preserves Decimal objects.
+
+float converts Decimal values.
 
 Financial statements expand into account/period/measure rows. Batch frames
 include requested_* and error columns. Order books and tick bands are omitted.
-Requires twmarket[pandas]; invalid or mixed models raise TypeError.
+Requires twmarket[pandas].
+
+invalid or mixed models raise TypeError.
 
 ## `to_polars`
 
@@ -29,12 +35,18 @@ Convert records, a financial statement or batch results to a Polars DataFrame.
 
 Args:
     data: One record or an iterable of records of the same model.
-    model: Schema for empty/all-failed inputs; empty inputs default to EquityDaily.
-    price_type: decimal preserves precision; float converts Decimal values.
+    model: Schema for empty/all-failed inputs.
+
+empty inputs default to EquityDaily.
+    price_type: decimal preserves precision.
+
+float converts Decimal values.
 
 Financial statements expand into account/period/measure rows. Batch frames
 include requested_* and error columns. Order books and tick bands are omitted.
-Requires twmarket[polars]; decimals exceeding precision 38 raise ValueError.
+Requires twmarket[polars].
+
+decimals exceeding precision 38 raise ValueError.
 
 ## `to_pandas_book`
 
@@ -44,7 +56,9 @@ def to_pandas_book(quote: Quote) -> pd.DataFrame: ...
 
 Return bid/ask rows with side, level, price and size columns.
 
-Prices retain Decimal; an empty book retains its schema. Requires twmarket[pandas].
+Prices retain Decimal.
+
+an empty book retains its schema. Requires twmarket[pandas].
 
 ## `to_polars_book`
 
@@ -54,4 +68,6 @@ def to_polars_book(quote: Quote) -> pl.DataFrame: ...
 
 Return bid/ask rows with side, level, price and size columns.
 
-Prices retain Decimal; an empty book retains its schema. Requires twmarket[polars].
+Prices retain Decimal.
+
+an empty book retains its schema. Requires twmarket[polars].

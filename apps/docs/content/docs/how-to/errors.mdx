@@ -3,7 +3,9 @@ title: "處理無資料與查詢錯誤"
 description: "處理無資料與查詢錯誤"
 ---
 
-單筆查無資料拋出 `NoDataError`；多筆查詢沒有符合資料時回傳空清單。網路、來源回報與資料格式錯誤分開處理，不需解析錯誤文字。
+單筆查無資料拋出 `NoDataError`。
+
+多筆查詢沒有符合資料時回傳空清單。網路、來源回報與資料格式錯誤分開處理，不需解析錯誤文字。
 
 ```python
 from twmarket import Client
@@ -24,4 +26,8 @@ with Client() as market:
         print(quote.last)
 ```
 
-`TransportError` 表示請求在有限重試後仍失敗；`SourceError` 表示來源回報失敗；`SchemaError` 表示回應不符合預期結構。`quote_many` 將逐筆查詢失敗保存在 `BatchResult.error`，使用方式見 [批次查詢](/docs/how-to/query)。完整例外見 [例外參考](/docs/reference/api/errors)。
+`TransportError` 表示請求在有限重試後仍失敗。
+
+`SourceError` 表示來源回報失敗。
+
+`SchemaError` 表示回應不符合預期結構。`quote_many` 將逐筆查詢失敗保存在 `BatchResult.error`，使用方式見 [批次查詢](/docs/how-to/query)。完整例外見 [例外參考](/docs/reference/api/errors)。

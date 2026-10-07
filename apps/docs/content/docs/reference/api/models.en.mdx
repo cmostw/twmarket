@@ -2,6 +2,14 @@
 title: "Models"
 ---
 
+## Values and dates
+
+Prices and monetary values use `Decimal`. Missing values use `None`. Read each model's `volume_unit`, `amount_unit` or `unit` for units.
+
+Percentage fields retain percent units. For example, `20.25` means 20.25%.
+
+`SourceInfo` records the source, URL and UTC retrieval time. Model date fields identify trading dates and reporting periods.
+
 ## `BatchResult`
 
 An original batch input with either its data or its exception.
@@ -42,7 +50,9 @@ received_at: datetime
 
 Daily security prices and turnover with explicit source units.
 
-TWSE uses shares/TWD; TPEx uses lots/thousand_TWD. Missing values are None.
+TWSE uses shares/TWD.
+
+TPEx uses lots/thousand_TWD. Missing values are None.
 change_basis_reset marks a source reset of the price-change comparison basis.
 
 ### Fields
@@ -69,7 +79,9 @@ change_basis_reset: bool = False
 
 Daily contract prices and quantities for one trading date and session.
 
-last and settlement are separate. volume is session volume; combined_volume
+last and settlement are separate. volume is session volume.
+
+combined_volume
 is the source total. Futures/options quantities use contracts.
 
 ### Fields
@@ -94,7 +106,9 @@ combined_volume: int | None = None
 Published initial, maintenance and clearing margin values.
 
 unit distinguishes source amounts from percentages. Option risk components
-are separate records; date is the source publication date.
+are separate records.
+
+date is the source publication date.
 
 ### Fields
 
@@ -150,7 +164,9 @@ tick: Decimal
 
 Product multiplier, currency, settlement method and tick bands.
 
-Missing source metadata is None; multiplier_source identifies the share table.
+Missing source metadata is None.
+
+multiplier_source identifies the share table.
 
 ### Fields
 
@@ -172,7 +188,9 @@ multiplier_source: SourceInfo | None = None
 
 One financial account, reporting period and measure.
 
-measure separates amounts from percentages; percentages retain percent units.
+measure separates amounts from percentages.
+
+percentages retain percent units.
 A missing value or unspecified source unit is None.
 
 ### Fields
@@ -199,7 +217,9 @@ source: SourceInfo
 
 A reported financial table with account/period/measure rows.
 
-Year and quarter identify the report; individual rows retain their own periods.
+Year and quarter identify the report.
+
+individual rows retain their own periods.
 
 ### Fields
 
@@ -217,7 +237,9 @@ source: SourceInfo
 
 Reported monthly and cumulative revenue with year-over-year changes.
 
-Amounts retain source units; percentage changes retain percent units.
+Amounts retain source units.
+
+percentage changes retain percent units.
 
 ### Fields
 
@@ -322,7 +344,9 @@ quoted_at: datetime | None
 
 Emerging-stock trade statistics and individual broker quotes.
 
-Volume is shares and amount is TWD; quoted_at uses Asia/Taipei when available.
+Volume is shares and amount is TWD.
+
+quoted_at uses Asia/Taipei when available.
 
 ### Fields
 
@@ -363,7 +387,9 @@ source: SourceInfo
 Exact futures or options identity.
 
 expiry retains month, weekly series or spread periods. Options include strike
-and right; mis_symbol and expires_on are populated from official metadata.
+and right.
+
+mis_symbol and expires_on are populated from official metadata.
 
 ### Fields
 
@@ -383,7 +409,9 @@ expires_on: date | None = None
 def expiry_month() -> str: ...
 ```
 
-Return the first delivery month; expiry retains week/spread information.
+Return the first delivery month.
+
+expiry retains week/spread information.
 
 ### `legs`
 
@@ -397,7 +425,9 @@ Return source spread legs, or an empty tuple for an outright contract.
 
 One monthly series value or published signal label.
 
-period is the first day of the observation month; value and text are separate.
+period is the first day of the observation month.
+
+value and text are separate.
 
 ### Fields
 
@@ -413,7 +443,9 @@ source: SourceInfo
 
 Published numerator/denominator exchange rate on a source date.
 
-rate retains the source pair direction; published_date is separate from date.
+rate retains the source pair direction.
+
+published_date is separate from date.
 
 ### Fields
 
@@ -430,7 +462,9 @@ source: SourceInfo
 
 A security catalog entry with its original code, ISIN and category.
 
-Codes retain leading zeros; as_of is the source update date when available.
+Codes retain leading zeros.
+
+as_of is the source update date when available.
 
 ### Fields
 

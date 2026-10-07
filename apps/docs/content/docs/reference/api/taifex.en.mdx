@@ -6,15 +6,9 @@ title: "TAIFEX"
 
 TAIFEX contracts, specifications, margins and market data.
 
-Products use official report codes; quotes also accept exact MIS SymbolIDs.
+Products use official report codes.
 
-### `__init__`
-
-```python
-def __init__(http: Http) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+quotes also accept exact MIS SymbolIDs.
 
 ### `daily`
 
@@ -24,7 +18,9 @@ def daily(*, kind: InstrumentKind='future', product: str | None=None) -> list[De
 
 Return the source's current daily futures or options report.
 
-kind is future or option; product optionally filters an official report code.
+kind is future or option.
+
+product optionally filters an official report code.
 Rows retain trading date, session and separate last/settlement prices.
 
 ### `contracts`
@@ -46,7 +42,9 @@ def history(contract: Contract, *, start: date, end: date, session: Session | No
 
 Return daily rows for an exact contract in the inclusive date range.
 
-session optionally selects regular or after_hours; None includes both.
+session optionally selects regular or after_hours.
+
+None includes both.
 Night-session dates are the source volume-attribution dates.
 
 ### `quote`
@@ -58,7 +56,9 @@ def quote(contract: Contract | str, *, session: Session | None=None) -> Quote: .
 Return a MIS snapshot for an exact Contract or MIS SymbolID string.
 
 Contract objects are resolved against active metadata. session optionally
-validates the ID's session; absent snapshots raise NoDataError.
+validates the ID's session.
+
+absent snapshots raise NoDataError.
 
 ### `resolve`
 
@@ -69,7 +69,9 @@ def resolve(contract: Contract, *, session: Session='regular') -> Contract: ...
 Return contract with its verified active MIS ID and expiration date.
 
 session is regular or after_hours. An unavailable delivery period raises
-NoDataError; ambiguous source mappings raise SchemaError.
+NoDataError.
+
+ambiguous source mappings raise SchemaError.
 
 ### `products`
 
@@ -100,7 +102,9 @@ def margins(*, category: MarginCategory='index', product: str | None=None) -> li
 Return the latest published margin records for category and optional product.
 
 Categories are index, stock, etf, fx, commodity and interest_rate.
-Stock rates retain percentages; other records retain their published units.
+Stock rates retain percentages.
+
+other records retain their published units.
 
 ### `quote_many`
 
@@ -111,21 +115,17 @@ def quote_many(contracts: Iterable[Contract | str], *, session: Session | None=N
 Return one quote BatchResult per contract or MIS SymbolID input.
 
 Input order, duplicates and individual errors are retained. session validates
-regular/after_hours identity; Contract inputs retain their resolved metadata.
+regular/after_hours identity.
+
+Contract inputs retain their resolved metadata.
 
 ## `AsyncTaifex`
 
 Awaitable TAIFEX queries and async quote-update subscriptions.
 
-Products use official report codes; quotes also accept exact MIS SymbolIDs.
+Products use official report codes.
 
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+quotes also accept exact MIS SymbolIDs.
 
 ### `daily`
 
@@ -135,7 +135,9 @@ async def daily(*, kind: InstrumentKind='future', product: str | None=None) -> l
 
 Return the source's current daily futures or options report.
 
-kind is future or option; product optionally filters an official report code.
+kind is future or option.
+
+product optionally filters an official report code.
 Rows retain trading date, session and separate last/settlement prices.
 
 ### `contracts`
@@ -157,7 +159,9 @@ async def history(contract: Contract, *, start: date, end: date, session: Sessio
 
 Return daily rows for an exact contract in the inclusive date range.
 
-session optionally selects regular or after_hours; None includes both.
+session optionally selects regular or after_hours.
+
+None includes both.
 Night-session dates are the source volume-attribution dates.
 
 ### `quote`
@@ -169,7 +173,9 @@ async def quote(contract: Contract | str, *, session: Session | None=None) -> Qu
 Return a MIS snapshot for an exact Contract or MIS SymbolID string.
 
 Contract objects are resolved against active metadata. session optionally
-validates the ID's session; absent snapshots raise NoDataError.
+validates the ID's session.
+
+absent snapshots raise NoDataError.
 
 ### `resolve`
 
@@ -180,7 +186,9 @@ async def resolve(contract: Contract, *, session: Session='regular') -> Contract
 Return contract with its verified active MIS ID and expiration date.
 
 session is regular or after_hours. An unavailable delivery period raises
-NoDataError; ambiguous source mappings raise SchemaError.
+NoDataError.
+
+ambiguous source mappings raise SchemaError.
 
 ### `closed`
 
@@ -198,7 +206,9 @@ async def stream(contracts: list[Contract | str], *, reconnects: int=3, session:
 
 Yield complete quote states for exact contracts or MIS SymbolID strings.
 
-Requires twmarket[stream]. session selects regular or after_hours; reconnects
+Requires twmarket[stream]. session selects regular or after_hours.
+
+reconnects
 limits additional connection attempts. Old states are marked stale while
 resynchronizing. Close the generator or client to release the subscription.
 
@@ -231,7 +241,9 @@ async def margins(*, category: MarginCategory='index', product: str | None=None)
 Return the latest published margin records for category and optional product.
 
 Categories are index, stock, etf, fx, commodity and interest_rate.
-Stock rates retain percentages; other records retain their published units.
+Stock rates retain percentages.
+
+other records retain their published units.
 
 ### `quote_many`
 
@@ -242,4 +254,6 @@ async def quote_many(contracts: Iterable[Contract | str], *, session: Session | 
 Return one quote BatchResult per contract or MIS SymbolID input.
 
 Input order, duplicates and individual errors are retained. session validates
-regular/after_hours identity; Contract inputs retain their resolved metadata.
+regular/after_hours identity.
+
+Contract inputs retain their resolved metadata.

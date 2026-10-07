@@ -14,6 +14,10 @@ with Client(proxy="http://127.0.0.1:8080", trust_env=False) as market:
 ```
 
 Without an explicit proxy, clients follow environment proxy settings and NO_PROXY.
-HTTP uses HTTP_PROXY/HTTPS_PROXY/ALL_PROXY; websockets selects stream proxies using
+HTTP uses HTTP_PROXY/HTTPS_PROXY/ALL_PROXY.
+
+Websockets selects stream proxies using
 WSS_PROXY/WS_PROXY and its environment rules. trust_env=False disables environment
-settings; an explicit proxy takes precedence. proxy and custom transport are mutually exclusive.
+settings.
+
+An explicit proxy takes precedence. proxy and custom transport are mutually exclusive.

@@ -3,7 +3,9 @@ title: "Query asynchronously"
 description: "Query asynchronously"
 ---
 
-`AsyncClient` exposes the same query method names as `Client`, with `await` and an `async with` lifecycle. Independent queries can run with `asyncio.gather`; use `quote_many` for per-item outcomes in batch quotes.
+`AsyncClient` exposes the same query method names as `Client`, with `await` and an `async with` lifecycle. Independent queries can run with `asyncio.gather`.
+
+Use `quote_many` for per-item outcomes in batch quotes.
 
 ```python
 import asyncio

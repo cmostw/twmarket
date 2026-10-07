@@ -8,7 +8,9 @@ title: "DataFrame"
 def to_pandas(data: object, *, model: type[object] | None=None, price_type: PriceType='decimal') -> pd.DataFrame: ...
 ```
 
-將同型紀錄、財報或批次結果轉為 pandas DataFrame；model 指定空表 schema.
+將同型紀錄、財報或批次結果轉為 pandas DataFrame。
+
+model 指定空表 schema.
 
 ## `to_polars`
 
@@ -16,7 +18,9 @@ def to_pandas(data: object, *, model: type[object] | None=None, price_type: Pric
 def to_polars(data: object, *, model: type[object] | None=None, price_type: PriceType='decimal') -> pl.DataFrame: ...
 ```
 
-將同型紀錄、財報或批次結果轉為 Polars DataFrame；model 指定空表 schema.
+將同型紀錄、財報或批次結果轉為 Polars DataFrame。
+
+model 指定空表 schema.
 
 ## `to_pandas_book`
 
@@ -24,7 +28,7 @@ def to_polars(data: object, *, model: type[object] | None=None, price_type: Pric
 def to_pandas_book(quote: Quote) -> pd.DataFrame: ...
 ```
 
-將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別.
+將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別。
 
 ## `to_polars_book`
 
@@ -32,4 +36,4 @@ def to_pandas_book(quote: Quote) -> pd.DataFrame: ...
 def to_polars_book(quote: Quote) -> pl.DataFrame: ...
 ```
 
-將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別.
+將買賣檔轉成 side、level、price、size 表，保留 Decimal 及空表型別。

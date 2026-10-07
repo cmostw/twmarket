@@ -11,7 +11,6 @@
     "dataframes",
     "async",
     "errors",
-    "proxy",
-    "development"
+    "proxy"
   ]
 }

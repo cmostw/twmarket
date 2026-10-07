@@ -4,15 +4,7 @@ title: "TWSE / TPEx"
 
 ## `StockMarket`
 
-查詢 TWSE 或 TPEx 的證券、指數與交易狀態.
-
-### `__init__`
-
-```python
-def __init__(http: Http, market: Market) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+查詢 TWSE 或 TPEx 的證券、指數與交易狀態。
 
 ### `history`
 
@@ -20,7 +12,9 @@ Initialize the source namespace with its owning HTTP transport.
 def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ...
 ```
 
-回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+回傳含起訖兩日的歷史資料。
+
+無符合資料時回傳空清單。
 
 ### `quote`
 
@@ -28,7 +22,9 @@ def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ...
 def quote(code: str) -> Quote: ...
 ```
 
-取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+取得最新報價。
+
+價格缺值為 None，查無快照時拋出 NoDataError.
 
 ### `instruments`
 
@@ -36,7 +32,9 @@ def quote(code: str) -> Quote: ...
 def instruments(*, category: str | None=None) -> list[Instrument]: ...
 ```
 
-取得最新 ISIN 目錄；category 使用來源分類名稱.
+取得最新 ISIN 目錄。
+
+category 使用來源分類名稱。
 
 ### `index_history`
 
@@ -44,7 +42,7 @@ def instruments(*, category: str | None=None) -> list[Instrument]: ...
 def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
 ```
 
-回傳含起訖兩日的每日指數 OHLC，依日期排序.
+回傳含起訖兩日的每日指數 OHLC，依日期排序。
 
 ### `indices`
 
@@ -52,7 +50,9 @@ def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
 def indices(*, day: date | None=None) -> list[IndexClose]: ...
 ```
 
-取得價格／報酬指數收盤板；day 省略時查來源最新公布資料.
+取得價格／報酬指數收盤板。
+
+day 省略時查來源最新公布資料。
 
 ### `ex_rights`
 
@@ -60,7 +60,9 @@ def indices(*, day: date | None=None) -> list[IndexClose]: ...
 def ex_rights(*, start: date, end: date, code: str | None=None) -> list[ExRight]: ...
 ```
 
-依含起訖兩日的日期區間查詢歷史除權息；code 可篩選證券.
+依含起訖兩日的日期區間查詢歷史除權息。
+
+code 可篩選證券。
 
 ### `ex_rights_schedule`
 
@@ -68,7 +70,9 @@ def ex_rights(*, start: date, end: date, code: str | None=None) -> list[ExRight]
 def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]: ...
 ```
 
-取得最新除權息預告；code 可篩選證券，未公告值為 None.
+取得最新除權息預告。
+
+code 可篩選證券，未公告值為 None.
 
 ### `trading_restrictions`
 
@@ -76,7 +80,9 @@ def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]: ...
 def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
 ```
 
-依 kind 查詢注意、處置或最新暫停資料；code 可篩選證券.
+依 kind 查詢注意、處置或最新暫停資料。
+
+code 可篩選證券。
 
 ### `trading_status`
 
@@ -84,7 +90,9 @@ def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=
 def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
 ```
 
-取得最新交易方式及狀態；來源無發布日期時為 None.
+取得最新交易方式及狀態。
+
+來源無發布日期時為 None.
 
 ### `quote_many`
 
@@ -92,19 +100,11 @@ def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
 def quote_many(codes: Iterable[str]) -> list[BatchResult[Quote]]: ...
 ```
 
-逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤。
 
 ## `AsyncStockMarket`
 
-以 await 查詢 TWSE 或 TPEx 證券、指數與交易狀態.
-
-### `__init__`
-
-```python
-def __init__(http: AsyncHttp, market: Market) -> None: ...
-```
-
-Initialize the source namespace with its owning HTTP transport.
+以 await 查詢 TWSE 或 TPEx 證券、指數與交易狀態。
 
 ### `history`
 
@@ -112,7 +112,9 @@ Initialize the source namespace with its owning HTTP transport.
 async def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ...
 ```
 
-回傳含起訖兩日的歷史資料；無符合資料時回傳空清單.
+回傳含起訖兩日的歷史資料。
+
+無符合資料時回傳空清單。
 
 ### `quote`
 
@@ -120,7 +122,9 @@ async def history(code: str, *, start: date, end: date) -> list[EquityDaily]: ..
 async def quote(code: str) -> Quote: ...
 ```
 
-取得最新報價；價格缺值為 None，查無快照時拋出 NoDataError.
+取得最新報價。
+
+價格缺值為 None，查無快照時拋出 NoDataError.
 
 ### `instruments`
 
@@ -128,7 +132,9 @@ async def quote(code: str) -> Quote: ...
 async def instruments(*, category: str | None=None) -> list[Instrument]: ...
 ```
 
-取得最新 ISIN 目錄；category 使用來源分類名稱.
+取得最新 ISIN 目錄。
+
+category 使用來源分類名稱。
 
 ### `index_history`
 
@@ -136,7 +142,7 @@ async def instruments(*, category: str | None=None) -> list[Instrument]: ...
 async def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
 ```
 
-回傳含起訖兩日的每日指數 OHLC，依日期排序.
+回傳含起訖兩日的每日指數 OHLC，依日期排序。
 
 ### `indices`
 
@@ -144,7 +150,9 @@ async def index_history(*, start: date, end: date) -> list[IndexDaily]: ...
 async def indices(*, day: date | None=None) -> list[IndexClose]: ...
 ```
 
-取得價格／報酬指數收盤板；day 省略時查來源最新公布資料.
+取得價格／報酬指數收盤板。
+
+day 省略時查來源最新公布資料。
 
 ### `ex_rights`
 
@@ -152,7 +160,9 @@ async def indices(*, day: date | None=None) -> list[IndexClose]: ...
 async def ex_rights(*, start: date, end: date, code: str | None=None) -> list[ExRight]: ...
 ```
 
-依含起訖兩日的日期區間查詢歷史除權息；code 可篩選證券.
+依含起訖兩日的日期區間查詢歷史除權息。
+
+code 可篩選證券。
 
 ### `ex_rights_schedule`
 
@@ -160,7 +170,9 @@ async def ex_rights(*, start: date, end: date, code: str | None=None) -> list[Ex
 async def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]: ...
 ```
 
-取得最新除權息預告；code 可篩選證券，未公告值為 None.
+取得最新除權息預告。
+
+code 可篩選證券，未公告值為 None.
 
 ### `trading_restrictions`
 
@@ -168,7 +180,9 @@ async def ex_rights_schedule(*, code: str | None=None) -> list[ExRightSchedule]:
 async def trading_restrictions(*, kind: RestrictionKind='attention', code: str | None=None) -> list[TradingRestriction]: ...
 ```
 
-依 kind 查詢注意、處置或最新暫停資料；code 可篩選證券.
+依 kind 查詢注意、處置或最新暫停資料。
+
+code 可篩選證券。
 
 ### `trading_status`
 
@@ -176,7 +190,9 @@ async def trading_restrictions(*, kind: RestrictionKind='attention', code: str |
 async def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
 ```
 
-取得最新交易方式及狀態；來源無發布日期時為 None.
+取得最新交易方式及狀態。
+
+來源無發布日期時為 None.
 
 ### `quote_many`
 
@@ -184,4 +200,4 @@ async def trading_status(*, code: str | None=None) -> list[TradingStatus]: ...
 async def quote_many(codes: Iterable[str]) -> list[BatchResult[Quote]]: ...
 ```
 
-逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤.
+逐筆回傳 BatchResult，保留輸入順序、重複輸入及個別錯誤。
